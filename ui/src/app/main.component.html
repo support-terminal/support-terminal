@@ -1,0 +1,62 @@
+<div style="height: 100%" fxLayout="column">
+  <mat-toolbar color="primary" style="z-index: 2;" class="mat-elevation-z4" fxFlex="60px">
+    <mat-toolbar-row>
+      <span>Dashboard</span>
+      <span class="spacer"></span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div class="under-toolbar" fxFlex="100%" fxLayout class="mat-elevation-z5">
+    <mat-sidenav-container class="example-container" fxFlex>
+      <mat-sidenav mode="side" class="mat-elevation-z4" opened="true">
+
+        <mat-list>
+
+          <mat-list-item>
+            <button mat-icon-button matTooltip="Бот API"
+                    routerLink="/bots-list"
+                    matTooltipPosition="right">
+              <mat-icon>android</mat-icon>
+            </button>
+          </mat-list-item>
+
+          <mat-list-item>
+            <button mat-icon-button matTooltip="Базы данных"
+                    matTooltipPosition="right" routerLink="/dbs-list">
+              <mat-icon>storage</mat-icon>
+            </button>
+          </mat-list-item>
+
+          <mat-list-item>
+            <button mat-icon-button matTooltip="Веб-пользователи"
+                    matTooltipPosition="right" routerLink="/web-users-list">
+              <mat-icon>face</mat-icon>
+            </button>
+          </mat-list-item>
+          <mat-list-item>
+            <button mat-icon-button matTooltip="Настройки приложения"
+                    matTooltipPosition="right" routerLink="/settings">
+              <mat-icon>settings</mat-icon>
+            </button>
+          </mat-list-item>
+
+        </mat-list>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <as-split direction="vertical">
+          <as-split-area size="90">
+            <router-outlet></router-outlet>
+          </as-split-area>
+          <as-split-area size="10" #autoScrollMe style="background-color: #eeeeee;">
+           <events-console></events-console>
+          </as-split-area>
+        </as-split>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>
+
+
+
+
+
+

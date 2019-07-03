@@ -1,0 +1,9 @@
+logging.file: ${user.home}/.support-terminal/application.log
+org.springframework.security.level: INFO
+
+security:
+  authentication:
+    jwt:
+      secret: d6dd67ebbb7bd7dc24e00fd3552495233a84605c
+      tokenValidityInSeconds: 86400 # Token is valid 24 hours
+      tokenValidityInSecondsForRememberMe: 2500000 # Token is valid 29 days

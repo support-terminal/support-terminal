@@ -1,0 +1,75 @@
+<form (ngSubmit)="onSubmit()" #botTaskForm="ngForm" fxLayout="column">
+
+    <mat-form-field fxFlex>
+        <input matInput placeholder="Наименование задачи"
+               id="name" name="name"
+               [(ngModel)]="botTask.name"
+               required
+               #name="ngModel"/>
+        <mat-error *ngIf="name.errors && (name.dirty || name.touched) && name.errors.required">
+            Необходимое значение
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-select placeholder="Периодичность выполнения задания"
+                    id="cronType" name="cronType"
+                    [(ngModel)]="botTask.cron.type"
+                    required #cronType="ngModel">
+            <mat-option *ngFor="let t of cronTypes" [value]="t.type">
+                {{ t.name }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="cronType.errors && (cronType.dirty || cronType.touched) && cronType.errors.required">
+            Необходимое значение
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-select placeholder="Тип выполняемой проверки"
+                    id="type" name="type"
+                    [(ngModel)]="botTask.action.type"
+                    required #type="ngModel">
+            <mat-option *ngFor="let t of actionTypes" [value]="t.type">
+                {{ t.name }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="type.errors && (type.dirty || type.touched) && type.errors.required">
+            Необходимое значение
+        </mat-error>
+    </mat-form-field>
+
+    <select-one-numeric-value-task *ngIf="botTask.action.type == 'SQL_SELECT_ONE_NUMERIC_VALUE'"
+                           [botTask]="botTask"></select-one-numeric-value-task>
+
+    <br/>
+    <fieldset>
+        <legend>Действия после проверки</legend>
+        <div>
+            <button type="button" mat-raised-button color="primary" [matMenuTriggerFor]="notifyTypesMenu">В случае не
+                выполнения
+                условий
+            </button>
+            <mat-menu #notifyTypesMenu="matMenu">
+                <button type="button" *ngFor="let notifyType of notifyTypes" (click)="addNotify(notifyType.type)"
+                        mat-menu-item>{{notifyType.name}}
+                </button>
+            </mat-menu>
+        </div>
+        <br/>
+        <bot-monitoring-task-notify-item
+                *ngFor="let notify of botTask.notifyList; let i = index" [notify]="notify"
+                (removeMeEvent)="dropNotify(i)">
+        </bot-monitoring-task-notify-item>
+    </fieldset>
+
+    <div fxLayout fxFlexAlign="center" style="margin: 20px;" fxLayoutGap="10px">
+        <button type="submit" mat-raised-button color="primary"
+                [disabled]="!botTaskForm.form.valid">{{submitButtonText}}
+        </button>
+        <ng-content select=".ng-content-bottom-buttons"></ng-content>
+    </div>
+
+</form>
+
+

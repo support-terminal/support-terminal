@@ -1,0 +1,29 @@
+<div fxLayout fxLayoutAlign="start center">
+  <h2 fxFlex="100%" mat-dialog-title>Редактировать: {{bot.name}} </h2>
+  <button mat-icon-button (click)="close()">
+    <mat-icon aria-label="Закрыть"
+              matTooltip="Закрыть окно"
+              matTooltipPosition="above">close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content *ngIf="bot">
+
+  <mat-slide-toggle
+    color="primary"
+    (change)="changeCommandState($event)"
+    [checked]="bot.state == 'ENABLED'">
+    <span *ngIf="bot.state == 'ENABLED'">Включен</span>
+    <span *ngIf="bot.state != 'ENABLED'">Выключен</span>
+  </mat-slide-toggle>
+
+  <bot-form (onSubmitEvent)="edit($event)"
+                      [initial]="bot"
+                      submitButtonText="Сохранить изменения">
+
+    <div class="ng-content-bottom-buttons">
+      <button type="button" mat-button color="warn" (click)="delete()">Удалить бота</button>
+    </div>
+
+  </bot-form>
+</mat-dialog-content>
+

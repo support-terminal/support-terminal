@@ -1,0 +1,23 @@
+<div fxLayout="column">
+  <mat-form-field fxFlex>
+    <input matInput placeholder="Токен из xoxb**"
+           id="token" name="token"
+           [(ngModel)]="bot.token"
+           required
+           #token="ngModel"/>
+    <mat-error *ngIf="token.errors && (token.dirty || token.touched) && token.errors.required">
+      Необходимое значение
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder="Прослушиваемый канал"
+           id="channel" name="channel"
+           [(ngModel)]="bot.channel"
+           required
+           #channel="ngModel"/>
+    <mat-error *ngIf="channel.errors && (channel.dirty || channel.touched) && channel.errors.required">
+      Необходимое значение
+    </mat-error>
+  </mat-form-field>
+</div>

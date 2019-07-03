@@ -1,0 +1,9 @@
+
+<div *ngIf="stringParameter" [formGroup]="stringParameter">
+   <label for="value" style="font-size: 16px; font-weight: bolder; margin: 10px; " >{{stringParameter.controls['label'].value }}</label>
+   <input style="font-size: 16px;padding: 10px;" id="value" name="value" formControlName="value"/>
+   <mat-error *ngIf="(stringParameter.controls['value'].dirty || stringParameter.controls['value'].touched)
+                     && stringParameter.controls['value'].errors && stringParameter.controls['value'].errors.required">
+      Необходимое значение
+   </mat-error>
+</div>

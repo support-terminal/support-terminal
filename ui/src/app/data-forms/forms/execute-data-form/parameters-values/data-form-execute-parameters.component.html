@@ -1,0 +1,9 @@
+<div fxLayout="column" style="margin-top: 20px;">
+      <div *ngFor="let parameterValue of parametersValues.controls; let i = index" fxLayout="row" fxLayoutAlign="center" style="margin:10px;">
+             <!--строковый параметр-->
+             <string-parameter-field *ngIf="parameterValue.controls['type'].value == 'STRING_PARAMETER'"
+                                     [stringParameter]="parameterValue"></string-parameter-field>
+      </div>
+</div>
+
+

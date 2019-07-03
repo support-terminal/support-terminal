@@ -1,0 +1,17 @@
+<div fxLayout fxLayoutAlign="start center">
+  <h2 fxFlex="100%" mat-dialog-title>Новый API бот</h2>
+  <button mat-icon-button (click)="close()">
+    <mat-icon aria-label="Закрыть"
+              matTooltip="Закрыть окно"
+              matTooltipPosition="above">close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <bot-form (onSubmitEvent)="addBot($event)"
+                      submitButtonText="Добавить">
+  </bot-form>
+</mat-dialog-content>
+
+
+
+

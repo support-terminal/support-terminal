@@ -1,0 +1,21 @@
+<mat-card class="mat-elevation-z4">
+    <mat-card-title>{{getConditionName(condition.type)}}</mat-card-title>
+    <mat-card-content>
+        <div fxFlex="60%">
+            <input matInput placeholder="Чем значение"
+                   id="expectedValue" name="expectedValue"
+                   [(ngModel)]="condition.expectedValue"
+                   required
+                   #expectedValue="ngModel"/>
+            <mat-error style="font-size: 11px"
+                       *ngIf="expectedValue.errors && (expectedValue.dirty || expectedValue.touched) && expectedValue.errors.required">
+                Необходимо указать значение
+            </mat-error>
+        </div>
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign="end">
+        <button type="submit" mat-button color="warn" (click)="submitRemoveMe()">
+            Убрать проверку
+        </button>
+    </mat-card-actions>
+</mat-card>

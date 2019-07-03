@@ -1,0 +1,43 @@
+<div fxLayout="column">
+
+  <mat-form-field>
+    <mat-select placeholder="База данных"
+                id="dataBaseId" name="dataBaseId"
+                [(ngModel)]="botCommand.action.dataBaseId"
+                required #dataBaseId="ngModel">
+      <mat-option *ngFor="let bd of dataBases" [value]="bd.id">
+        {{ bd.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="dataBaseId.errors && (dataBaseId.dirty || dataBaseId.touched) && dataBaseId.errors.required">
+      Необходимое значение
+    </mat-error>
+  </mat-form-field>
+
+  <ngx-codemirror style="border: 1px solid #dadada;
+                          margin: 10px 0 25px 0;"
+          id="select" name="select"
+          [(ngModel)]="botCommand.action.select"
+          #select="ngModel"
+          required
+          [options]="{
+            theme: 'idea',
+            mode: 'text/x-sql'
+          }"
+  ></ngx-codemirror>
+  <div *ngIf="select.errors && (select.dirty || select.touched) && select.errors.required">
+    Необходимое значение
+  </div>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder="Шаблон имени файла"
+           id="fileNameTemplate" name="fileNameTemplate"
+           [(ngModel)]="botCommand.action.fileNameTemplate"
+           required
+           #fileNameTemplate="ngModel"/>
+    <mat-error *ngIf="fileNameTemplate.errors && (fileNameTemplate.dirty || fileNameTemplate.touched) && fileNameTemplate.errors.required">
+      Необходимое значение
+    </mat-error>
+  </mat-form-field>
+
+</div>

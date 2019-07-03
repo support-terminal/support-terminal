@@ -1,0 +1,17 @@
+<div fxLayout fxLayoutAlign="start center">
+  <h2 fxFlex="100%" mat-dialog-title>Новая бот комманда</h2>
+  <button mat-icon-button (click)="close()">
+    <mat-icon aria-label="Закрыть"
+              matTooltip="Закрыть окно"
+              matTooltipPosition="above">close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <bot-command-form (onSubmitEvent)="add($event)"
+                      submitButtonText="Добавить бот комманду">
+  </bot-command-form>
+</mat-dialog-content>
+
+
+
+

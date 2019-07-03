@@ -1,0 +1,8 @@
+rootProject.name = 'support-terminal'
+
+
+include 'e2e'
+include 'platform'
+
+
+

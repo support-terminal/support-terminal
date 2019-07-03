@@ -1,0 +1,36 @@
+<div fxLayout fxLayoutAlign="start center">
+  <h2 fxFlex="100%" mat-dialog-title>Список пользователей бота</h2>
+  <button mat-icon-button (click)="close()">
+    <mat-icon aria-label="Закрыть"
+              matTooltip="Закрыть окно"
+              matTooltipPosition="above">close
+    </mat-icon>
+  </button>
+</div>
+<mat-dialog-content style="padding: 5px; background-color: #f1f1f1;"
+                    *ngIf="joinRequests">
+
+    <div style="margin: 5px;" *ngFor="let join of joinRequests" >
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-icon style="font-size: 40px;" mat-card-avatar>account_circle</mat-icon>
+          <mat-card-title>{{join.firstName}} {{join.lastName}}</mat-card-title>
+          <mat-card-subtitle>
+             accountId: {{join.accountId}}
+             <span style="color: blueviolet;" *ngIf="join.state == 'IS_AWAITING_APPROVAL'">, ОЖИДАЕТ ПОДТВЕРЖДЕНИЯ</span>
+             <span style="color: green;" *ngIf="join.state == 'APPROVED'">, ОДОБРЕН</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <span fxFlex="100%"></span>
+          <button mat-raised-button color="primary"
+                  *ngIf="join.state == 'IS_AWAITING_APPROVAL'" fxFlex="25%" (click)="accept(join.id)">Принять</button>
+          <button mat-raised-button color="warn"
+                  *ngIf="join.state == 'IS_AWAITING_APPROVAL'" fxFlex="25%" (click)="denied(join.id)">Отказать</button>
+          <button mat-raised-button color="warn"
+                  *ngIf="join.state == 'APPROVED'" fxFlex="25%" (click)="denied(join.id)">Отменить</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+</mat-dialog-content>

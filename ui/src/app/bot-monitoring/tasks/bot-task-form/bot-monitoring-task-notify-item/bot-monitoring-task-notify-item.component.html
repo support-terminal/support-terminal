@@ -1,0 +1,35 @@
+<mat-card class="mat-elevation-z4">
+    <mat-card-title>{{getNotifyName(notify.type)}}</mat-card-title>
+    <mat-card-content>
+        <mat-form-field  *ngIf="notify.type == 'SLACK_BOT_API'">
+            <mat-select placeholder="Бот API"
+                        id="botId" name="botId"
+                        [(ngModel)]="notify.botId"
+                        required #botId="ngModel">
+                <mat-option *ngFor="let bot of slackBots" [value]="bot.id">
+                    {{ bot.label }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="botId.errors && (botId.dirty || botId.touched) && botId.errors.required">
+                Необходимое значение
+            </mat-error>
+        </mat-form-field>
+
+        <div>
+            <input matInput placeholder="Шаблон уведомления"
+                   id="messageTemplate" name="messageTemplate"
+                   [(ngModel)]="notify.messageTemplate"
+                   required
+                   #messageTemplate="ngModel"/>
+            <mat-error style="font-size: 11px" *ngIf="messageTemplate.errors && (messageTemplate.dirty || messageTemplate.touched) && messageTemplate.errors.required">
+                Необходимо указать значение
+            </mat-error>
+        </div>
+
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign="end">
+        <button type="submit" mat-button color="warn" (click)="submitRemoveMe()">
+            Убрать уведомление
+        </button>
+    </mat-card-actions>
+</mat-card>
