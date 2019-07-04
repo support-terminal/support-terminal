@@ -126,11 +126,5 @@ task copyUiDist() {
 	}
 }
 
-compileJava.dependsOn(clean)
-npmBuild.dependsOn(npmInstall)
-npmBuild.dependsOn(cleanOldDistr)
-copyUiDist.dependsOn(npmBuild)
-bootJar.dependsOn(copyUiDist)
-
 
 
