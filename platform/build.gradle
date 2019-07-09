@@ -12,6 +12,9 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
+apply from: '../../version.gradle'
+
+
 ext {
 	lombokVersion = '1.18.4'
 }
