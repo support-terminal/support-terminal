@@ -1,6 +1,6 @@
 rootProject.name = 'support-terminal'
 
-include 'platform'
+include 'support-terminal'
 
 
 
