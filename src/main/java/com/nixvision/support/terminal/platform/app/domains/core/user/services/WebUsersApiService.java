@@ -60,14 +60,9 @@ public class WebUsersApiService {
         usersService.delete(id);
     }
 
-    public WebUserDTO update(String id, @Valid WebUserRequest request) throws UserNameAlreadyExistException {
-        if(usersService.getByUserName(request.getUsername().trim())
-                .isPresent()){
-            throw new UserNameAlreadyExistException();
-        }
+    public WebUserDTO update(String id, @Valid WebUserRequest request) {
         CustomerUser user = usersService.getById(id);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setUsername(request.getUsername().trim());
         user.setPerson(new Person().setName(request.getName()));
         usersService.update(user);
         return mapWebUserDTO(user);
