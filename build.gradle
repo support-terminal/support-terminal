@@ -94,7 +94,7 @@ dependencyManagement {
 }
 
 task npmInstall(type:Exec) {
-	workingDir '../ui'
+	workingDir 'ui'
 	executable = 'npm'
 	args = ['install']
 	doLast{
@@ -104,7 +104,7 @@ task npmInstall(type:Exec) {
 
 
 task npmBuild(type:Exec) {
-	workingDir '../ui'
+	workingDir 'ui'
 	executable = 'npm'
 	args = ['run', 'build']
 	doLast{
@@ -122,7 +122,7 @@ task cleanOldDistr(type:Exec) {
 task copyUiDist() {
 	doLast{
 		copy {
-			from '../ui/dist/ui/'
+			from 'ui/dist/ui/'
 			into 'src/main/resources/static'
 		}
 		print 'ui copied'
