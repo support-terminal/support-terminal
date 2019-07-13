@@ -25,28 +25,18 @@ import {BotMonitoringTaskNotifyItemComponent} from "./tasks/bot-task-form/bot-mo
         BotTasksRoutingModule,
         AngularMaterialModule
     ],
-    providers: [ BotMonitoringTasksService],
+    providers: [ BotMonitoringTasksBus,BotMonitoringTasksService],
     declarations: [
-        BotTasksListComponent,
+      AddBotTaskComponent, BotTaskFormComponent,
+      SelectOneNumericValueTaskComponent, EditBotTaskComponent,
+      BotMonitoringTaskConditionItem, BotMonitoringTaskNotifyItemComponent,
+
+  BotTasksListComponent,
         BotTaskItemComponent,
     ],
+  entryComponents: [ AddBotTaskComponent, EditBotTaskComponent]
 })
 export class BotMonitoringTasksModule {
-
+  constructor(private botTasksBus: BotMonitoringTasksBus){ }
 }
 
-
-@NgModule({
-    imports: [
-        CodemirrorModule,
-        CommonModule,
-        AngularMaterialModule
-    ],
-    providers: [ BotMonitoringTasksBus, BotMonitoringTasksService],
-    declarations: [AddBotTaskComponent, BotTaskFormComponent,
-        SelectOneNumericValueTaskComponent, EditBotTaskComponent, BotMonitoringTaskConditionItem, BotMonitoringTaskNotifyItemComponent],
-    entryComponents: [ AddBotTaskComponent, EditBotTaskComponent]
-})
-export class DaemonBotMonitoringTasksModule {
-    constructor(private botTasksBus: BotMonitoringTasksBus) { }
-}

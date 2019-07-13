@@ -7,6 +7,7 @@ import Channel from "../../bus/Сhannel";
 import * as Rx from "rxjs";
 import {Config} from "../../../config";
 import {MessagingBusService} from "../../../core/api";
+import {Inject} from "@angular/core";
 
 
 export class BotMonitoringTasksService {
@@ -22,7 +23,7 @@ export class BotMonitoringTasksService {
 
   private subscription: Rx.Subscription;
 
-  constructor(private http: HttpClient,
+  constructor(@Inject(HttpClient) private http: HttpClient,
               private messagingBusService: MessagingBusService,
               private config: Config) {
     this.url = config.api+'/bot-monitoring/tasks';

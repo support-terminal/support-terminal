@@ -1,8 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {AngularMaterialModule} from "./angular.material.module";
-
 import {BotCommandsListComponent} from "./commands/bot-commands-list/bot-commands-list.component";
 import {BotCommandsService} from "./commands/services/bot-commands.service";
 import {BotCommandsRoutingModule} from "./bot-commands-routing.module";
@@ -15,37 +13,25 @@ import {SqlInExcelFileCommandComponent} from "./commands/bot-command-form/sql-in
 import {SqlCommandFormComponent} from "./commands/bot-command-form/sql-command/sql-command-form.component";
 import 'codemirror/mode/sql/sql';
 import {CodemirrorModule} from '@ctrl/ngx-codemirror';
+import {AngularMaterialModule} from "../angular.material.module";
 
 
 @NgModule({
     imports: [
+        AngularMaterialModule,
         CodemirrorModule,
         CommonModule,
-        BotCommandsRoutingModule,
-        AngularMaterialModule
+        BotCommandsRoutingModule
     ],
-    providers: [ BotCommandsService],
+    providers: [ BotCommandsBus, BotCommandsService],
     declarations: [
+       AddBotCommandComponent, BotCommandFormComponent,
+       SqlInExcelFileCommandComponent, SqlCommandFormComponent, EditBotCommandComponent,
         BotCommandsListComponent,
         BotCommandItemComponent,
     ],
+     entryComponents: [ AddBotCommandComponent, EditBotCommandComponent]
 })
 export class BotCommandsModule {
-
-}
-
-
-@NgModule({
-    imports: [
-        CodemirrorModule,
-        CommonModule,
-        AngularMaterialModule
-    ],
-    providers: [ BotCommandsBus, BotCommandsService],
-    declarations: [AddBotCommandComponent, BotCommandFormComponent,
-        SqlInExcelFileCommandComponent, SqlCommandFormComponent, EditBotCommandComponent],
-    entryComponents: [ AddBotCommandComponent, EditBotCommandComponent]
-})
-export class DaemonBotCommandsModule {
-    constructor(private botCommandsBus: BotCommandsBus) { }
+  constructor(private botCommandsBus: BotCommandsBus) { }
 }

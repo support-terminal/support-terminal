@@ -7,6 +7,7 @@ import * as Rx from "rxjs";
 import {Observable} from "rxjs";
 import {MessagingBusService} from "../../../core/api";
 import {Config} from "../../../config";
+import {Inject} from "@angular/core";
 
 
 export class BotCommandsService {
@@ -21,7 +22,7 @@ export class BotCommandsService {
 
   private subscription: Rx.Subscription;
 
-  constructor(private http: HttpClient,
+  constructor(@Inject(HttpClient) private http: HttpClient,
               private messagingBusService: MessagingBusService,
               private config: Config) {
     this.url = config.api+'/bot-commands/commands';

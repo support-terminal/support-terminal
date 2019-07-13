@@ -18,6 +18,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CoreModule} from "./core/core.module";
 import {AngularMaterialModule} from "./angular.material.module";
 import {MessagingBusService} from "./core/api";
+import {BotCommandsModule} from "./bot-commands/bot-commands.module";
+import {BotMonitoringTasksModule} from "./bot-monitoring/bot-monitoring-task.module.ts";
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import {MessagingBusService} from "./core/api";
     BrowserAnimationsModule,
     AngularMaterialModule,
     AppRoutingModule,
-    CoreModule
+    CoreModule,
+    BotMonitoringTasksModule,
+    BotCommandsModule
   ],
   providers: [
     AuthGuard,
