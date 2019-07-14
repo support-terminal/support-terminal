@@ -12,7 +12,6 @@ import {EditDataFormComponent} from "./forms/edit-data-form/edit-data-form.compo
 import {DataFormsBus} from "./forms/services/data-forms.bus";
 import {DataFormFormComponent} from "./forms/data-form-form/data-form-form.component";
 
-import 'codemirror/mode/sql/sql';
 import {CodemirrorModule} from '@ctrl/ngx-codemirror';
 import {DataFormParametersComponent} from "./forms/data-form-form/parameters/data-form-parameters.component";
 import {DataFormParameterItemComponent} from "./forms/data-form-form/parameters/data-form-parameter-item.component";

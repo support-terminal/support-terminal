@@ -12,7 +12,6 @@ import {EditBotTaskComponent} from "./tasks/edit-bot-task/edit-bot-task.componen
 import {BotMonitoringTasksBus} from "./tasks/services/bot-monitoring-tasks.bus";
 import {BotTaskFormComponent} from "./tasks/bot-task-form/bot-task-form.component";
 import {SelectOneNumericValueTaskComponent} from "./tasks/bot-task-form/select-one-numeric-value-task/select-one-numeric-value-task.component";
-import 'codemirror/mode/sql/sql';
 import {CodemirrorModule} from '@ctrl/ngx-codemirror';
 import {BotMonitoringTaskConditionItem} from "./tasks/bot-task-form/bot-monitoring-task-condition-item/bot-monitoring-task-condition-item.component";
 import {BotMonitoringTaskNotifyItemComponent} from "./tasks/bot-task-form/bot-monitoring-task-notify-item/bot-monitoring-task-notify-item.component";

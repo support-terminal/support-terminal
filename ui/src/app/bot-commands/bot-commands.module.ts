@@ -11,7 +11,6 @@ import {BotCommandsBus} from "./commands/services/bot-commands.bus";
 import {BotCommandFormComponent} from "./commands/bot-command-form/bot-command-form.component";
 import {SqlInExcelFileCommandComponent} from "./commands/bot-command-form/sql-in-excel-file-command/sql-in-excel-file-command.component";
 import {SqlCommandFormComponent} from "./commands/bot-command-form/sql-command/sql-command-form.component";
-import 'codemirror/mode/sql/sql';
 import {CodemirrorModule} from '@ctrl/ngx-codemirror';
 import {AngularMaterialModule} from "../angular.material.module";
 
