@@ -1,43 +1,45 @@
-<div fxLayout="column">
+<div fxLayout="column" [formGroup]="botCommandActionForm">
 
   <mat-form-field>
     <mat-select placeholder="База данных"
                 id="dataBaseId" name="dataBaseId"
-                [(ngModel)]="botCommand.action.dataBaseId"
-                required #dataBaseId="ngModel">
+                formControlName="dataBaseId">
       <mat-option *ngFor="let bd of dataBases" [value]="bd.id">
         {{ bd.name }}
       </mat-option>
     </mat-select>
-    <mat-error *ngIf="dataBaseId.errors && (dataBaseId.dirty || dataBaseId.touched) && dataBaseId.errors.required">
+    <mat-error *ngIf="(botCommandActionForm.controls['dataBaseId'].dirty || botCommandActionForm.controls['dataBaseId'].touched)
+                       && botCommandActionForm.controls['dataBaseId'].errors && botCommandActionForm.controls['dataBaseId'].errors.required">
       Необходимое значение
     </mat-error>
   </mat-form-field>
 
+
   <ngx-codemirror style="border: 1px solid #dadada;
                           margin: 10px 0 25px 0;"
-          id="select" name="select"
-          [(ngModel)]="botCommand.action.select"
-          #select="ngModel"
-          required
-          [options]="{
+                  id="select" name="select"
+                  formControlName="select"
+                  [options]="{
             theme: 'idea',
             mode: 'text/x-sql'
           }"
   ></ngx-codemirror>
-  <div *ngIf="select.errors && (select.dirty || select.touched) && select.errors.required">
+  <mat-error *ngIf="(botCommandActionForm.controls['select'].dirty || botCommandActionForm.controls['select'].touched)
+                       && botCommandActionForm.controls['select'].errors && botCommandActionForm.controls['select'].errors.required">
     Необходимое значение
-  </div>
+  </mat-error>
+
+  fileNameTemplate
 
   <mat-form-field fxFlex>
     <input matInput placeholder="Шаблон имени файла"
            id="fileNameTemplate" name="fileNameTemplate"
-           [(ngModel)]="botCommand.action.fileNameTemplate"
-           required
-           #fileNameTemplate="ngModel"/>
-    <mat-error *ngIf="fileNameTemplate.errors && (fileNameTemplate.dirty || fileNameTemplate.touched) && fileNameTemplate.errors.required">
+           formControlName="fileNameTemplate"/>
+    <mat-error *ngIf="(botCommandActionForm.controls['fileNameTemplate'].dirty || botCommandActionForm.controls['fileNameTemplate'].touched)
+                       && botCommandActionForm.controls['fileNameTemplate'].errors && botCommandActionForm.controls['fileNameTemplate'].errors.required">
       Необходимое значение
     </mat-error>
   </mat-form-field>
+
 
 </div>

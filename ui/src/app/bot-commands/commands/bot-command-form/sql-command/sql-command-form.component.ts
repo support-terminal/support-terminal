@@ -1,31 +1,59 @@
-import {Component, Input, OnDestroy, ViewEncapsulation} from '@angular/core';
-import BotCommand from "../../models/BotCommand";
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  Input, OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  ViewEncapsulation
+} from '@angular/core';
 import {BotCommandsService} from "../../services/bot-commands.service";
 import DbConnection from "../../models/DbConnection";
-import {ControlContainer, NgForm} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import * as Rx from "rxjs";
+import Action from "../../models/Action";
 
 @Component({
-    selector: 'sql-command-form',
-    templateUrl: './sql-command-form.component.html',
-    viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ],
-    encapsulation: ViewEncapsulation.Emulated
+  selector: 'sql-command-form',
+  templateUrl: './sql-command-form.component.html',
+  encapsulation: ViewEncapsulation.Emulated
 })
-export class SqlCommandFormComponent implements OnDestroy{
+export class SqlCommandFormComponent implements OnDestroy, OnChanges {
 
-    @Input() botCommand: BotCommand;
-    private dataBases: DbConnection[];
+  @Input() actionModel: Action;
+  @Input() actionForm: FormGroup;
 
-    private dataBasesSubscription: Rx.Subscription;
+  private dataBases: DbConnection[];
 
-    constructor(private botCommandsService: BotCommandsService) {
-        this.dataBasesSubscription = this.botCommandsService.dataBasesSubject.subscribe((dataBases)=>{
-            this.dataBases = dataBases;
-        });
+  private dataBasesSubscription: Rx.Subscription;
+
+  constructor(private botCommandsService: BotCommandsService,
+              private fb: FormBuilder) {
+
+  this.dataBasesSubscription = this.botCommandsService.dataBasesSubject.subscribe((dataBases) => {
+      this.dataBases = dataBases;
+    });
+  }
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['actionForm']) {
+      this.actionForm.addControl('dataBaseId',  this.fb.control('', [Validators.required]));
+      this.actionForm.addControl('select',  this.fb.control('', [Validators.required]));
+      this.actionForm.addControl('resultTemplate',  this.fb.control('', [Validators.required]));
     }
-
-    ngOnDestroy() {
-        this.dataBasesSubscription.unsubscribe();
+    if (changes['actionModel']) {
+      if (this.actionModel != null) {
+        this.actionForm.controls['dataBaseId'].setValue(this.actionModel.dataBaseId);
+        this.actionForm.controls['select'].setValue(this.actionModel.select);
+        this.actionForm.controls['type'].setValue('SQL_SELECT');
+        this.actionForm.controls['resultTemplate'].setValue(this.actionModel.resultTemplate);
+      }
     }
+  }
+
+  ngOnDestroy() {
+    this.dataBasesSubscription.unsubscribe();
+  }
 
 }

@@ -3,6 +3,7 @@ import BotCommand from "../models/BotCommand";
 import Bot from "../models/Bot";
 import {BotCommandsService} from "../services/bot-commands.service";
 import * as Rx from "rxjs";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 
 @Component({
@@ -20,16 +21,34 @@ export class BotCommandFormComponent implements OnDestroy {
     private botsSubscription: Rx.Subscription;
 
     private bots: Bot[];
-    private botCommand: BotCommand = new BotCommand();
 
-    constructor(private botCommandsService: BotCommandsService) {
+    private botCommandModel: BotCommand = new BotCommand();
+    private botCommandForm: FormGroup;
+
+    constructor(private botCommandsService: BotCommandsService,
+                private fb: FormBuilder) {
+
+        this.initForm();
         this.botsSubscription = this.botCommandsService.botsSubject.subscribe((bots)=>{
             this.bots = bots;
         });
     }
 
+    initForm() {
+      this.botCommandForm = this.fb.group({
+        name: ['', Validators.required ],
+        cmd: ['', Validators.required ],
+        botIds: [null, Validators.compose([Validators.minLength(1), Validators.required])],
+        action: this.fb.group({
+          type: [''],
+        })
+      });
+    }
+
     onSubmit(): void {
-        this.onSubmitEvent.emit(this.botCommand);
+      this.botCommandModel = this.botCommandForm.value;
+      this.botCommandModel.action = this.botCommandForm.controls['action'].value;
+      this.onSubmitEvent.emit(this.botCommandModel);
     }
 
     actionTypes = [
@@ -39,8 +58,20 @@ export class BotCommandFormComponent implements OnDestroy {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['initial']) {
-            if (this.initial != null && this.initial != undefined) {
-                this.botCommand = this.initial;
+            if (this.initial != null) {
+
+              this.botCommandModel = this.initial;
+
+              let id = <FormArray>this.botCommandForm.controls['id']
+              if(id == null){
+                this.botCommandForm.addControl('id', this.fb.control({}));
+              }
+              this.botCommandForm.controls['id'].setValue(this.botCommandModel.id);
+              this.botCommandForm.controls['name'].setValue(this.botCommandModel.name);
+              this.botCommandForm.controls['cmd'].setValue(this.botCommandModel.cmd);
+              this.botCommandForm.controls['botIds'].setValue(this.botCommandModel.botIds);
+              (<FormGroup>this.botCommandForm.controls['action']).controls['type'].setValue(this.botCommandModel.action.type)
+
             }
         }
     }

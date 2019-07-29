@@ -99,8 +99,6 @@ export class DataFormFormComponent implements OnDestroy {
                 }
 
 
-
-
                 this.dataFormForm = this.fb.group({
                     name: [this.initial.name, Validators.required ],
                     description: [this.initial.description, Validators.required ],

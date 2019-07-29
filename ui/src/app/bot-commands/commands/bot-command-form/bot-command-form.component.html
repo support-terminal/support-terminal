@@ -1,12 +1,11 @@
-<form (ngSubmit)="onSubmit()" #botCommandForm="ngForm" fxLayout="column">
+<form [formGroup]="botCommandForm" (ngSubmit)="onSubmit()" fxLayout="column">
 
   <mat-form-field fxFlex>
     <input matInput placeholder="Наименование команды"
            id="name" name="name"
-           [(ngModel)]="botCommand.name"
-           required
-           #name="ngModel"/>
-    <mat-error *ngIf="name.errors && (name.dirty || name.touched) && name.errors.required">
+           formControlName="name"/>
+    <mat-error *ngIf=" (botCommandForm.controls['name'].dirty || botCommandForm.controls['name'].touched)
+                       && botCommandForm.controls['name'].errors && botCommandForm.controls['name'].errors.required">
       Необходимое значение
     </mat-error>
   </mat-form-field>
@@ -14,53 +13,56 @@
   <mat-form-field fxFlex>
     <input matInput placeholder="Команда"
            id="cmd" name="cmd"
-           [(ngModel)]="botCommand.cmd"
-           required
-           #cmd="ngModel"/>
-    <mat-error *ngIf="cmd.errors && (cmd.dirty || cmd.touched) && cmd.errors.required">
+           formControlName="cmd"/>
+    <mat-error *ngIf=" (botCommandForm.controls['cmd'].dirty || botCommandForm.controls['cmd'].touched)
+                       && botCommandForm.controls['cmd'].errors && botCommandForm.controls['cmd'].errors.required">
       Необходимое значение
     </mat-error>
   </mat-form-field>
 
+
   <mat-form-field>
     <mat-select placeholder="Бот API"
-                id="botIds" name="botIds"
-                [(ngModel)]="botCommand.botIds"
                 multiple
-                required #botIds="ngModel">
+                formControlName="botIds">
       <mat-option *ngFor="let bot of bots" [value]="bot.id">
         {{ bot.label }}
       </mat-option>
     </mat-select>
-    <mat-error *ngIf="botIds.errors && (botIds.dirty || botIds.touched) && botIds.errors.required">
+
+    <mat-error *ngIf="(botCommandForm.controls['botIds'].dirty || botCommandForm.controls['botIds'].touched)
+                       && botCommandForm.controls['botIds'].errors && botCommandForm.controls['botIds'].errors.required">
       Необходимое значение
     </mat-error>
   </mat-form-field>
 
 
-  <mat-form-field>
+  <mat-form-field [formGroup]="botCommandForm.controls['action']">
     <mat-select placeholder="Тип команды"
                 id="type" name="type"
-                [(ngModel)]="botCommand.action.type"
-                required #type="ngModel">
+                formControlName="type">
       <mat-option *ngFor="let t of actionTypes" [value]="t.type">
         {{ t.name }}
       </mat-option>
     </mat-select>
-    <mat-error *ngIf="type.errors && (type.dirty || type.touched) && type.errors.required">
+    <mat-error *ngIf="(botCommandForm.controls['action'].controls['type'].dirty || botCommandForm.controls['action'].controls['type'].touched)
+                       && botCommandForm.controls['action'].controls['type'].errors && botCommandForm.controls['action'].controls['type'].errors.required">
       Необходимое значение
     </mat-error>
   </mat-form-field>
 
-  <sql-command-form *ngIf="botCommand.action.type == 'SQL_SELECT'"
-                             [botCommand]="botCommand"></sql-command-form>
+  <sql-command-form *ngIf="botCommandForm.controls['action'].value.type == 'SQL_SELECT'"
+                    [actionForm]="botCommandForm.controls['action']" [actionModel]="botCommandModel.action"></sql-command-form>
 
-  <sql-in-excel-file-command *ngIf="botCommand.action.type == 'SQL_SELECT_IN_EXCEL_FILE'"
-                             [botCommand]="botCommand"></sql-in-excel-file-command>
+<!--
+  <sql-in-excel-file-command *ngIf="botCommandForm.controls['actionType'].value == 'SQL_SELECT_IN_EXCEL_FILE'"
+                             [botCommandForm]="botCommandForm"></sql-in-excel-file-command>
+-->
 
   <div fxLayout fxFlexAlign="center" style="margin: 20px;" fxLayoutGap="10px">
     <button type="submit" mat-raised-button color="primary"
-              [disabled]="!botCommandForm.form.valid">{{submitButtonText}}</button>
+              [disabled]="botCommandForm.invalid">{{submitButtonText}}</button>
+
     <ng-content select=".ng-content-bottom-buttons"></ng-content>
 
   </div>

@@ -1,43 +1,46 @@
-<div fxLayout="column">
+<div fxLayout="column" *ngIf="actionForm" [formGroup]="actionForm">
 
   <mat-form-field>
     <mat-select placeholder="База данных"
                 id="dataBaseId" name="dataBaseId"
-                [(ngModel)]="botCommand.action.dataBaseId"
-                required #dataBaseId="ngModel">
+                formControlName="dataBaseId">
       <mat-option *ngFor="let bd of dataBases" [value]="bd.id">
         {{ bd.name }}
       </mat-option>
     </mat-select>
-    <mat-error *ngIf="dataBaseId.errors && (dataBaseId.dirty || dataBaseId.touched) && dataBaseId.errors.required">
+
+    <mat-error *ngIf="(actionForm.controls['dataBaseId'].dirty || actionForm.controls['dataBaseId'].touched)
+                       && actionForm.controls['dataBaseId'].errors && actionForm.controls['dataBaseId'].errors.required">
       Необходимое значение
     </mat-error>
   </mat-form-field>
 
-   <ngx-codemirror style="border: 1px solid #dadada;
+
+
+  <ngx-codemirror style="border: 1px solid #dadada;
                           margin: 10px 0 25px 0;"
           id="select" name="select"
-          [(ngModel)]="botCommand.action.select"
-          #select="ngModel"
-          required
+          formControlName="select"
           [options]="{
             theme: 'idea',
             mode: 'text/x-sql'
           }"
   ></ngx-codemirror>
-  <div *ngIf="select.errors && (select.dirty || select.touched) && select.errors.required">
-    Необходимое значение
-  </div>
+  <mat-error *ngIf="(actionForm.controls['select'].dirty || actionForm.controls['select'].touched)
+                       && actionForm.controls['select'].errors && actionForm.controls['select'].errors.required">
+      Необходимое значение
+  </mat-error>
 
   <mat-form-field fxFlex>
     <input matInput placeholder="Шаблон ответа"
            id="resultTemplate" name="resultTemplate"
-           [(ngModel)]="botCommand.action.resultTemplate"
-           required
-           #resultTemplate="ngModel"/>
-    <mat-error *ngIf="resultTemplate.errors && (resultTemplate.dirty || resultTemplate.touched) && resultTemplate.errors.required">
+           formControlName="resultTemplate"/>
+    <mat-error *ngIf="(actionForm.controls['resultTemplate'].dirty || actionForm.controls['resultTemplate'].touched)
+                       && actionForm.controls['resultTemplate'].errors && actionForm.controls['resultTemplate'].errors.required">
       Необходимое значение
     </mat-error>
   </mat-form-field>
+
+
 
 </div>
