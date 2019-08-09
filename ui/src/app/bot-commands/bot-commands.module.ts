@@ -14,7 +14,6 @@ import {SqlCommandFormComponent} from "./commands/bot-command-form/sql-command/s
 import {CodemirrorModule} from '@ctrl/ngx-codemirror';
 import {AngularMaterialModule} from "../angular.material.module";
 
-
 @NgModule({
     imports: [
         AngularMaterialModule,

@@ -19,8 +19,10 @@ import {
 } from '@angular/material';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatCodemirrorModule} from "ngx-mat-codemirror";
 
 const modules = [
+  MatCodemirrorModule,
   MatSnackBarModule,
   MatSlideToggleModule,
   ReactiveFormsModule,
