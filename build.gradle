@@ -16,7 +16,7 @@ apply from: '../version.gradle'
 
 
 ext {
-	lombokVersion = '1.18.4'
+	lombokVersion = '1.18.10'
 }
 
 sourceCompatibility = 1.8
@@ -32,7 +32,7 @@ bootJar{
 	manifest {
 		attributes ('Main-Class':'org.springframework.boot.loader.PropertiesLauncher',
 				    'Loader-Path':'${HOME}/.support-terminal/libs,libs,./libs,BOOT-INF/lib',
-		            'Start-Class':'com.nixvision.support.terminal.platform.PlatformApplication'
+		            'Start-Class':'io.github.support.terminal.platform.PlatformApplication'
 		)
 	}
 

@@ -22,7 +22,6 @@ import {BotMonitoringTasksModule} from "./bot-monitoring/bot-monitoring-task.mod
 
 import 'codemirror/mode/sql/sql';
 
-
 @NgModule({
   declarations: [
     MainComponent,
