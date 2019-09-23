@@ -23,7 +23,7 @@ export class BotTaskFormComponent {
 
   onSubmit(): void {
     this.botTaskModel = this.botTaskForm.value;
-    this.botTaskModel.action = this.botTaskForm.controls['action'].value;
+ //   this.botTaskModel.action = this.botTaskForm.controls['action'].value;
     this.onSubmitEvent.emit(this.botTaskModel);
   }
 
@@ -36,8 +36,7 @@ export class BotTaskFormComponent {
   initForm() {
     this.botTaskForm = this.fb.group({
       name: ['', Validators.required ],
-      notifyList: ['', Validators.required ],
-      botIds: [null, Validators.compose([Validators.minLength(1), Validators.required])],
+      cronFrequency: ['', Validators.required ],
       action: this.fb.group({
         type: [''],
       })
@@ -49,22 +48,23 @@ export class BotTaskFormComponent {
   ];
 
   cronFrequencies = [
-    {name: 'Каждую минут', type: 'EVERY_1_MINUTE'},
-    {name: 'Каждые 5 минут', type: 'EVERY_5_MINUTES'},
-    {name: 'Каждые 15 минут', type: 'EVERY_15_MINUTES'},
-    {name: 'Каждый час', type: 'EVERY_HOUR'}
+    {label: 'Каждую минут', frequency: 'EVERY_1_MINUTE'},
+    {label: 'Каждые 5 минут', frequency: 'EVERY_5_MINUTES'},
+    {label: 'Каждые 15 минут', frequency: 'EVERY_15_MINUTES'},
+    {label: 'Каждый час', frequency: 'EVERY_HOUR'}
   ];
 
   notifyTypes = [
     {name: 'Уведомить через Slack', type: 'SLACK_BOT_API'}
   ];
 
+/*
   ngOnChanges(changes: SimpleChanges) {
-/*    if (changes['initial']) {
+/!*    if (changes['initial']) {
       if (this.initial != null && this.initial != undefined) {
         this.botTask = this.initial;
       }
-    }*/
+    }*!/
   }
 
   addNotify(type: string) {
@@ -75,10 +75,11 @@ export class BotTaskFormComponent {
   }
 
   dropNotify(index: number) {
-/*    if (Array.isArray(this.botTask.notifyList)) {
+/!*    if (Array.isArray(this.botTask.notifyList)) {
       this.botTask.notifyList.splice(index, 1);
-    }*/
+    }*!/
   }
+*/
 
 
 }

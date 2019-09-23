@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {AngularMaterialModule} from "./angular.material.module";
+import {AngularMaterialModule} from "../angular.material.module";
 
 import {BotTasksListComponent} from "./tasks/bot-tasks-list/bot-tasks-list.component";
 import {BotMonitoringTasksService} from "./tasks/services/bot-monitoring-tasks.service";

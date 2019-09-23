@@ -14,8 +14,8 @@
     <mat-select placeholder="Периодичность выполнения задания"
                 id="cronFrequency" name="cronFrequency"
                 formControlName="cronFrequency">
-      <mat-option *ngFor="let f of cronFrequencies" [value]="f.id">
-        {{ f.name }}
+      <mat-option *ngFor="let f of cronFrequencies" [value]="f.frequency">
+        {{ f.label }}
       </mat-option>
     </mat-select>
     <mat-error *ngIf="(botTaskForm.controls['cronFrequency'].dirty || botTaskForm.controls['cronFrequency'].touched)
@@ -38,17 +38,19 @@
     </mat-error>
   </mat-form-field>
 
-
+  <!--Отслеживание единичного значения из базы данных-->
   <select-one-numeric-value-task *ngIf="botTaskForm.controls['action'].value.type == 'SQL_SELECT_ONE_NUMERIC_VALUE'"
-    [actionForm]="botTaskForm.controls['action']"
-    [actionModel]="botTaskForm.action"></select-one-numeric-value-task>
+                                 [actionForm]="botTaskForm.controls['action']"
+                                 [actionModel]="botTaskModel.action"></select-one-numeric-value-task>
 
 
+  <!--
 
 
+  -->
 
 
-
+<!--
   <br/>
   <fieldset>
     <legend>Действия после проверки</legend>
@@ -69,6 +71,7 @@
       (removeMeEvent)="dropNotify(i)">
     </bot-monitoring-task-notify-item>
   </fieldset>
+-->
 
 
   <div fxLayout fxFlexAlign="center" style="margin: 20px;" fxLayoutGap="10px">
