@@ -52,12 +52,14 @@
   </mat-form-field>
 
   <sql-command-form *ngIf="botCommandForm.controls['action'].value.type == 'SQL_SELECT'"
-                    [actionForm]="botCommandForm.controls['action']" [actionModel]="botCommandModel.action"></sql-command-form>
+                    [actionForm]="botCommandForm.controls['action']"
+                    [actionModel]="botCommandModel.action">
+  </sql-command-form>
 
-<!--
-  <sql-in-excel-file-command *ngIf="botCommandForm.controls['actionType'].value == 'SQL_SELECT_IN_EXCEL_FILE'"
-                             [botCommandForm]="botCommandForm"></sql-in-excel-file-command>
--->
+  <sql-in-excel-file-command *ngIf="botCommandForm.controls['action'].value.type == 'SQL_SELECT_IN_EXCEL_FILE'"
+                             [actionForm]="botCommandForm.controls['action']"
+                             [actionModel]="botCommandModel.action">
+  </sql-in-excel-file-command>
 
   <div fxLayout fxFlexAlign="center" style="margin: 20px;" fxLayoutGap="10px">
     <button type="submit" mat-raised-button color="primary"

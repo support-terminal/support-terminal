@@ -3,4 +3,5 @@ export default class Action {
   select?: string;
   dataBaseId?: string;
   resultTemplate?: string;
+  fileNameTemplate?: string;
 }

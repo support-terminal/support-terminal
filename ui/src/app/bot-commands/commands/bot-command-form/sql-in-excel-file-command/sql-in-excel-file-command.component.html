@@ -1,5 +1,4 @@
-<div fxLayout="column" [formGroup]="botCommandActionForm">
-
+<div id="actionFormDiv" fxLayout="column" *ngIf="actionForm" [formGroup]="actionForm">
   <mat-form-field>
     <mat-select placeholder="База данных"
                 id="dataBaseId" name="dataBaseId"
@@ -8,38 +7,34 @@
         {{ bd.name }}
       </mat-option>
     </mat-select>
-    <mat-error *ngIf="(botCommandActionForm.controls['dataBaseId'].dirty || botCommandActionForm.controls['dataBaseId'].touched)
-                       && botCommandActionForm.controls['dataBaseId'].errors && botCommandActionForm.controls['dataBaseId'].errors.required">
+    <mat-error *ngIf="(actionForm.controls['dataBaseId'].dirty || actionForm.controls['dataBaseId'].touched)
+                       && actionForm.controls['dataBaseId'].errors && actionForm.controls['dataBaseId'].errors.required">
       Необходимое значение
     </mat-error>
   </mat-form-field>
 
-
-  <ngx-codemirror style="border: 1px solid #dadada;
-                          margin: 10px 0 25px 0;"
-                  id="select" name="select"
-                  formControlName="select"
-                  [options]="{
-            theme: 'idea',
-            mode: 'text/x-sql'
-          }"
-  ></ngx-codemirror>
-  <mat-error *ngIf="(botCommandActionForm.controls['select'].dirty || botCommandActionForm.controls['select'].touched)
-                       && botCommandActionForm.controls['select'].errors && botCommandActionForm.controls['select'].errors.required">
-    Необходимое значение
-  </mat-error>
-
-  fileNameTemplate
+  <mat-form-field>
+    <mat-codemirror formControlName="select"
+                    id="select" name="select"
+                    required
+                    [options]="{
+          theme: 'idea',
+          mode: 'text/x-sql'
+        }" placeholder="Sql select"></mat-codemirror>
+    <mat-error *ngIf="(actionForm.controls['select'].dirty || actionForm.controls['select'].touched)
+                     && actionForm.controls['select'].errors && actionForm.controls['select'].errors.required">
+      Необходимое значение
+    </mat-error>
+  </mat-form-field>
 
   <mat-form-field fxFlex>
     <input matInput placeholder="Шаблон имени файла"
            id="fileNameTemplate" name="fileNameTemplate"
            formControlName="fileNameTemplate"/>
-    <mat-error *ngIf="(botCommandActionForm.controls['fileNameTemplate'].dirty || botCommandActionForm.controls['fileNameTemplate'].touched)
-                       && botCommandActionForm.controls['fileNameTemplate'].errors && botCommandActionForm.controls['fileNameTemplate'].errors.required">
+    <mat-error *ngIf="(actionForm.controls['fileNameTemplate'].dirty || actionForm.controls['fileNameTemplate'].touched)
+                       && actionForm.controls['fileNameTemplate'].errors && actionForm.controls['fileNameTemplate'].errors.required">
       Необходимое значение
     </mat-error>
   </mat-form-field>
-
 
 </div>

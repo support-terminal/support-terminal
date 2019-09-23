@@ -22,9 +22,7 @@ export class SqlCommandFormComponent implements OnDestroy, OnChanges {
 
   @Input() actionModel: Action;
   @Input() actionForm: FormGroup;
-
   private dataBases: DbConnection[];
-
   private dataBasesSubscription: Rx.Subscription;
 
   constructor(private botCommandsService: BotCommandsService,
