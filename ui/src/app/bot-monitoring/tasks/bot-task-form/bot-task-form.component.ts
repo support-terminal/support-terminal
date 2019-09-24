@@ -51,7 +51,7 @@ export class BotTaskFormComponent {
   ];
 
   cronFrequencies = [
-    {label: 'Каждую минут', frequency: 'EVERY_1_MINUTE'},
+    {label: 'Каждую минуту', frequency: 'EVERY_1_MINUTE'},
     {label: 'Каждые 5 минут', frequency: 'EVERY_5_MINUTES'},
     {label: 'Каждые 15 минут', frequency: 'EVERY_15_MINUTES'},
     {label: 'Каждый час', frequency: 'EVERY_HOUR'}
