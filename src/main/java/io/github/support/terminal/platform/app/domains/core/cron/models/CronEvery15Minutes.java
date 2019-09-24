@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper=true)
-public class CronEvery15Minutes extends Cron {
+public class CronEvery15Minutes extends CronFrequency {
     public void validate() {
         cron="0 */15 * ? * *";
     }

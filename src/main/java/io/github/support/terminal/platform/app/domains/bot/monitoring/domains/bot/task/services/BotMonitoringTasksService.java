@@ -48,7 +48,7 @@ public class BotMonitoringTasksService {
     }
 
     BotMonitoringTask add(BotMonitoringTask task) {
-      task.getCron().validate();
+      task.getCronFrequency().validate();
       botTaskRepository.add(task);
       runRefreshSchedulers();
       return task;
@@ -66,13 +66,13 @@ public class BotMonitoringTasksService {
                         .setPayload(payload)
                         .setResponseToQueue(LISTENING_QUEUE+task.getAction().getType());
                 jmsTemplate.convertAndSend(CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + task.getAction().getType(), commandExecution);
-            }, new CronTrigger(task.getCron().getCron()));
+            }, new CronTrigger(task.getCronFrequency().getCron()));
             futureList.add(fut);
         }
      }
 
     BotMonitoringTask update(BotMonitoringTask task) {
-        task.getCron().validate();
+        task.getCronFrequency().validate();
         botTaskRepository.update(task);
         runRefreshSchedulers();
         return task;

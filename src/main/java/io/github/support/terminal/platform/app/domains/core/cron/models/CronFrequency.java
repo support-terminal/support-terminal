@@ -20,7 +20,7 @@ import javax.validation.constraints.NotBlank;
         @JsonSubTypes.Type(value = CronEvery15Minutes.class, name = CronTypes.EVERY_15_MINUTES),
         @JsonSubTypes.Type(value = CronEveryHour.class, name = CronTypes.EVERY_HOUR)
 })
-public abstract class Cron {
+public abstract class CronFrequency {
     @NotBlank
     protected String type;
     protected String cron;

@@ -3,7 +3,7 @@ package io.github.support.terminal.platform.app.domains.bot.monitoring.domains.b
 
 import io.github.support.terminal.platform.app.domains.bot.monitoring.domains.bot.task.models.conditions.Condition;
 import io.github.support.terminal.platform.app.domains.core.action.models.actions.Action;
-import io.github.support.terminal.platform.app.domains.core.cron.models.Cron;
+import io.github.support.terminal.platform.app.domains.core.cron.models.CronFrequency;
 import io.github.support.terminal.platform.app.domains.core.notify.models.Notify;
 import lombok.Data;
 
@@ -25,7 +25,7 @@ public class BotMonitoringTaskRequest {
     private Action action;
     @NotNull
     @Valid
-    private Cron cron;
+    private CronFrequency cronFrequency;
 
     private List<Condition> conditions;
 

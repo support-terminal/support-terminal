@@ -11,8 +11,8 @@
           color="primary"
           (change)="changeCommandState($event)"
           [checked]="task.state == 'ENABLED'">
-   <span *ngIf="task.state == 'ENABLED'">Включен</span>
-   <span *ngIf="task.state != 'ENABLED'">Выключен</span>
+<!--   <span *ngIf="task.state == 'ENABLED'">Включен</span>
+   <span *ngIf="task.state != 'ENABLED'">Выключен</span>-->
   </mat-slide-toggle>
 
   <bot-task-form (onSubmitEvent)="edit($event)"

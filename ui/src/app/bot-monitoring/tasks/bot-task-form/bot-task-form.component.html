@@ -10,10 +10,10 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field [formGroup]="botTaskForm.controls['cronFrequency']">
     <mat-select placeholder="Периодичность выполнения задания"
                 id="cronFrequency" name="cronFrequency"
-                formControlName="cronFrequency">
+                formControlName="type">
       <mat-option *ngFor="let f of cronFrequencies" [value]="f.frequency">
         {{ f.label }}
       </mat-option>
@@ -43,21 +43,32 @@
                                  [actionForm]="botTaskForm.controls['action']"
                                  [actionModel]="botTaskModel.action"></select-one-numeric-value-task>
 
+  <fieldset>
+    <legend>Выполняемые проверки</legend>
+    <div>
+      <button mat-raised-button color="primary" type="button" [matMenuTriggerFor]="conditionsTypesMenu">Проверить, что
+        результат
+      </button>
+      <mat-menu #conditionsTypesMenu="matMenu">
+        <button type="button" *ngFor="let conditionType of conditionsTypes"
+                (click)="addCondition(conditionType.type)"
+                mat-menu-item>{{conditionType.name}}
+        </button>
+      </mat-menu>
+    </div>
+    <br/>
+    <bot-monitoring-task-condition-item
+      *ngFor="let condition of this.botTaskForm.controls['conditions'].controls; let i = index"
+      (removeMeEvent)="dropCondition(i)" [condition]="condition">
+    </bot-monitoring-task-condition-item>
+  </fieldset>
 
-  <!--
-
-
-  -->
-
-
-<!--
   <br/>
   <fieldset>
     <legend>Действия после проверки</legend>
     <div>
-      <button type="button" mat-raised-button color="primary" [matMenuTriggerFor]="notifyTypesMenu">В случае не
-        выполнения
-        условий
+      <button type="button" mat-raised-button color="primary" [matMenuTriggerFor]="notifyTypesMenu">
+        В случае не выполнения условий
       </button>
       <mat-menu #notifyTypesMenu="matMenu">
         <button type="button" *ngFor="let notifyType of notifyTypes" (click)="addNotify(notifyType.type)"
@@ -67,16 +78,16 @@
     </div>
     <br/>
     <bot-monitoring-task-notify-item
-      *ngFor="let notify of botTaskForm.notifyList; let i = index" [notify]="notify"
+      *ngFor="let notify of botTaskForm.controls['notifyList'].controls; let i = index"
+      [notifyForm]="notify"
+      [notifyModel]="botTaskModel.notifyList[i]"
       (removeMeEvent)="dropNotify(i)">
     </bot-monitoring-task-notify-item>
   </fieldset>
--->
-
 
   <div fxLayout fxFlexAlign="center" style="margin: 20px;" fxLayoutGap="10px">
     <button type="submit" mat-raised-button color="primary"
-            [disabled]="botTaskForm.invalid">{{submitButtonText}}</button>
+            >{{submitButtonText}}</button>
 
     <ng-content select=".ng-content-bottom-buttons"></ng-content>
 

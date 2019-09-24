@@ -4,7 +4,7 @@ import {BotMonitoringTasksService} from "../../services/bot-monitoring-tasks.ser
 import DbConnection from "../../models/DbConnection";
 import Condition from "../../models/Condition";
 import * as Rx from "rxjs";
-import {ControlContainer, FormBuilder, FormGroup, NgForm, Validators} from "@angular/forms";
+import {ControlContainer, FormArray, FormBuilder, FormGroup, NgForm, Validators} from "@angular/forms";
 import Action from "../../../../bot-commands/commands/models/Action";
 import {BotCommandsService} from "../../../../bot-commands/commands/services/bot-commands.service";
 
@@ -18,6 +18,7 @@ export class SelectOneNumericValueTaskComponent implements OnDestroy {
 
   @Input() actionForm: FormGroup;
   @Input() actionModel: Action;
+
   private dataBases: DbConnection[];
   private dataBasesSubscription: Rx.Subscription;
 
@@ -28,12 +29,11 @@ export class SelectOneNumericValueTaskComponent implements OnDestroy {
     });
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['actionForm']) {
       this.actionForm.addControl('dataBaseId',  this.fb.control('', [Validators.required]));
       this.actionForm.addControl('select',  this.fb.control('', [Validators.required]));
-      }
+    }
     if (changes['actionModel']) {
       if (this.actionModel != null) {
         this.actionForm.controls['dataBaseId'].setValue(this.actionModel.dataBaseId);
@@ -42,36 +42,6 @@ export class SelectOneNumericValueTaskComponent implements OnDestroy {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-  conditionsTypes = [
-    {name: 'Больше чем', type: 'NUMERIC_MORE_THAN'},
-    {name: 'Меньше чем', type: 'NUMERIC_LESS_THAN'},
-    {name: 'Равно', type: 'NUMERIC_EQUAL'},
-  ];
-/*
-  addCondition(type: string) {
-    if (!Array.isArray(this.botTask.conditions)) {
-      this.botTask.conditions = new Array();
-    }
-    this.botTask.conditions.push(new Condition(type))
-  }
-
-  dropCondition(index: number) {
-    if (Array.isArray(this.botTask.conditions)) {
-      this.botTask.conditions.splice(index, 1);
-    }
-  }
-*/
   ngOnDestroy() {
     this.dataBasesSubscription.unsubscribe();
   }

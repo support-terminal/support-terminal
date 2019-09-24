@@ -1,8 +1,6 @@
-import {Component, EventEmitter, Input, OnDestroy, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import BotMonitoringTask from "../models/BotMonitoringTask";
-import Notify from "../models/Notify";
-import BotCommand from "../../../bot-commands/commands/models/BotCommand";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {BotCommandsService} from "../../../bot-commands/commands/services/bot-commands.service";
 
 
@@ -23,7 +21,6 @@ export class BotTaskFormComponent {
 
   onSubmit(): void {
     this.botTaskModel = this.botTaskForm.value;
- //   this.botTaskModel.action = this.botTaskForm.controls['action'].value;
     this.onSubmitEvent.emit(this.botTaskModel);
   }
 
@@ -35,11 +32,17 @@ export class BotTaskFormComponent {
 
   initForm() {
     this.botTaskForm = this.fb.group({
-      name: ['', Validators.required ],
-      cronFrequency: ['', Validators.required ],
+      id: [''],
+      state: [''],
+      name: ['', Validators.required],
+      cronFrequency: this.fb.group({
+        type: ['']
+      }),
       action: this.fb.group({
-        type: [''],
-      })
+        type: ['']
+      }),
+      conditions: this.fb.array([]),
+      notifyList: this.fb.array([])
     });
   }
 
@@ -58,28 +61,69 @@ export class BotTaskFormComponent {
     {name: 'Уведомить через Slack', type: 'SLACK_BOT_API'}
   ];
 
-/*
-  ngOnChanges(changes: SimpleChanges) {
-/!*    if (changes['initial']) {
-      if (this.initial != null && this.initial != undefined) {
-        this.botTask = this.initial;
-      }
-    }*!/
-  }
-
   addNotify(type: string) {
-    if (!Array.isArray(this.botTaskForm.value.notifyList)) {
-      this.botTaskForm.notifyList = new Array();
-    }
-    this.botTask.notifyList.push(new Notify(type))
+    (<FormArray>this.botTaskForm.controls['notifyList']).push(this.fb.group({
+      type: [type, Validators.required]
+    }))
   }
 
   dropNotify(index: number) {
-/!*    if (Array.isArray(this.botTask.notifyList)) {
-      this.botTask.notifyList.splice(index, 1);
-    }*!/
+    if ((<FormArray>this.botTaskForm.controls['notifyList']).length != 0) {
+      (<FormArray>this.botTaskForm.controls['notifyList']).removeAt(index);
+    }
   }
-*/
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['initial']) {
+      if (this.initial != null) {
+        this.botTaskModel = this.initial;
+        this.botTaskForm.controls['id'].setValue(this.botTaskModel.id);
+        this.botTaskForm.controls['name'].setValue(this.botTaskModel.name);
+        this.botTaskForm.controls['state'].setValue(this.botTaskModel.state);
+
+        (<FormGroup>this.botTaskForm.controls['cronFrequency']).controls['type'].setValue(this.botTaskModel.cronFrequency.type);
+        (<FormGroup>this.botTaskForm.controls['action']).controls['type'].setValue(this.botTaskModel.action.type);
+
+        if (Array.isArray(this.botTaskModel.conditions) && this.botTaskModel.conditions.length > 0) {
+          this.botTaskModel.conditions.forEach((c) => {
+            (<FormArray>this.botTaskForm.controls['conditions']).push(this.fb.group({
+              type: [c.type, Validators.required],
+              expectedValue: [c.expectedValue, Validators.required]
+            }))
+          })
+        }
+
+        if (Array.isArray(this.botTaskModel.notifyList) && this.botTaskModel.notifyList.length > 0) {
+          this.botTaskModel.notifyList.forEach((n) => {
+            (<FormArray>this.botTaskForm.controls['notifyList']).push(this.fb.group({
+              type: [n.type, Validators.required],
+              messageTemplate: [n.messageTemplate, Validators.required]
+            }))
+          })
+        }
+
+      }
+    }
+  }
+
+  addCondition(type: string) {
+    (<FormArray>this.botTaskForm.controls['conditions']).push(this.fb.group({
+      type: [type, Validators.required],
+      expectedValue: ['', Validators.required]
+    }))
+  }
+
+  dropCondition(index: number) {
+    if ((<FormArray>this.botTaskForm.controls['conditions']).length != 0) {
+      (<FormArray>this.botTaskForm.controls['conditions']).removeAt(index);
+    }
+  }
+
+  conditionsTypes = [
+    {name: 'Больше чем', type: 'NUMERIC_MORE_THAN'},
+    {name: 'Меньше чем', type: 'NUMERIC_LESS_THAN'},
+    {name: 'Равно', type: 'NUMERIC_EQUAL'},
+  ];
 
 
 }
