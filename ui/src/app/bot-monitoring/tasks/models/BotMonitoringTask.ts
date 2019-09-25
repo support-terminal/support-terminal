@@ -9,7 +9,7 @@ export default class BotMonitoringTask {
   state: string;
   action: Action;
   cronFrequency: CronFrequency;
-  conditions: Condition[];
-  notifyList: Notify[];
+  conditions: Condition[] = [];
+  notifyList: Notify[] = [];
 }
 
