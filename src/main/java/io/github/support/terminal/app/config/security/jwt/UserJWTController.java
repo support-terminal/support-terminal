@@ -1,4 +1,4 @@
-package io.github.support.terminal.app.security.jwt;
+package io.github.support.terminal.app.config.security.jwt;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

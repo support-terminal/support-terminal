@@ -1,4 +1,4 @@
-package io.github.support.terminal.app.security.jwt;
+package io.github.support.terminal.app.config.security.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;

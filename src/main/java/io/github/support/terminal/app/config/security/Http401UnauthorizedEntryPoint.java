@@ -1,4 +1,4 @@
-package io.github.support.terminal.app.security;
+package io.github.support.terminal.app.config.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;

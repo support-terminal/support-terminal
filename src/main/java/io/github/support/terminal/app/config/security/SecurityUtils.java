@@ -1,4 +1,4 @@
-package io.github.support.terminal.app.security;
+package io.github.support.terminal.app.config.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

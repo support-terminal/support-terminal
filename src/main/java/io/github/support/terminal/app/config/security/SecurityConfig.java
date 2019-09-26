@@ -1,8 +1,8 @@
-package io.github.support.terminal.app.security;
+package io.github.support.terminal.app.config.security;
 
 
-import io.github.support.terminal.app.security.jwt.JWTConfigurer;
-import io.github.support.terminal.app.security.jwt.TokenProvider;
+import io.github.support.terminal.app.config.security.jwt.JWTConfigurer;
+import io.github.support.terminal.app.config.security.jwt.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;

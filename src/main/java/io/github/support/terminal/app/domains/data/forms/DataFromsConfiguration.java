@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootConfiguration
-@ComponentScan(value = "io.github.support.terminal.data.forms")
+@ComponentScan(value = "io.github.support.terminal.app.domains.data.forms")
 public class DataFromsConfiguration {
 
     @Bean

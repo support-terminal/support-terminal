@@ -13,7 +13,7 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootConfiguration
-@ComponentScan(value = "io.github.support.terminal.core")
+@ComponentScan(value = "io.github.support.terminal.app.domains.core")
 public class CoreConfiguration {
 
     public final static String JMS_FACTORY_NAME = "jmsFactory";

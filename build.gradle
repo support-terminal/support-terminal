@@ -32,7 +32,7 @@ bootJar{
 	manifest {
 		attributes ('Main-Class':'org.springframework.boot.loader.PropertiesLauncher',
 				    'Loader-Path':'${HOME}/.support-terminal/libs,libs,./libs,BOOT-INF/lib',
-		            'Start-Class':'io.github.support.terminal.platform.PlatformApplication'
+		            'Start-Class':'io.github.support.terminal.PlatformApplication'
 		)
 	}
 

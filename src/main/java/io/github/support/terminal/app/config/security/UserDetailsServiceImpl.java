@@ -1,4 +1,4 @@
-package io.github.support.terminal.app.security;
+package io.github.support.terminal.app.config.security;
 
 import io.github.support.terminal.app.domains.core.user.entities.CustomerUser;
 import io.github.support.terminal.app.domains.core.user.services.UsersService;
