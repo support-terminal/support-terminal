@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {AngularMaterialModule} from "./angular.material.module";
 
 import {DataFormsListComponent} from "./forms/data-forms-list/data-forms-list.component";
 import {DataFormsService} from "./forms/services/data-forms.service";
@@ -24,6 +23,7 @@ import {StringParameterFieldComponent} from "./forms/execute-data-form/parameter
 import {DataFormResultsComponent} from "./forms/data-form-form/results/data-form-results.component";
 import {TableResultsComponent} from "./forms/data-form-form/results/types/data-form-table-results.component";
 import {DataFormViewResultsComponent} from "./forms/execute-data-form/results/data-form-view-results.component";
+import {AngularMaterialModule} from "../angular.material.module";
 
 
 @NgModule({

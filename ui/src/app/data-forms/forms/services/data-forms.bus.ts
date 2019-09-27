@@ -8,6 +8,7 @@ import {DataFormsService} from "./data-forms.service";
 import {AddDataFromComponent} from "../add-data-form/add-data-form.component";
 import {EditDataFormComponent} from "../edit-data-form/edit-data-form.component";
 import {MessagingBusService} from "../../../core/api";
+import {Inject} from "@angular/core";
 
 
 export class DataFormsBus {
@@ -15,7 +16,7 @@ export class DataFormsBus {
   private subscription: Subscription;
 
 
-  constructor(public dialog: MatDialog,
+  constructor(@Inject(MatDialog) public dialog: MatDialog,
               private messagingBusService: MessagingBusService,
               private dataFormsService: DataFormsService) {
     this.subscription = this.messagingBusService.getMessage().subscribe(message => {

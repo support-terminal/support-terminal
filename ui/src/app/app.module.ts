@@ -21,6 +21,7 @@ import {BotCommandsModule} from "./bot-commands/bot-commands.module";
 import {BotMonitoringTasksModule} from "./bot-monitoring/bot-monitoring-task.module.ts";
 
 import 'codemirror/mode/sql/sql';
+import {DataFormsModule} from "./data-forms/data-forms.module";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import 'codemirror/mode/sql/sql';
     AppRoutingModule,
     CoreModule,
     BotMonitoringTasksModule,
+    DataFormsModule,
     BotCommandsModule
   ],
   providers: [
