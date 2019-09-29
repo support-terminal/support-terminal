@@ -18,7 +18,7 @@ export class DataFormResultsComponent {
     }
 
     resultsTypes = [
-        {name: 'В виде таблице', type: 'TABLE_DATE_FORM_RESULT'}
+        {name: 'В виде таблицы', type: 'TABLE_DATE_FORM_RESULT'}
     ];
 
     addResult(type: string){
