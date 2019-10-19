@@ -38,6 +38,9 @@ bootJar{
 
 }
 
+springBoot{
+	buildInfo()
+}
 
 repositories {
 	mavenCentral()
