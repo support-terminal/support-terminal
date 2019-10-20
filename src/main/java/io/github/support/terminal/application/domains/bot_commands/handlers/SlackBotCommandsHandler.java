@@ -3,15 +3,12 @@ package io.github.support.terminal.application.domains.bot_commands.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.support.terminal.application.domains.bot_commands.entities.BotCommand;
-import io.github.support.terminal.application.domains.bot_commands.handlers.BotHandler;
 import io.github.support.terminal.application.domains.bot_commands.services.BotCommandsService;
-import io.github.support.terminal.application.domains.bot_commands.values.BotsJmsQueues;
-import io.github.support.terminal.application.domains.core.CoreConfiguration;
-import io.github.support.terminal.app.domains.core.action.models.ActionExecution;
-import io.github.support.terminal.app.domains.core.action.models.results.ActionResult;
-import io.github.support.terminal.app.domains.core.action.models.results.SqlSelectActionResult;
-import io.github.support.terminal.app.domains.core.action.models.results.SqlSelectInExcelFileActionResult;
-import io.github.support.terminal.app.domains.core.action.values.ActionTypes;
+import io.github.support.terminal.application.domains.core.action.models.ActionExecution;
+import io.github.support.terminal.application.domains.core.action.models.results.ActionResult;
+import io.github.support.terminal.application.domains.core.action.models.results.SqlSelectActionResult;
+import io.github.support.terminal.application.domains.core.action.models.results.SqlSelectInExcelFileActionResult;
+import io.github.support.terminal.application.domains.core.action.values.ActionTypes;
 import io.github.support.terminal.application.domains.core.api.slack.SlackApiClient;
 import io.github.support.terminal.application.domains.core.api.slack.models.Channel;
 import io.github.support.terminal.application.domains.core.api.slack.models.Message;
@@ -29,11 +26,12 @@ import io.github.support.terminal.application.domains.core.bots.values.BotType;
 import io.github.support.terminal.application.domains.core.common.values.CoreJmsQueues;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.core.JmsTemplate;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -56,15 +54,14 @@ class SlackBotCommandsHandler implements BotHandler {
     private final JoinRequestsService joinRequestsService;
     private final BotCommandsService commandsService;
     private final BotsService botsService;
-    private final JmsTemplate jmsTemplate;
     private final ObjectMapper objectMapper;
+    private final ApplicationEventPublisher eventPublisher;
 
-
-    @JmsListener(destination = BotsJmsQueues.BOT_COMMANDS_MODULE_HANDLE_BOTS_QUEUE + BotType.SLACK_BOT,
-            containerFactory = CoreConfiguration.JMS_FACTORY_NAME)
+    @Async
+    @EventListener(condition = "#bot.type = '"+BotType.SLACK_BOT+"'")
     public void receiveBot(Bot bot) {
 
-      /*  SlackBot slackBot = (SlackBot) bot;
+        SlackBot slackBot = (SlackBot) bot;
 
         //получаем прямые каналы
         GetChannelsResponse channelsResponse = slackApiClient.getСhannels(slackBot.getToken());
@@ -143,11 +140,12 @@ class SlackBotCommandsHandler implements BotHandler {
                             .forEach(c -> {
                                 ActionExecution commandExecution = new ActionExecution()
                                         .setAction(c.getAction())
+                                        .setDestination(CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + c.getAction().getType())
                                         .setPayload(payload)
                                         .setResponseToQueue(LISTENING_QUEUE+c.getAction().getType());
-                                jmsTemplate.convertAndSend(CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + c.getAction().getType(), commandExecution);
+                                eventPublisher.publishEvent( commandExecution );
                             });
-                });*/
+                });
 
     }
 
@@ -158,10 +156,10 @@ class SlackBotCommandsHandler implements BotHandler {
     }
 
     @Override
-/*    @JmsListener(destination = LISTENING_QUEUE + ActionTypes.SQL_SELECT,
-            containerFactory = CoreConfiguration.JMS_FACTORY_NAME)*/
+    @Async
+    @EventListener(condition = "#result.destination = '"+LISTENING_QUEUE + ActionTypes.SQL_SELECT+"'")
     public void answerBySqlSelectCommand(ActionResult result) {
- /*       SqlSelectActionResult sqlSelectActionResult = (SqlSelectActionResult)result;
+        SqlSelectActionResult sqlSelectActionResult = (SqlSelectActionResult)result;
         AnswerToSlack answerTo =  objectMapper.convertValue(sqlSelectActionResult.getPayload().get("answerTo"), AnswerToSlack.class);
         SlackBot bot = answerTo.getBot();
 
@@ -170,15 +168,16 @@ class SlackBotCommandsHandler implements BotHandler {
                     .setChannel(answerTo.getChannelId())
                     .setText(sqlSelectActionResult.getResponse());
             slackApiClient.sendMessage(bot.getToken(), request);
-        }*/
+        }
     }
 
 
+
     @Override
-/*    @JmsListener(destination = LISTENING_QUEUE + ActionTypes.SQL_SELECT_IN_EXCEL_FILE,
-            containerFactory = CoreConfiguration.JMS_FACTORY_NAME)*/
+    @Async
+    @EventListener(condition = "#result.destination = '"+LISTENING_QUEUE + ActionTypes.SQL_SELECT_IN_EXCEL_FILE+"'")
     public void answerBySqlInExcelCommand(ActionResult result) {
-/*        SqlSelectInExcelFileActionResult sqlSelectInExcelFileActionResult = (SqlSelectInExcelFileActionResult)result;
+        SqlSelectInExcelFileActionResult sqlSelectInExcelFileActionResult = (SqlSelectInExcelFileActionResult)result;
         AnswerToSlack answerTo =  objectMapper.convertValue(sqlSelectInExcelFileActionResult.getPayload().get("answerTo"), AnswerToSlack.class);
         SlackBot bot = answerTo.getBot();
 
@@ -192,11 +191,10 @@ class SlackBotCommandsHandler implements BotHandler {
                         .setText("Не удалось отправить файл");
                 slackApiClient.sendMessage(bot.getToken(), request);
             }
-        }*/
+        }
     }
 
     private void joinRequestHandle(SlackBot slackBot, String userId) {
-/*
         GetUserInfoResponse userInfo
                 = slackApiClient.getUserInfo(slackBot.getToken(), userId);
 
@@ -208,11 +206,11 @@ class SlackBotCommandsHandler implements BotHandler {
                 .setFirstName(userInfo.getUser().getRealName())
                 .setBotId(slackBot.getId())
                 .setAccountId(userId);
-        joinRequestsService.addNewRequest(joinRequest);*/
+        joinRequestsService.addNewRequest(joinRequest);
     }
 
     private String helpRequestHandle(Collection<BotCommand> botCommands) {
-/*        StringBuilder responseBuilder = new StringBuilder();
+        StringBuilder responseBuilder = new StringBuilder();
         responseBuilder.append("Перечень доступных команд:").append("\n");
         botCommands
                 .forEach(c -> {
@@ -225,8 +223,7 @@ class SlackBotCommandsHandler implements BotHandler {
         responseBuilder.append(" - _").append("Запрос на доступ к командам бота").append("_");
         responseBuilder.append("\n");
 
-        return responseBuilder.toString();*/
-  return "";
+        return responseBuilder.toString();
     }
 
 }

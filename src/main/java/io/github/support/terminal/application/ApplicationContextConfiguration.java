@@ -1,7 +1,6 @@
 package io.github.support.terminal.application;
 
 
-import io.github.support.terminal.application.domains.core.CoreConfiguration;
 import io.github.support.terminal.application.domains.updater.services.UpdaterService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
@@ -16,23 +15,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
-import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-@RestController
-@EnableJms
-//@EnableScheduling
+import java.util.concurrent.Executor;
+
+@EnableAsync
+@EnableScheduling
 @PropertySource(value = "file:${user.home}/.support-terminal/config.properties",
         ignoreResourceNotFound = true)
 @SpringBootApplication
@@ -65,18 +63,17 @@ public class ApplicationContextConfiguration {
         return taskScheduler;
     }
 
-    @GetMapping("/test")
-    public void runAutoUpdate() throws Exception {
-        updaterService.runAutoUpdate();
-    }
-
-
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         //если нам передали порт и хост
         addProxyIfExists(restTemplate);
         return restTemplate;
+    }
+
+    @Bean(name = "threadPoolTaskExecutor")
+    public Executor threadPoolTaskExecutor() {
+        return new ThreadPoolTaskExecutor();
     }
 
     @Bean

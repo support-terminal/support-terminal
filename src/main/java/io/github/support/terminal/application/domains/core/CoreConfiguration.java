@@ -2,7 +2,7 @@ package io.github.support.terminal.application.domains.core;
 
 import io.github.support.terminal.application.domains.core.bots.entities.Bot;
 import io.github.support.terminal.application.domains.core.bots.entities.JoinRequest;
-import io.github.support.terminal.app.domains.core.source.dbs.entities.DbConnection;
+import io.github.support.terminal.application.domains.core.dbs.entities.DbConnection;
 import io.github.support.terminal.application.domains.core.user.entities.CustomerUser;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class CoreConfiguration {
-
-    public final static String JMS_FACTORY_NAME = "jmsFactory";
 
     @Bean
     public ObjectRepository<DbConnection> getDbConnectionRepository(Nitrite db){

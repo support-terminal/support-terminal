@@ -1,12 +1,11 @@
 package io.github.support.terminal.application.domains.bot_commands.services;
 
 
-import io.github.support.terminal.application.domains.bot_commands.values.BotsJmsQueues;
 import io.github.support.terminal.application.domains.core.bots.entities.Bot;
 import io.github.support.terminal.application.domains.core.bots.services.BotsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jms.core.JmsTemplate;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ class BotCommandsScheduler {
 
     private final BotCommandsApiService commandsApiService;
     private final BotsService botsService;
-    private final JmsTemplate jmsTemplate;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Scheduled(fixedRate = 7_000)
     public void botScheduler() {
@@ -30,7 +29,7 @@ class BotCommandsScheduler {
                 log.debug("Not found commands for that bot");
                 return;
             }
-            jmsTemplate.convertAndSend(BotsJmsQueues.BOT_COMMANDS_MODULE_HANDLE_BOTS_QUEUE+bot.getType(), bot);
+            eventPublisher.publishEvent(bot);
         });
     }
 

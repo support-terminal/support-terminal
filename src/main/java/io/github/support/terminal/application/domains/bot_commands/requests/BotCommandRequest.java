@@ -2,7 +2,7 @@ package io.github.support.terminal.application.domains.bot_commands.requests;
 
 
 
-import io.github.support.terminal.app.domains.core.action.models.actions.Action;
+import io.github.support.terminal.application.domains.core.action.models.actions.Action;
 import lombok.Data;
 
 import javax.validation.Valid;
