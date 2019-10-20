@@ -1,13 +1,13 @@
 package io.github.support.terminal.app.domains.core.action.handlers;
 
 
-import io.github.support.terminal.app.domains.core.CoreConfiguration;
+import io.github.support.terminal.application.domains.core.CoreConfiguration;
 import io.github.support.terminal.app.domains.core.action.models.ActionExecution;
 import io.github.support.terminal.app.domains.core.action.models.actions.SqlSelectDataSet;
 import io.github.support.terminal.app.domains.core.action.models.results.SqlSelectInDataSetActionResult;
 import io.github.support.terminal.app.domains.core.action.values.ActionTypes;
-import io.github.support.terminal.app.domains.core.common.values.CoreJmsQueues;
-import io.github.support.terminal.app.domains.core.events.services.ApplicationEventsService;
+import io.github.support.terminal.application.domains.core.common.values.CoreJmsQueues;
+import io.github.support.terminal.application.domains.core.events.services.ApplicationEventsService;
 import io.github.support.terminal.app.domains.core.source.dbs.services.DbConnectionsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,13 +1,13 @@
 package io.github.support.terminal.app.domains.core.notify.services;
 
 
-import io.github.support.terminal.app.domains.core.CoreConfiguration;
-import io.github.support.terminal.app.domains.core.api.slack.SlackApiClient;
-import io.github.support.terminal.app.domains.core.api.slack.models.Channel;
-import io.github.support.terminal.app.domains.core.api.slack.requests.SendMessageRequest;
-import io.github.support.terminal.app.domains.core.api.slack.responses.GetChannelsResponse;
-import io.github.support.terminal.app.domains.core.bots.entities.SlackBot;
-import io.github.support.terminal.app.domains.core.bots.services.BotsService;
+import io.github.support.terminal.application.domains.core.CoreConfiguration;
+import io.github.support.terminal.application.domains.core.api.slack.SlackApiClient;
+import io.github.support.terminal.application.domains.core.api.slack.models.Channel;
+import io.github.support.terminal.application.domains.core.api.slack.requests.SendMessageRequest;
+import io.github.support.terminal.application.domains.core.api.slack.responses.GetChannelsResponse;
+import io.github.support.terminal.application.domains.core.bots.entities.SlackBot;
+import io.github.support.terminal.application.domains.core.bots.services.BotsService;
 import io.github.support.terminal.app.domains.core.notify.models.NotifySlackBot;
 import io.github.support.terminal.app.domains.core.notify.models.NotifyTask;
 import io.github.support.terminal.app.domains.core.notify.values.NotifyTypes;

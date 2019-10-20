@@ -1,11 +1,11 @@
 package io.github.support.terminal;
 
 
-import io.github.support.terminal.app.ApplicationContextConfiguration;
-import io.github.support.terminal.app.domains.core.user.entities.CustomerUser;
-import io.github.support.terminal.app.domains.core.user.repository.UserRepository;
-import io.github.support.terminal.app.domains.core.user.values.UserStates;
-import io.github.support.terminal.app.domains.core.user.values.UsersGrantedAuthorities;
+import io.github.support.terminal.application.ApplicationContextConfiguration;
+import io.github.support.terminal.application.domains.core.user.entities.CustomerUser;
+import io.github.support.terminal.application.domains.core.user.repository.UserRepository;
+import io.github.support.terminal.application.domains.core.user.values.UserStates;
+import io.github.support.terminal.application.domains.core.user.values.UsersGrantedAuthorities;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;

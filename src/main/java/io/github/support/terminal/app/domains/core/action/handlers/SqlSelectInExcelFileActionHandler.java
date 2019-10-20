@@ -2,15 +2,15 @@ package io.github.support.terminal.app.domains.core.action.handlers;
 
 
 import com.fasterxml.jackson.databind.util.StdDateFormat;
-import io.github.support.terminal.app.domains.core.CoreConfiguration;
+import io.github.support.terminal.application.domains.core.CoreConfiguration;
 import io.github.support.terminal.app.domains.core.action.models.ActionExecution;
 import io.github.support.terminal.app.domains.core.action.models.actions.SqlSelectInExcelFileAction;
 import io.github.support.terminal.app.domains.core.action.models.results.SqlSelectInExcelFileActionResult;
 import io.github.support.terminal.app.domains.core.action.values.ActionTypes;
-import io.github.support.terminal.app.domains.core.bots.models.DocumentFile;
-import io.github.support.terminal.app.domains.core.common.services.ExcelManagerService;
-import io.github.support.terminal.app.domains.core.common.values.CoreJmsQueues;
-import io.github.support.terminal.app.domains.core.events.services.ApplicationEventsService;
+import io.github.support.terminal.application.domains.core.bots.models.DocumentFile;
+import io.github.support.terminal.application.domains.core.common.services.ExcelManagerService;
+import io.github.support.terminal.application.domains.core.common.values.CoreJmsQueues;
+import io.github.support.terminal.application.domains.core.events.services.ApplicationEventsService;
 import io.github.support.terminal.app.domains.core.source.dbs.services.DbConnectionsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,7 +2,7 @@ package io.github.support.terminal.app.domains.core.source.dbs.services;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.support.terminal.app.domains.core.events.services.ApplicationEventsService;
+import io.github.support.terminal.application.domains.core.events.services.ApplicationEventsService;
 import io.github.support.terminal.app.domains.core.source.dbs.entities.DbConnection;
 import io.github.support.terminal.app.domains.core.source.dbs.models.CheckDbConnectionDTO;
 import io.github.support.terminal.app.domains.core.source.dbs.models.DbConnectionDTO;

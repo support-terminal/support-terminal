@@ -2,7 +2,7 @@ package io.github.support.terminal.app.domains.core.action.models.results;
 
 
 import io.github.support.terminal.app.domains.core.action.values.ActionTypes;
-import io.github.support.terminal.app.domains.core.bots.models.DocumentFile;
+import io.github.support.terminal.application.domains.core.bots.models.DocumentFile;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

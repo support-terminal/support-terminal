@@ -1,11 +1,11 @@
 package io.github.support.terminal.app.domains.core.rest;
 
 
-import io.github.support.terminal.app.domains.core.bots.models.BotDTO;
-import io.github.support.terminal.app.domains.core.bots.models.BotTypeDTO;
-import io.github.support.terminal.app.domains.core.bots.requests.BotRequest;
-import io.github.support.terminal.app.domains.core.bots.services.BotsApiService;
-import io.github.support.terminal.app.domains.core.bots.services.JoinRequestsApiService;
+import io.github.support.terminal.application.domains.core.bots.models.BotDTO;
+import io.github.support.terminal.application.domains.core.bots.models.BotTypeDTO;
+import io.github.support.terminal.application.domains.core.bots.requests.BotRequest;
+import io.github.support.terminal.application.domains.core.bots.services.BotsApiService;
+import io.github.support.terminal.application.domains.core.bots.services.JoinRequestsApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

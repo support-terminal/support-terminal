@@ -1,8 +1,8 @@
 package io.github.support.terminal.app.domains.core.rest;
 
-import io.github.support.terminal.app.domains.core.user.models.WebUserDTO;
-import io.github.support.terminal.app.domains.core.user.requests.WebUserRequest;
-import io.github.support.terminal.app.domains.core.user.services.WebUsersApiService;
+import io.github.support.terminal.application.domains.core.user.models.WebUserDTO;
+import io.github.support.terminal.application.domains.core.user.requests.WebUserRequest;
+import io.github.support.terminal.application.domains.core.user.services.WebUsersApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

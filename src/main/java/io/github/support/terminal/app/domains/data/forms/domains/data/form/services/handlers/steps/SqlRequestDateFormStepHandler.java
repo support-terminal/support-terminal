@@ -2,13 +2,13 @@ package io.github.support.terminal.app.domains.data.forms.domains.data.form.serv
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.support.terminal.app.domains.core.CoreConfiguration;
+import io.github.support.terminal.application.domains.core.CoreConfiguration;
 import io.github.support.terminal.app.domains.core.action.models.ActionExecution;
 import io.github.support.terminal.app.domains.core.action.models.actions.SqlSelectDataSet;
 import io.github.support.terminal.app.domains.core.action.models.results.ActionResult;
 import io.github.support.terminal.app.domains.core.action.models.results.SqlSelectInDataSetActionResult;
-import io.github.support.terminal.app.domains.core.common.values.CoreJmsQueues;
-import io.github.support.terminal.app.domains.core.events.services.ApplicationEventsService;
+import io.github.support.terminal.application.domains.core.common.values.CoreJmsQueues;
+import io.github.support.terminal.application.domains.core.events.services.ApplicationEventsService;
 import io.github.support.terminal.app.domains.data.forms.domains.data.form.entities.DataFormExecution;
 import io.github.support.terminal.app.domains.data.forms.domains.data.form.entities.StepExecutionResult;
 import io.github.support.terminal.app.domains.data.forms.domains.data.form.entities.StepExecutionTask;

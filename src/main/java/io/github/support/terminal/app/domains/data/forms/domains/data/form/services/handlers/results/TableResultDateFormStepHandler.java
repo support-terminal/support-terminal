@@ -1,8 +1,8 @@
 package io.github.support.terminal.app.domains.data.forms.domains.data.form.services.handlers.results;
 
 
-import io.github.support.terminal.app.domains.core.CoreConfiguration;
-import io.github.support.terminal.app.domains.core.events.services.ApplicationEventsService;
+import io.github.support.terminal.application.domains.core.CoreConfiguration;
+import io.github.support.terminal.application.domains.core.events.services.ApplicationEventsService;
 import io.github.support.terminal.app.domains.data.forms.domains.data.form.entities.DataFormExecution;
 import io.github.support.terminal.app.domains.data.forms.domains.data.form.entities.StepExecutionTask;
 import io.github.support.terminal.app.domains.data.forms.domains.data.form.entities.results.TableDateFormExecutionResult;

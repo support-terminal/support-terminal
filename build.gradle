@@ -51,7 +51,7 @@ dependencies {
 
 	compile('org.springframework.boot:spring-boot-starter-web')
 
-	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.10'
 
 	compile("org.springframework.boot:spring-boot-starter-actuator")
 
