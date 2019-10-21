@@ -34,7 +34,7 @@ class SqlSelectOneNumericValueActionHandler implements ActionHandler {
     private final ApplicationEventPublisher eventPublisher;
 
     @Async
-    @EventListener(condition = "#actionExecution.destination = '"+ CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + ActionTypes.SQL_SELECT_ONE_NUMERIC_VALUE+"'")
+    @EventListener(condition = "#actionExecution.destination == '"+ CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + ActionTypes.SQL_SELECT_ONE_NUMERIC_VALUE+"'")
     public void handle(ActionExecution actionExecution){
 
         SqlSelectOneNumericValueAction action = (SqlSelectOneNumericValueAction) actionExecution.getAction();

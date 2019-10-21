@@ -65,7 +65,6 @@ public class BotMonitoringTasksService {
                         .setPayload(payload)
                         .setDestination(CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + task.getAction().getType())
                         .setResponseToQueue(LISTENING_QUEUE+task.getAction().getType());
-
                 eventPublisher.publishEvent(commandExecution);
             }, new CronTrigger(task.getCronFrequency().getCron()));
             futureList.add(fut);
@@ -107,7 +106,7 @@ public class BotMonitoringTasksService {
 
 
     @Async
-    @EventListener(condition = "#result.destination = '"+ LISTENING_QUEUE + ActionTypes.SQL_SELECT_ONE_NUMERIC_VALUE+"'")
+    @EventListener(condition = "#result.destination == '"+ LISTENING_QUEUE + ActionTypes.SQL_SELECT_ONE_NUMERIC_VALUE+"'")
     public void answerBySqlOneValue(ActionResult result) {
         SqlSelectOneNumericValueActionResult actionResult = (SqlSelectOneNumericValueActionResult)result;
         BotMonitoringTask botTask =  objectMapper.convertValue(actionResult.getPayload().get("task"), BotMonitoringTask.class);

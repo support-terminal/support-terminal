@@ -61,7 +61,7 @@ class TelegramBotCommandsHandler implements BotHandler {
 
 
     @Async
-    @EventListener(condition = "#bot.type = '"+ BotType.TELEGRAM_BOT+"'")
+    @EventListener(condition = "#bot.type == '"+ BotType.TELEGRAM_BOT+"'")
     public void receiveBot(Bot bot) {
 
         TelegramBot telegramBot = (TelegramBot) bot;
@@ -123,7 +123,7 @@ class TelegramBotCommandsHandler implements BotHandler {
     }
 
     @Async
-    @EventListener(condition = "#result.destination = '"+ LISTENING_QUEUE + ActionTypes.SQL_SELECT+"'")
+    @EventListener(condition = "#result.destination == '"+ LISTENING_QUEUE + ActionTypes.SQL_SELECT+"'")
     @Override
     public void answerBySqlSelectCommand(ActionResult result) {
         SqlSelectActionResult sqlSelectActionResult = (SqlSelectActionResult)result;
@@ -140,7 +140,7 @@ class TelegramBotCommandsHandler implements BotHandler {
 
     @Override
     @Async
-    @EventListener(condition = "#result.destination = '"+ LISTENING_QUEUE + ActionTypes.SQL_SELECT_IN_EXCEL_FILE+"'")
+    @EventListener(condition = "#result.destination == '"+ LISTENING_QUEUE + ActionTypes.SQL_SELECT_IN_EXCEL_FILE+"'")
     public void answerBySqlInExcelCommand(ActionResult result) {
         SqlSelectInExcelFileActionResult sqlSelectInExcelFileActionResult = (SqlSelectInExcelFileActionResult)result;
         AnswerToTelegram answerTo =  objectMapper.convertValue(sqlSelectInExcelFileActionResult.getPayload().get("answerTo"), AnswerToTelegram.class);

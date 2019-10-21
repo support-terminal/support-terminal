@@ -24,14 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class NotifyTaskHandler{
 
-    public static final String NOTIFY_TASK_HANDLER_QUEUE = "NOTIFY_TASK_HANDLER_QUEUE";
-
     private final BotsService botsService;
     private final SlackApiClient slackApiClient;
 
 
     @Async
-    @EventListener(condition = "#notifyTask.type = '"+ NotifyTypes.SLACK_BOT_API+"'")
+    @EventListener(condition = "#notifyTask.notify.type == '"+ NotifyTypes.SLACK_BOT_API+"'")
     public void answerBySqlSelectCommand(NotifyTask notifyTask) {
         NotifySlackBot notifySlackBot = (NotifySlackBot)notifyTask.getNotify();
         SlackBot slackBot = (SlackBot)botsService.getById(notifySlackBot.getBotId());

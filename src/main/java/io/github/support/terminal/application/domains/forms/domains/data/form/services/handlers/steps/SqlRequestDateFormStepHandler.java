@@ -129,7 +129,7 @@ class SqlRequestDateFormStepHandler implements StepTypeHandler {
     }
 
     @Async
-    @EventListener(condition = "#actionResult.destination = '"+ END_PROCESSING_QUEUE+"'")
+    @EventListener(condition = "#actionResult.destination == '"+ END_PROCESSING_QUEUE+"'")
     public void endProcessing(ActionResult actionResult) {
         try {
             SqlSelectInDataSetActionResult selectInDataSetActionResult

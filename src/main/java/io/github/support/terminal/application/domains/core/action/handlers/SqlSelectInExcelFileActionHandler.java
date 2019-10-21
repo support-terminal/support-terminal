@@ -42,7 +42,7 @@ class SqlSelectInExcelFileActionHandler implements ActionHandler {
     private final DateFormat df = new StdDateFormat();
 
     @Async
-    @EventListener(condition = "#actionExecution.destination = '"+ CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + ActionTypes.SQL_SELECT_IN_EXCEL_FILE+"'")
+    @EventListener(condition = "#actionExecution.destination == '"+ CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + ActionTypes.SQL_SELECT_IN_EXCEL_FILE+"'")
     public void handle(ActionExecution actionExecution){
 
         SqlSelectInExcelFileAction action = (SqlSelectInExcelFileAction) actionExecution.getAction();

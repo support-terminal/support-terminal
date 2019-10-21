@@ -58,7 +58,7 @@ class SlackBotCommandsHandler implements BotHandler {
     private final ApplicationEventPublisher eventPublisher;
 
     @Async
-    @EventListener(condition = "#bot.type = '"+BotType.SLACK_BOT+"'")
+    @EventListener(condition = "#bot.type == '"+BotType.SLACK_BOT+"'")
     public void receiveBot(Bot bot) {
 
         SlackBot slackBot = (SlackBot) bot;
@@ -157,7 +157,7 @@ class SlackBotCommandsHandler implements BotHandler {
 
     @Override
     @Async
-    @EventListener(condition = "#result.destination = '"+LISTENING_QUEUE + ActionTypes.SQL_SELECT+"'")
+    @EventListener(condition = "#result.destination == '"+LISTENING_QUEUE + ActionTypes.SQL_SELECT+"'")
     public void answerBySqlSelectCommand(ActionResult result) {
         SqlSelectActionResult sqlSelectActionResult = (SqlSelectActionResult)result;
         AnswerToSlack answerTo =  objectMapper.convertValue(sqlSelectActionResult.getPayload().get("answerTo"), AnswerToSlack.class);
@@ -175,7 +175,7 @@ class SlackBotCommandsHandler implements BotHandler {
 
     @Override
     @Async
-    @EventListener(condition = "#result.destination = '"+LISTENING_QUEUE + ActionTypes.SQL_SELECT_IN_EXCEL_FILE+"'")
+    @EventListener(condition = "#result.destination == '"+LISTENING_QUEUE + ActionTypes.SQL_SELECT_IN_EXCEL_FILE+"'")
     public void answerBySqlInExcelCommand(ActionResult result) {
         SqlSelectInExcelFileActionResult sqlSelectInExcelFileActionResult = (SqlSelectInExcelFileActionResult)result;
         AnswerToSlack answerTo =  objectMapper.convertValue(sqlSelectInExcelFileActionResult.getPayload().get("answerTo"), AnswerToSlack.class);
