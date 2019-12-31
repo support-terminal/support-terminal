@@ -39,7 +39,7 @@ class SqlSelectActionHandler implements ActionHandler {
 
 
     @Async
-    @EventListener(condition = "#actionExecution.destination = '"+ CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + ActionTypes.SQL_SELECT+"'")
+    @EventListener(condition = "#actionExecution.destination == '"+ CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + ActionTypes.SQL_SELECT+"'")
     public void handle(ActionExecution actionExecution){
 
         SqlSelectAction action = (SqlSelectAction) actionExecution.getAction();

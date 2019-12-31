@@ -35,7 +35,7 @@ class SqlSelectInDataSetActionHandler implements ActionHandler {
     private final ApplicationEventPublisher eventPublisher;
 
     @Async
-    @EventListener(condition = "#actionExecution.destination = '"+ CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + ActionTypes.SQL_SELECT_IN_DATA_SET+"'")
+    @EventListener(condition = "#actionExecution.destination == '"+ CoreJmsQueues.CORE_MODULE_ACTIONS_HANDLE_QUEUE + ActionTypes.SQL_SELECT_IN_DATA_SET+"'")
     public void handle(ActionExecution actionExecution){
 
         SqlSelectDataSet action = (SqlSelectDataSet) actionExecution.getAction();
