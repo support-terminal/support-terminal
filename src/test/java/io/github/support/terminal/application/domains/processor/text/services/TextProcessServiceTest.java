@@ -23,14 +23,23 @@ public class TextProcessServiceTest {
     private TextProcessService textProcessService;
 
     @Test
-    public void filterByKey(){
+    public void filterByKeyMiddleRow(){
         TextProcessingRequest request = new TextProcessingRequest()
-                .setText("Text \n key Key ")
+                .setText("Text \n key Key \n FFF")
                 .setProcessors(Collections.singletonList(new TextProcessorFilterByKey().setKey("key")));
-
         TextProcessingResponse result = textProcessService.process(request);
         assertEquals("key Key\n",  result.getText());
     }
+
+    @Test
+    public void filterByKeyAmongEmptyRows(){
+        TextProcessingRequest request = new TextProcessingRequest()
+                .setText(" \n zzz Key \n FFF \nzzzz ")
+                .setProcessors(Collections.singletonList(new TextProcessorFilterByKey().setKey("zzz")));
+        TextProcessingResponse result = textProcessService.process(request);
+        assertEquals("zzz Key\nzzzz\n",  result.getText());
+    }
+
 
 }
 
