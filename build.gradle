@@ -131,9 +131,7 @@ task copyUiDist() {
 	}
 }
 
-
 test {
 	useJUnitPlatform()
 }
-
 
