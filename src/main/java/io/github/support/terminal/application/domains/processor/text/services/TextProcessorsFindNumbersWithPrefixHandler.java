@@ -16,7 +16,7 @@ import static io.github.support.terminal.application.domains.processor.text.dto.
 
 @Slf4j
 @Service
-public class TextProcessorsFindNumbersWithPrefix implements TextProcessHandler<TextProcessorFindNumberWithPrefix> {
+public class TextProcessorsFindNumbersWithPrefixHandler implements TextProcessHandler<TextProcessorFindNumberWithPrefix> {
 
     @Override
     public String type() {

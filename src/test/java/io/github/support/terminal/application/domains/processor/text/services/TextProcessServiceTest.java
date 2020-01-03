@@ -1,17 +1,16 @@
 package io.github.support.terminal.application.domains.processor.text.services;
 
-import io.github.support.terminal.application.domains.processor.text.dto.TextProcessingRequest;
-import io.github.support.terminal.application.domains.processor.text.dto.TextProcessingResponse;
-import io.github.support.terminal.application.domains.processor.text.dto.TextProcessorFilterByKey;
+import io.github.support.terminal.application.domains.processor.text.dto.*;
 
-import io.github.support.terminal.application.domains.processor.text.dto.TextProcessorFindNumberWithPrefix;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -41,6 +40,17 @@ public class TextProcessServiceTest {
     }
 
     @Test
+    public void addDelimiter(){
+        TextProcessingRequest request = new TextProcessingRequest()
+                .setText("234\n123\n345\n")
+                .setProcessors(Collections.singletonList(new TextProcessorAddDelimiter()
+                        .setPrefix("'").setDelimiter("','").setSuffix("'")));
+        TextProcessingResponse result = textProcessService.process(request);
+        assertEquals("'234','123','345'",  result.getText());
+
+    }
+
+    @Test
     public void findByPrefixAndSuffix(){
         TextProcessingRequest request = new TextProcessingRequest()
                 .setText("Поиск Акт№ 234 чтото там чтото , потом Акт№ 123 \n Акт№ 345 \n")
@@ -48,6 +58,24 @@ public class TextProcessServiceTest {
                         .setPrefix("Акт№ ")));
         TextProcessingResponse result = textProcessService.process(request);
         assertEquals("234\n123\n345\n",  result.getText());
+
+    }
+
+
+    @Test
+    public void combinate(){
+
+        List<TextProcessor> processors = new ArrayList<>();
+        processors.add(new TextProcessorFilterByKey().setKey("там"));
+        processors.add(new TextProcessorFindNumberWithPrefix().setPrefix("Акт№ "));
+        processors.add(new TextProcessorAddDelimiter()
+                .setPrefix("'").setDelimiter("','").setSuffix("'"));
+
+        TextProcessingRequest request = new TextProcessingRequest()
+                .setText("Поиск Акт№ 234 чтото там чтото \n, потом Акт№ 123 \n Акт№ 345 там \n")
+                .setProcessors(processors);
+        TextProcessingResponse result = textProcessService.process(request);
+        assertEquals("'234','345'",  result.getText());
 
     }
 
