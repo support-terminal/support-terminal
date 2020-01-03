@@ -1,28 +1,27 @@
 package io.github.support.terminal.application.domains.processor.text.services;
 
 
-import io.github.support.terminal.application.domains.processor.text.dto.*;
-import lombok.RequiredArgsConstructor;
+import io.github.support.terminal.application.domains.processor.text.dto.TextProcessorFilterByKey;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+
+import static io.github.support.terminal.application.domains.processor.text.dto.TextProcessorType.FILTER_BY_KEY;
 
 
 @Slf4j
 @Service
-public class TextProcessorsFilterByKeyHandler implements TextProcessHandler {
+public class TextProcessorsFilterByKeyHandler implements TextProcessHandler<TextProcessorFilterByKey> {
 
     @Override
     public String type() {
-        return TextProcessorType.FILTER_BY_KEY;
+        return FILTER_BY_KEY;
     }
 
-    public String handle(String text, TextProcessor request) {
-        TextProcessorFilterByKey byKey = (TextProcessorFilterByKey)request;
+    public String handle(String text, TextProcessorFilterByKey request){
         String[] lines = text.split(System.getProperty("line.separator"));
         StringBuilder builder = new StringBuilder();
         for(String line : lines){
-            if(line.contains(byKey.getKey())){
+            if(line.contains(request.getKey())){
                 builder.append(line.trim()).append(System.getProperty("line.separator"));
             }
         }

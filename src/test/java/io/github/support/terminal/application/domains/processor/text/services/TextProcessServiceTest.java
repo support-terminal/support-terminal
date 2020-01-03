@@ -4,7 +4,7 @@ import io.github.support.terminal.application.domains.processor.text.dto.TextPro
 import io.github.support.terminal.application.domains.processor.text.dto.TextProcessingResponse;
 import io.github.support.terminal.application.domains.processor.text.dto.TextProcessorFilterByKey;
 
-import org.junit.jupiter.api.Assertions;
+import io.github.support.terminal.application.domains.processor.text.dto.TextProcessorFindNumberWithPrefix;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,17 @@ public class TextProcessServiceTest {
                 .setProcessors(Collections.singletonList(new TextProcessorFilterByKey().setKey("zzz")));
         TextProcessingResponse result = textProcessService.process(request);
         assertEquals("zzz Key\nzzzz\n",  result.getText());
+    }
+
+    @Test
+    public void findByPrefixAndSuffix(){
+        TextProcessingRequest request = new TextProcessingRequest()
+                .setText("Поиск Акт№ 234 чтото там чтото , потом Акт№ 123 \n Акт№ 345 \n")
+                .setProcessors(Collections.singletonList(new TextProcessorFindNumberWithPrefix()
+                        .setPrefix("Акт№ ")));
+        TextProcessingResponse result = textProcessService.process(request);
+        assertEquals("234\n123\n345\n",  result.getText());
+
     }
 
 
