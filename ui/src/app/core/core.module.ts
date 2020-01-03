@@ -33,10 +33,16 @@ import {WebUserFormComponent} from "./web-users/web-user-form/web-user-form.comp
 import {WebUserItemComponent} from "./web-users/web-users-list/web-user-item/web-user-item.component";
 import {WebUsersService} from "./web-users/services/web-users.service";
 import {MysqlDbConnectionFormComponent} from "./dbs/db-connection-form/mysql-form/mysql-db-connection-form.component";
-import {Config} from "../config";
 import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material";
 import {MessagingBusService} from "./api";
+import {TextProcessorHandlerFormComponent} from "./processor/text/text-processor-handler-form/text-processor-handler-form.component";
+import {AddTextProcessorHandlerComponent} from "./processor/text/add-text-processor-handler/add-text-processor-handler.component";
+import {TextProcessorsHandlersListComponent} from "./processor/text/text-processor-handlers-list/text-processors-handlers-list.component";
+import {TextProcessorHandlerItemComponent} from "./processor/text/text-processor-handlers-list/text-processor-item/text-processor-item.component";
+import {TextProcessorsHandlersService} from "./processor/text/services/text-processors-handlers.service";
+import {TextProcessorsHandlersBus} from "./processor/text/services/text-processors-handlers.bus";
+import {EditTextProcessorHandlerComponent} from "./processor/text/edit-text-processor-handler/edit-text-processor-handler.component";
 
 
 @NgModule({
@@ -47,6 +53,8 @@ import {MessagingBusService} from "./api";
     CoreRoutingModule
   ],
   entryComponents: [
+    AddTextProcessorHandlerComponent,
+    EditTextProcessorHandlerComponent,
     AddDbConnectionComponent,
     EditDbConnectionComponent,
     AddBotComponent,
@@ -80,6 +88,12 @@ import {MessagingBusService} from "./api";
     EditWebUserComponent,
     WebUserFormComponent,
 
+    AddTextProcessorHandlerComponent,
+    EditTextProcessorHandlerComponent,
+    TextProcessorsHandlersListComponent,
+    TextProcessorHandlerItemComponent,
+    TextProcessorHandlerFormComponent,
+
     BotAccessListComponent,
     SettingsComponent
   ],
@@ -92,6 +106,8 @@ import {MessagingBusService} from "./api";
     WebUsersService,
     BotsBus,
     BotsService,
+    TextProcessorsHandlersService,
+    TextProcessorsHandlersBus,
     SettingsService]
 })
 export class CoreModule {
@@ -99,6 +115,7 @@ export class CoreModule {
   constructor(private messagingBusService: MessagingBusService,
               private dbConnectionsBus: DbConnectionsBus,
               private webUsersBus: WebUsersBus,
+              private textProcessorsHandlersBus: TextProcessorsHandlersBus,
               private botsBus: BotsBus) {
   }
 

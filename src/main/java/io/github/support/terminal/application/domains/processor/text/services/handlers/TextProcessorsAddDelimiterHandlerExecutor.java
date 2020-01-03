@@ -1,26 +1,20 @@
-package io.github.support.terminal.application.domains.processor.text.services;
+package io.github.support.terminal.application.domains.processor.text.services.handlers;
 
 
-import io.github.support.terminal.application.domains.processor.text.dto.TextProcessorAddDelimiter;
-import io.github.support.terminal.application.domains.processor.text.dto.TextProcessorFindNumberWithPrefix;
+import io.github.support.terminal.application.domains.processor.text.value.TextProcessorAddDelimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static io.github.support.terminal.application.domains.processor.text.dto.TextProcessorType.ADD_DELIMITER;
-import static io.github.support.terminal.application.domains.processor.text.dto.TextProcessorType.FIND_NUMBERS_WITH_PREFIX;
+import static io.github.support.terminal.application.domains.processor.text.value.TextProcessorType.ADD_DELIMITER;
 
 
 @Slf4j
 @Service
-public class TextProcessorsAddDelimiterHandler implements TextProcessHandler<TextProcessorAddDelimiter> {
+public class TextProcessorsAddDelimiterHandlerExecutor implements TextProcessHandlerExecutor<TextProcessorAddDelimiter> {
 
     @Override
     public String type() {

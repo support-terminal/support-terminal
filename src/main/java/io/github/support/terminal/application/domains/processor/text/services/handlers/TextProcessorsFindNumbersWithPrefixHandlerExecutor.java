@@ -1,22 +1,21 @@
-package io.github.support.terminal.application.domains.processor.text.services;
+package io.github.support.terminal.application.domains.processor.text.services.handlers;
 
 
-import io.github.support.terminal.application.domains.processor.text.dto.TextProcessorFindNumberWithPrefix;
+import io.github.support.terminal.application.domains.processor.text.value.TextProcessorFindNumberWithPrefix;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static io.github.support.terminal.application.domains.processor.text.dto.TextProcessorType.FIND_NUMBERS_WITH_PREFIX;
+import static io.github.support.terminal.application.domains.processor.text.value.TextProcessorType.FIND_NUMBERS_WITH_PREFIX;
 
 
 @Slf4j
 @Service
-public class TextProcessorsFindNumbersWithPrefixHandler implements TextProcessHandler<TextProcessorFindNumberWithPrefix> {
+public class TextProcessorsFindNumbersWithPrefixHandlerExecutor implements TextProcessHandlerExecutor<TextProcessorFindNumberWithPrefix> {
 
     @Override
     public String type() {

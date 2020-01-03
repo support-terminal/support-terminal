@@ -1,16 +1,16 @@
-package io.github.support.terminal.application.domains.processor.text.services;
+package io.github.support.terminal.application.domains.processor.text.services.handlers;
 
 
-import io.github.support.terminal.application.domains.processor.text.dto.TextProcessorFilterByKey;
+import io.github.support.terminal.application.domains.processor.text.value.TextProcessorFilterByKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import static io.github.support.terminal.application.domains.processor.text.dto.TextProcessorType.FILTER_BY_KEY;
+import static io.github.support.terminal.application.domains.processor.text.value.TextProcessorType.FILTER_BY_KEY;
 
 
 @Slf4j
 @Service
-public class TextProcessorsFilterByKeyHandler implements TextProcessHandler<TextProcessorFilterByKey> {
+public class TextProcessorsFilterByKeyHandlerExecutor implements TextProcessHandlerExecutor<TextProcessorFilterByKey> {
 
     @Override
     public String type() {

@@ -1,4 +1,4 @@
-package io.github.support.terminal.application.domains.processor.text.dto;
+package io.github.support.terminal.application.domains.processor.text.value;
 
 public class TextProcessorType {
     public static final String FILTER_BY_KEY = "FILTER_BY_KEY";

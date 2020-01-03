@@ -4,6 +4,7 @@ import io.github.support.terminal.application.domains.core.bots.entities.Bot;
 import io.github.support.terminal.application.domains.core.bots.entities.JoinRequest;
 import io.github.support.terminal.application.domains.core.dbs.entities.DbConnection;
 import io.github.support.terminal.application.domains.core.user.entities.CustomerUser;
+import io.github.support.terminal.application.domains.processor.text.entities.TextProcessHandler;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,12 @@ public class CoreConfiguration {
     @Bean
     public ObjectRepository<CustomerUser> getCustomerUserRepository(Nitrite db){
         ObjectRepository<CustomerUser> repository = db.getRepository(CustomerUser.class);
+        return repository;
+    }
+
+    @Bean
+    public ObjectRepository<TextProcessHandler> getTextProcessHandlerRepository(Nitrite db) {
+        ObjectRepository<TextProcessHandler> repository = db.getRepository(TextProcessHandler.class);
         return repository;
     }
 

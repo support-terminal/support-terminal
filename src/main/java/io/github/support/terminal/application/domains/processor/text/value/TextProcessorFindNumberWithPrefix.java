@@ -1,7 +1,9 @@
-package io.github.support.terminal.application.domains.processor.text.dto;
+package io.github.support.terminal.application.domains.processor.text.value;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * Find and return text between prefix and suffix
@@ -12,5 +14,6 @@ public class TextProcessorFindNumberWithPrefix extends TextProcessor{
     public TextProcessorFindNumberWithPrefix() {
         super(TextProcessorType.FIND_NUMBERS_WITH_PREFIX);
     }
+    @NotBlank
     private String prefix;
 }
