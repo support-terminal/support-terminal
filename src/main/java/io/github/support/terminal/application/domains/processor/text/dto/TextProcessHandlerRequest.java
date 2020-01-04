@@ -18,6 +18,8 @@ public class TextProcessHandlerRequest {
     @NotBlank
     private String name;
 
+    @NotEmpty
+    @Valid
     private List<TextProcessor> processors = new ArrayList<>();
 
 }

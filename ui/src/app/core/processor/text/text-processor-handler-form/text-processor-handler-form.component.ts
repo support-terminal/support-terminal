@@ -26,7 +26,8 @@ export class TextProcessorHandlerFormComponent{
 
   initForm() {
     this.textProcessorHandlerForm = this.fb.group({
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      processors: this.fb.array([]),
     });
   }
 
@@ -38,9 +39,7 @@ export class TextProcessorHandlerFormComponent{
   ngOnChanges(changes: SimpleChanges) {
     if (changes['initial']) {
       if (this.initial != null) {
-
         this.textProcessorHandler = this.initial;
-
         let id = <FormArray>this.textProcessorHandlerForm.controls['id']
         if (id == null) {
           this.textProcessorHandlerForm.addControl('id', this.fb.control({}));
@@ -48,8 +47,38 @@ export class TextProcessorHandlerFormComponent{
         this.textProcessorHandlerForm.controls['id'].setValue(this.textProcessorHandler.id);
         this.textProcessorHandlerForm.controls['name'].setValue(this.textProcessorHandler.name);
 
+        if (Array.isArray(this.textProcessorHandler.processors)
+          && this.textProcessorHandler.processors.length > 0) {
+          this.textProcessorHandler.processors.forEach((processor) => {
+            (<FormArray>this.textProcessorHandlerForm.controls['processors'])
+              .push(this.fb.group({
+              type: [processor.type, Validators.required]
+            }))
+          })
+        }
+
       }
     }
   }
+
+  addProcessor(type: string) {
+    (<FormArray>this.textProcessorHandlerForm.controls['processors']).push(this.fb.group({
+      type: [type, Validators.required],
+    }))
+  }
+
+  dropProcessor(index: number) {
+    if ((<FormArray>this.textProcessorHandlerForm.controls['processors']).length != 0) {
+      (<FormArray>this.textProcessorHandlerForm.controls['processors']).removeAt(index);
+    }
+  }
+
+
+  processingTypes = [
+    {name: 'Фильтровать строки по ключевому слову', type: 'FILTER_BY_KEY'},
+    {name: 'Поиск номеров с префиксом', type: 'FIND_NUMBERS_WITH_PREFIX'},
+    {name: 'Добавить разделитель между строк', type: 'ADD_DELIMITER'},
+  ];
+
 
 }
