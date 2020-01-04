@@ -46,6 +46,9 @@ import {EditTextProcessorHandlerComponent} from "./processor/text/edit-text-proc
 import {TextProcessorFindByKeyComponent} from "./processor/text/text-processor-handler-form/text-processor-find-by-key/text-processor-find-by-key.component";
 import {TextProcessorAddDelimiterComponent} from "./processor/text/text-processor-handler-form/text-processor-add-delimiter/text-processor-add-delimiter.component";
 import {TextProcessorFindNumbersWithPrefixComponent} from "./processor/text/text-processor-handler-form/text-processor-find-numbers-with-prefix/text-processor-find-numbers-with-prefix.component";
+import {ExecuteTextHandlerComponent} from "./processor/text/execute-text-handler/execute-text-handler.component";
+import {TextProcessHandlerResolver} from "./processor/text/services/text-process-handler.resolver";
+import {ScrollingModule} from "@angular/cdk/scrolling";
 
 
 @NgModule({
@@ -53,7 +56,8 @@ import {TextProcessorFindNumbersWithPrefixComponent} from "./processor/text/text
 
     CommonModule,
     AngularMaterialModule,
-    CoreRoutingModule
+    CoreRoutingModule,
+    ScrollingModule
   ],
   entryComponents: [
     AddTextProcessorHandlerComponent,
@@ -100,6 +104,7 @@ import {TextProcessorFindNumbersWithPrefixComponent} from "./processor/text/text
     TextProcessorFindByKeyComponent,
     TextProcessorAddDelimiterComponent,
     TextProcessorFindNumbersWithPrefixComponent,
+    ExecuteTextHandlerComponent,
 
     BotAccessListComponent,
     SettingsComponent
@@ -113,6 +118,7 @@ import {TextProcessorFindNumbersWithPrefixComponent} from "./processor/text/text
     WebUsersService,
     BotsBus,
     BotsService,
+    TextProcessHandlerResolver,
     TextProcessorsHandlersService,
     TextProcessorsHandlersBus,
     SettingsService]

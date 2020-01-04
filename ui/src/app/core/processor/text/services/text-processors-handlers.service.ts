@@ -4,8 +4,6 @@ import {Inject} from "@angular/core";
 import {Config} from "../../../../config";
 import TextProcessorHandler from "../models/TextProcessorHandler";
 import TextProcessorHandlerExecute from "../models/TextProcessorHandlerExecute";
-import TextProcessorHandlerExecuteResult from "../models/TextProcessorHandlerExecuteResult";
-
 
 export class TextProcessorsHandlersService {
 
@@ -22,9 +20,9 @@ export class TextProcessorsHandlersService {
       .post<TextProcessorHandler>(this.url, handler, this.headers);
   }
 
-  execute(handler:TextProcessorHandlerExecute): Observable<TextProcessorHandlerExecuteResult> {
+  execute(request:TextProcessorHandlerExecute): Observable<any> {
    return this.http
-      .post<TextProcessorHandlerExecuteResult>(this.url, handler, this.headers);
+      .post<any>(this.url+"/execute", request, this.headers);
   }
 
   getAll(): Observable<TextProcessorHandler[]>{

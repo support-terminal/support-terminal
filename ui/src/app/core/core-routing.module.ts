@@ -7,6 +7,8 @@ import {MainComponent} from "../main.component";
 import {SettingsComponent} from "./settings/settings.component";
 import {WebUsersListComponent} from "./web-users/web-users-list/web-users-list.component";
 import {TextProcessorsHandlersListComponent} from "./processor/text/text-processor-handlers-list/text-processors-handlers-list.component";
+import {ExecuteTextHandlerComponent} from "./processor/text/execute-text-handler/execute-text-handler.component";
+import {TextProcessHandlerResolver} from "./processor/text/services/text-process-handler.resolver";
 
 
 const routes: Routes = [
@@ -15,7 +17,11 @@ const routes: Routes = [
     component:  MainComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'text-processor-handlers-list', component: TextProcessorsHandlersListComponent },
+      { path: 'text-processor-handlers-list', component: TextProcessorsHandlersListComponent},
+      { path: 'text-processor-handlers-list/:id/execute',
+        resolve: {textProcessorHandler: TextProcessHandlerResolver},
+        component: ExecuteTextHandlerComponent },
+
       { path: 'dbs-list', component: DbsListComponent },
       { path: 'web-users-list', component: WebUsersListComponent },
       { path: 'bots-list', component: BotsListComponent },

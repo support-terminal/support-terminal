@@ -14,6 +14,5 @@ public class TextProcessorFindNumberWithPrefix extends TextProcessor{
     public TextProcessorFindNumberWithPrefix() {
         super(TextProcessorType.FIND_NUMBERS_WITH_PREFIX);
     }
-    @NotBlank
     private String prefix;
 }

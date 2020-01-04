@@ -3,6 +3,7 @@ package io.github.support.terminal.application.domains.processor.text.services.h
 
 import io.github.support.terminal.application.domains.processor.text.value.TextProcessorFindNumberWithPrefix;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ public class TextProcessorsFindNumbersWithPrefixHandlerExecutor implements TextP
     }
 
     public String handle(String text, TextProcessorFindNumberWithPrefix request) {
-        String prefix = request.getPrefix();
-        Pattern p = Pattern.compile(request.getPrefix()+"\\d+");
+        String prefix = StringUtils.defaultIfBlank(request.getPrefix(),"");
+        Pattern p = Pattern.compile(prefix+"\\d+");
         Matcher m = p.matcher(text);
         List<String> matchesWithPrefix = new ArrayList<>();
         while (m.find()) {
