@@ -33,7 +33,6 @@ export class TextProcessorAddDelimiterComponent implements OnChanges {
       }
     }
   }
-
   submitRemoveMe(): void {
     this.removeMeEvent.emit();
   }
