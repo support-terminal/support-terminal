@@ -10,8 +10,8 @@
     </mat-error>
   </mat-form-field>
 
-  <fieldset>
-    <legend>Обработки</legend>
+
+    <h3>Обработки</h3>
     <div>
       <button mat-raised-button color="primary" type="button"
               [matMenuTriggerFor]="processingTypesMenu">Добавить обработку
@@ -29,25 +29,24 @@
      let i = index" >
       <text-processor-find-by-key *ngIf="processorForm.value.type == 'FILTER_BY_KEY'"
                                  [processorForm]="processorForm"
-                                 [processorModel]="textProcessorHandler.processors[i]"
+                                  [processorModel]="processorForm.value"
                                   (removeMeEvent)="dropProcessor(i)">
       </text-processor-find-by-key>
 
       <text-processor-add-delimiter *ngIf="processorForm.value.type == 'ADD_DELIMITER'"
                                  [processorForm]="processorForm"
-                                 [processorModel]="textProcessorHandler.processors[i]"
+                                    [processorModel]="processorForm.value"
                                     (removeMeEvent)="dropProcessor(i)">
       </text-processor-add-delimiter>
 
       <text-processor-find-numbers-with-prefix *ngIf="processorForm.value.type == 'FIND_NUMBERS_WITH_PREFIX'"
                                  [processorForm]="processorForm"
-                                 [processorModel]="textProcessorHandler.processors[i]"
+                                 [processorModel]="processorForm.value"
                                     (removeMeEvent)="dropProcessor(i)">
       </text-processor-find-numbers-with-prefix>
 
     </div>
 
-  </fieldset>
 
   <div fxLayout fxFlexAlign="center" style="margin: 20px;" fxLayoutGap="10px">
     <button type="submit" mat-raised-button color="primary"

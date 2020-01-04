@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import TextProcessorFindNumberWithPrefix from "../../models/TextProcessorFindNumberWithPrefix";
+import TextProcessorAddDelimiter from "../../models/TextProcessorAddDelimiter";
 
 @Component({
   selector: 'text-processor-find-numbers-with-prefix',
@@ -24,8 +25,7 @@ export class TextProcessorFindNumbersWithPrefixComponent implements OnChanges {
    }
     if (changes['processorModel']) {
       if (this.processorModel != null) {
-        this.processorForm.controls['prefix'].setValue(this.processorModel.prefix);
-        this.processorForm.controls['type'].setValue(this.processorModel.type);
+        this.processorForm.patchValue(this.processorModel);
       }
     }
   }

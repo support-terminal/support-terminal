@@ -1,4 +1,12 @@
-import {Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+  ViewEncapsulation
+} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import TextProcessorHandler from "../models/TextProcessorHandler";
 import {TextProcessorsHandlersService} from "../services/text-processors-handlers.service";
@@ -7,6 +15,7 @@ import {TextProcessorsHandlersService} from "../services/text-processors-handler
   selector: 'text-processor-handler-form',
   templateUrl: './text-processor-handler-form.component.html',
   styleUrls: ['./text-processor-handler-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated
 })
 export class TextProcessorHandlerFormComponent{
@@ -47,13 +56,10 @@ export class TextProcessorHandlerFormComponent{
         this.textProcessorHandlerForm.controls['id'].setValue(this.textProcessorHandler.id);
         this.textProcessorHandlerForm.controls['name'].setValue(this.textProcessorHandler.name);
 
-        if (Array.isArray(this.textProcessorHandler.processors)
-          && this.textProcessorHandler.processors.length > 0) {
+        if (Array.isArray(this.textProcessorHandler.processors)) {
           this.textProcessorHandler.processors.forEach((processor) => {
             (<FormArray>this.textProcessorHandlerForm.controls['processors'])
-              .push(this.fb.group({
-              type: [processor.type, Validators.required]
-            }))
+              .push(this.fb.group( processor ))
           })
         }
 

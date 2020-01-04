@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import TextProcessorAddDelimiter from "../../models/TextProcessorAddDelimiter";
+import TextProcessorFindByKey from "../../models/TextProcessorFindByKey";
 
 @Component({
   selector: 'text-processor-add-delimiter',
@@ -10,6 +11,7 @@ import TextProcessorAddDelimiter from "../../models/TextProcessorAddDelimiter";
 export class TextProcessorAddDelimiterComponent implements OnChanges {
 
   @Input() processorModel: TextProcessorAddDelimiter;
+  private initial: TextProcessorAddDelimiter;
   @Input() processorForm: FormGroup;
   @Output() removeMeEvent: EventEmitter<number> = new EventEmitter();
 
@@ -27,10 +29,7 @@ export class TextProcessorAddDelimiterComponent implements OnChanges {
    }
     if (changes['processorModel']) {
       if (this.processorModel != null) {
-        this.processorForm.controls['prefix'].setValue(this.processorModel.prefix);
-        this.processorForm.controls['delimiter'].setValue(this.processorModel.delimiter);
-        this.processorForm.controls['suffix'].setValue(this.processorModel.suffix);
-        this.processorForm.controls['type'].setValue(this.processorModel.type);
+        this.processorForm.patchValue(this.processorModel);
       }
     }
   }

@@ -1,4 +1,13 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewEncapsulation
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import TextProcessorFindByKey from "../../models/TextProcessorFindByKey";
 
@@ -10,6 +19,7 @@ import TextProcessorFindByKey from "../../models/TextProcessorFindByKey";
 export class TextProcessorFindByKeyComponent implements OnChanges {
 
   @Input() processorModel: TextProcessorFindByKey;
+  private initial: TextProcessorFindByKey;
   @Input() processorForm: FormGroup;
   @Output() removeMeEvent: EventEmitter<number> = new EventEmitter();
 
@@ -24,8 +34,7 @@ export class TextProcessorFindByKeyComponent implements OnChanges {
    }
     if (changes['processorModel']) {
       if (this.processorModel != null) {
-        this.processorForm.controls['key'].setValue(this.processorModel.key);
-        this.processorForm.controls['type'].setValue(this.processorModel.type);
+        this.processorForm.patchValue(this.processorModel);
       }
     }
   }
