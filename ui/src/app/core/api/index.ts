@@ -9,12 +9,6 @@ export {Message} from './Message';
 @NgModule({
   imports: [
     CommonModule
-  ],
-  declarations: [
-    MessagingBusService
-  ],
-  exports: [
-    MessagingBusService
   ]
 })
 export class UiCoreModule {

@@ -6,7 +6,6 @@ export interface Message {
   data?: any;
 }
 
-
 export class MessagingBusService {
 
   private message$: Subject<Message>;
