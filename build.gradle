@@ -113,6 +113,16 @@ task npmBuild(type:Exec) {
 		print 'ui completed'
 	}
 }
+
+task npmRelease(type:Exec) {
+	workingDir 'ui'
+	executable = 'npm'
+	args = ['run', 'release']
+	doLast{
+		print 'ui completed'
+	}
+}
+
 task cleanOldDistr(type:Exec) {
 	executable = 'rm'
 	args = ['-Rf','src/main/resources/static']
