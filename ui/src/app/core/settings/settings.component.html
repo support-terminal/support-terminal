@@ -7,6 +7,13 @@
     </mat-toolbar-row>
   </mat-toolbar>
 
+  <mat-card *ngIf="version != null">
+    <mat-card-title>Версия</mat-card-title>
+    <mat-card-content>
+      {{version}}
+    </mat-card-content>
+  </mat-card>
+
   <mat-card>
     <mat-card-title>Автоматическое обновление</mat-card-title>
     <mat-card-content>

@@ -13,8 +13,8 @@ export class Config{
       this.root = '';
       this.api = '/api';
     }else{
-      this.root = 'http://localhost:8080';
-      this.api = 'http://localhost:8080/api';
+      this.root = 'http://localhost:9876';
+      this.api = 'http://localhost:9876/api';
     }
   }
 }

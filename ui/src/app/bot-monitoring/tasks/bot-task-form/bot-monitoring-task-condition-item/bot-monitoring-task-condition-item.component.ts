@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import Condition from "../../models/Condition";
-import {ControlContainer, NgForm} from "@angular/forms";
+import {ControlContainer, FormGroup, NgForm} from "@angular/forms";
 
 @Component({
     selector: 'bot-monitoring-task-condition-item',
@@ -11,7 +11,7 @@ import {ControlContainer, NgForm} from "@angular/forms";
 export class BotMonitoringTaskConditionItem{
 
     @Output() removeMeEvent: EventEmitter<number> = new EventEmitter();
-    @Input() condition: Condition;
+    @Input() condition: FormGroup;
     @Input() index: number;
 
     getConditionName(type: string){

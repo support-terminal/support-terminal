@@ -19,20 +19,20 @@
             </mat-error>
         </mat-form-field>
 
-
-        <ngx-codemirror style="border: 1px solid #dadada;
-                          margin: 10px 0 25px 0;"
+      <mat-form-field>
+        <mat-codemirror formControlName="sql"
                         id="sql" name="sql"
-                        formControlName="sql"
+                        required
                         [options]="{
-            theme: 'idea',
-            mode: 'text/x-sql'
-          }"
-        ></ngx-codemirror>
+          theme: 'idea',
+          mode: 'text/x-sql'
+        }" placeholder="Sql select"></mat-codemirror>
         <mat-error *ngIf="(stepForm.controls['sql'].dirty || stepForm.controls['sql'].touched)
                      && stepForm.controls['sql'].errors && stepForm.controls['sql'].errors.required">
-            Необходимое значение
+          Необходимое значение
         </mat-error>
+      </mat-form-field>
+
     </mat-card-content>
 
     <mat-card-actions fxLayoutAlign="end">

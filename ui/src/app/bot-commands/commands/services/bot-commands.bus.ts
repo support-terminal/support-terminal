@@ -8,6 +8,7 @@ import {BotCommandsService} from "./bot-commands.service";
 import {AddBotCommandComponent} from "../add-bot-command/add-bot-command.component";
 import {EditBotCommandComponent} from "../edit-bot-command/edit-bot-command.component";
 import {MessagingBusService} from "../../../core/api";
+import {Inject} from "@angular/core";
 
 
 export class BotCommandsBus {
@@ -15,7 +16,7 @@ export class BotCommandsBus {
   private subscription: Subscription;
 
 
-  constructor(public dialog: MatDialog,
+  constructor(@Inject(MatDialog) public dialog: MatDialog,
               private messagingBusService: MessagingBusService,
               private telegramCommandsService: BotCommandsService) {
     this.subscription = this.messagingBusService.getMessage().subscribe(message => {

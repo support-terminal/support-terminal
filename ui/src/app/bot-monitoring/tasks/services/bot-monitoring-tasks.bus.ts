@@ -8,6 +8,7 @@ import {BotMonitoringTasksService} from "./bot-monitoring-tasks.service";
 import {AddBotTaskComponent} from "../add-bot-task/add-bot-task.component";
 import {EditBotTaskComponent} from "../edit-bot-task/edit-bot-task.component";
 import {MessagingBusService} from "../../../core/api";
+import {Inject} from "@angular/core";
 
 
 export class BotMonitoringTasksBus {
@@ -15,7 +16,7 @@ export class BotMonitoringTasksBus {
   private subscription: Subscription;
 
 
-  constructor(public dialog: MatDialog,
+  constructor(@Inject(MatDialog) public dialog: MatDialog,
               private messagingBusService: MessagingBusService,
               private botTasksService: BotMonitoringTasksService) {
     this.subscription = this.messagingBusService.getMessage().subscribe(message => {

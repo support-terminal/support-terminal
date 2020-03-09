@@ -4,7 +4,7 @@
 
         <mat-form-field fxFlex="50%">
             <input matInput placeholder="Наименование"
-                   id="label" name="label"
+                   id="parameterLabel" name="parameterLabel"
                    formControlName="label"/>
             <mat-error *ngIf="(parameterForm.controls['label'].dirty || parameterForm.controls['label'].touched)
                      && parameterForm.controls['label'].errors && parameterForm.controls['label'].errors.required">

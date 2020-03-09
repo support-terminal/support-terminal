@@ -1,52 +1,30 @@
-<div fxLayout="column">
+<div id="actionFormDiv" fxLayout="column" *ngIf="actionForm" [formGroup]="actionForm">
+  <mat-form-field>
+    <mat-select placeholder="Из какой базы данных делаем выборку"
+                id="dataBaseId" name="dataBaseId"
+                formControlName="dataBaseId">
+      <mat-option *ngFor="let bd of dataBases" [value]="bd.id">
+        {{ bd.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="(actionForm.controls['dataBaseId'].dirty || actionForm.controls['dataBaseId'].touched)
+                       && actionForm.controls['dataBaseId'].errors && actionForm.controls['dataBaseId'].errors.required">
+      Необходимое значение
+    </mat-error>
+  </mat-form-field>
 
-    <mat-form-field>
-        <mat-select placeholder="Из какой базы данных делаем выборку"
-                    id="dataBaseId" name="dataBaseId"
-                    [(ngModel)]="botTask.action.dataBaseId"
-                    required #dataBaseId="ngModel">
-            <mat-option *ngFor="let bd of dataBases" [value]="bd.id">
-                {{ bd.name }}
-            </mat-option>
-        </mat-select>
-        <mat-error *ngIf="dataBaseId.errors && (dataBaseId.dirty || dataBaseId.touched) && dataBaseId.errors.required">
-            Необходимое значение
-        </mat-error>
-    </mat-form-field>
-
-    <ngx-codemirror style="border: 1px solid #dadada;
-                          margin: 10px 0 25px 0;"
+  <mat-form-field>
+    <mat-codemirror formControlName="select"
                     id="select" name="select"
-                    [(ngModel)]="botTask.action.select"
                     required
-                    #select="ngModel"
                     [options]="{
-            theme: 'idea',
-            mode: 'text/x-sql'
-          }"
-    ></ngx-codemirror>
-    <div *ngIf="select.errors && (select.dirty || select.touched) && select.errors.required">
-        Необходимое значение
-    </div>
-
-    <fieldset>
-        <legend>Выполняемые проверки</legend>
-        <div>
-            <button mat-raised-button color="primary" type="button" [matMenuTriggerFor]="conditionsTypesMenu">Проверить, что
-                результат
-            </button>
-            <mat-menu #conditionsTypesMenu="matMenu">
-                <button type="button" *ngFor="let conditionType of conditionsTypes"
-                        (click)="addCondition(conditionType.type)"
-                        mat-menu-item>{{conditionType.name}}
-                </button>
-            </mat-menu>
-        </div>
-        <br/>
-        <bot-monitoring-task-condition-item
-                    *ngFor="let condition of botTask.conditions; let i = index"
-                    (removeMeEvent)="dropCondition(i)" [condition]="condition">
-        </bot-monitoring-task-condition-item>
-    </fieldset>
+          theme: 'idea',
+          mode: 'text/x-sql'
+        }" placeholder="SQL select"></mat-codemirror>
+    <mat-error *ngIf="(actionForm.controls['select'].dirty || actionForm.controls['select'].touched)
+                     && actionForm.controls['select'].errors && actionForm.controls['select'].errors.required">
+      Необходимое значение
+    </mat-error>
+  </mat-form-field>
 
 </div>

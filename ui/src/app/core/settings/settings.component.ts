@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {SettingsService} from "./settings.service";
 
 
@@ -9,8 +9,12 @@ import {SettingsService} from "./settings.service";
 })
 export class SettingsComponent {
 
-  constructor(private settingsService: SettingsService) {
+  private version: string;
 
+  constructor(private settingsService: SettingsService) {
+    settingsService.info().subscribe(res => {
+      this.version = res.build.version;
+    });
   }
 
   public update():void {

@@ -12,6 +12,30 @@
         <mat-list>
 
           <mat-list-item>
+            <button mat-icon-button matTooltip="Задачи мониторинга"
+                    routerLink="/bot-monitoring"
+                    matTooltipPosition="right">
+              <mat-icon>desktop_windows</mat-icon>
+            </button>
+          </mat-list-item>
+
+          <mat-list-item>
+            <button mat-icon-button matTooltip="Формы запросов"
+                    routerLink="/data-forms"
+                    matTooltipPosition="right">
+              <mat-icon>pan_tool</mat-icon>
+            </button>
+          </mat-list-item>
+
+          <mat-list-item>
+            <button mat-icon-button matTooltip="Команды ботов"
+                    routerLink="/bot-commands"
+                    matTooltipPosition="right">
+              <mat-icon>send</mat-icon>
+            </button>
+          </mat-list-item>
+
+          <mat-list-item>
             <button mat-icon-button matTooltip="Бот API"
                     routerLink="/bots-list"
                     matTooltipPosition="right">
@@ -32,6 +56,16 @@
               <mat-icon>face</mat-icon>
             </button>
           </mat-list-item>
+
+          <mat-list-item>
+            <button mat-icon-button matTooltip="Обработчики текста"
+                    matTooltipPosition="right" routerLink="/text-processor-handlers-list">
+              <mat-icon>text_rotation_angledown</mat-icon>
+            </button>
+          </mat-list-item>
+
+
+
           <mat-list-item>
             <button mat-icon-button matTooltip="Настройки приложения"
                     matTooltipPosition="right" routerLink="/settings">
@@ -40,6 +74,7 @@
           </mat-list-item>
 
         </mat-list>
+
       </mat-sidenav>
       <mat-sidenav-content>
         <as-split direction="vertical">

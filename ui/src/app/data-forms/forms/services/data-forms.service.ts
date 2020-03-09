@@ -11,6 +11,7 @@ import DataFormExecuteRequest from "../models/DataFormExecuteRequest";
 import DataForExecution from "../models/DataForExecution";
 import {MessagingBusService} from "../../../core/api";
 import {Config} from "../../../config";
+import {Inject} from "@angular/core";
 
 
 export class DataFormsService {
@@ -23,7 +24,7 @@ export class DataFormsService {
 
     private subscription: Rx.Subscription;
 
-    constructor(private http: HttpClient,
+    constructor(@Inject(HttpClient) private http: HttpClient,
                 private messagingBusService: MessagingBusService,
                 private config: Config) {
         this.url = config.api + '/data-forms/forms';

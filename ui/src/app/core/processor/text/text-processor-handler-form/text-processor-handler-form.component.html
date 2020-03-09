@@ -1,0 +1,58 @@
+<form [formGroup]="textProcessorHandlerForm" (ngSubmit)="onSubmit()" fxLayout="column">
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder="Название обработчика"
+           id="name" name="name"
+           formControlName="name"/>
+    <mat-error *ngIf=" (textProcessorHandlerForm.controls['name'].dirty || textProcessorHandlerForm.controls['name'].touched)
+                       && textProcessorHandlerForm.controls['name'].errors && textProcessorHandlerForm.controls['name'].errors.required">
+      Необходимое значение
+    </mat-error>
+  </mat-form-field>
+
+
+    <h3>Обработки</h3>
+    <div>
+      <button mat-raised-button color="primary" type="button"
+              [matMenuTriggerFor]="processingTypesMenu">Добавить обработку
+      </button>
+      <mat-menu #processingTypesMenu="matMenu">
+        <button type="button" *ngFor="let processingType of processingTypes"
+                (click)="addProcessor(processingType.type)"
+                mat-menu-item>{{processingType.name}}
+        </button>
+      </mat-menu>
+    </div>
+    <br/>
+
+    <div *ngFor="let processorForm of this.textProcessorHandlerForm.controls['processors'].controls;
+     let i = index" >
+      <text-processor-find-by-key *ngIf="processorForm.value.type == 'FILTER_BY_KEY'"
+                                 [processorForm]="processorForm"
+                                  [processorModel]="processorForm.value"
+                                  (removeMeEvent)="dropProcessor(i)">
+      </text-processor-find-by-key>
+
+      <text-processor-add-delimiter *ngIf="processorForm.value.type == 'ADD_DELIMITER'"
+                                 [processorForm]="processorForm"
+                                    [processorModel]="processorForm.value"
+                                    (removeMeEvent)="dropProcessor(i)">
+      </text-processor-add-delimiter>
+
+      <text-processor-find-numbers-with-prefix *ngIf="processorForm.value.type == 'FIND_NUMBERS_WITH_PREFIX'"
+                                 [processorForm]="processorForm"
+                                 [processorModel]="processorForm.value"
+                                    (removeMeEvent)="dropProcessor(i)">
+      </text-processor-find-numbers-with-prefix>
+
+    </div>
+
+
+  <div fxLayout fxFlexAlign="center" style="margin: 20px;" fxLayoutGap="10px">
+    <button type="submit" mat-raised-button color="primary"
+            [disabled]="textProcessorHandlerForm.invalid">{{submitButtonText}}</button>
+    <ng-content select=".ng-content-bottom-buttons"></ng-content>
+  </div>
+</form>
+
+

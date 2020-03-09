@@ -23,8 +23,3 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-
-### UI
-**/node_modules
-
-
