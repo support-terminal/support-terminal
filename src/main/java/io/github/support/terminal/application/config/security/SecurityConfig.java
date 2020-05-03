@@ -4,6 +4,7 @@ package io.github.support.terminal.application.config.security;
 import io.github.support.terminal.application.config.security.jwt.JWTConfigurer;
 import io.github.support.terminal.application.config.security.jwt.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,20 +28,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenProvider tokenProvider;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
+    @Value("${admin-login}")
+    private String ADMIN_LOGIN;
+    @Value("${admin-password}")
+    private String ADMIN_PASSWORD;
 
     @Override
-    public void configure(final AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+    public void configure(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser(ADMIN_LOGIN)
+                .password(ADMIN_PASSWORD)
+                .roles("ADMIN");
     }
 
     @Bean
