@@ -2,25 +2,17 @@ package io.github.support.terminal;
 
 
 import io.github.support.terminal.application.ApplicationContextConfiguration;
-import io.github.support.terminal.application.domains.core.user.entities.CustomerUser;
-import io.github.support.terminal.application.domains.core.user.repository.UserRepository;
-import io.github.support.terminal.application.domains.core.user.values.UserStates;
-import io.github.support.terminal.application.domains.core.user.values.UsersGrantedAuthorities;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.dizitart.no2.Nitrite;
-
-import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Properties;
 
 public class PlatformApplication {
 

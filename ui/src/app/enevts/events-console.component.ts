@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
-import ApplicationEvent from "./models/ApplicationEvent";
-import {EventsService} from "./services/events.service";
-import {Subscription} from "rxjs";
+import ApplicationEvent from './models/ApplicationEvent';
+import {EventsService} from './services/events.service';
+import {Subscription} from 'rxjs';
 
 
 @Component({
