@@ -1,0 +1,19 @@
+<div fxLayout='column'>
+
+  <mat-toolbar color='primary'>
+    <mat-toolbar-row>
+      <span>Список баз данных</span>
+      <span fxFlex='100%'></span>
+      <span fxFlex='100%' fxLayoutAlign='end'>
+        <button mat-button (click)='add()'>
+          <mat-icon aria-label='Добавить базу данных'>playlist_add</mat-icon>
+          Добавить базу данных
+        </button>
+      </span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-list>
+    <db-item *ngFor='let dbConnection of dbskList' [dbConnection]='dbConnection'></db-item>
+  </mat-list>
+</div>

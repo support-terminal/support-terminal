@@ -1,0 +1,44 @@
+<mat-card class='mat-elevation-z4' [formGroup]='stepForm' >
+
+    <mat-card-content fxLayout='column' fxLayoutGap='20px'>
+
+        <!--TODO нужно это перенести в отдельные компоненты, который сами по себе несут поля для конкретных шагов, по аналогии с DataFOrmResult-->
+        <mat-card-title>{{stepForm.get('type').value}}</mat-card-title>
+
+        <mat-form-field>
+            <mat-select placeholder='База данных'
+                        id='dataBaseId' name='dataBaseId'
+                        formControlName='dataBaseId'>
+                <mat-option *ngFor='let bd of dataBases' [value]='bd.id'>
+                    {{ bd.name }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf='(stepForm.controls['dataBaseId'].dirty || stepForm.controls['dataBaseId'].touched)
+                     && stepForm.controls['dataBaseId'].errors && stepForm.controls['dataBaseId'].errors.required'>
+                Required vaue
+            </mat-error>
+        </mat-form-field>
+
+      <mat-form-field>
+        <mat-codemirror formControlName='sql'
+                        id='sql' name='sql'
+                        required
+                        [options]='{
+          theme: 'idea',
+          mode: 'text/x-sql'
+        }' placeholder='Sql select'></mat-codemirror>
+        <mat-error *ngIf='(stepForm.controls['sql'].dirty || stepForm.controls['sql'].touched)
+                     && stepForm.controls['sql'].errors && stepForm.controls['sql'].errors.required'>
+          Required vaue
+        </mat-error>
+      </mat-form-field>
+
+    </mat-card-content>
+
+    <mat-card-actions fxLayoutAlign='end'>
+        <button type='button' mat-button color='warn' (click)='submitRemoveMe()'>
+            Убрать
+        </button>
+    </mat-card-actions>
+
+</mat-card>

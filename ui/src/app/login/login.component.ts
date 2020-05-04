@@ -15,6 +15,7 @@ export class LoginComponent {
   loginData = new Login();
 
   public submitted = false;
+  public show = false;
   private url;
 
   constructor(private auth: AuthService,

@@ -1,0 +1,90 @@
+@import "~codemirror/lib/codemirror";
+@import "~codemirror/theme/idea";
+
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$primary: mat-palette($mat-blue, A400, A200, A700);
+$accent:  mat-palette($mat-indigo, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$app-theme: mat-light-theme($primary, $accent, $warn);
+
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($app-theme);
+
+$custom-typography: mat-typography-config(
+  $headline: mat-typography-level(18px, 14px, 500),
+  $body-1: mat-typography-level(16px, 24px, 500),
+  $button: mat-typography-level(16px, 14px, 500)
+);
+
+//для всех тулбаров
+$inner-toolbar-primary: mat-palette($mat-grey, 300, 200, 400);
+$inner-toolbar-accent:  mat-palette($mat-red, A200, A100, A400);
+$inner-toolbar-theme:   mat-light-theme($inner-toolbar-primary, $inner-toolbar-accent);
+@include mat-toolbar-theme($inner-toolbar-theme);
+
+
+// Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
+@include mat-base-typography($custom-typography);
+
+// Override typography for a specific Angular Material components.
+@include mat-checkbox-typography($custom-typography);
+
+// Override typography for all Angular Material, including mat-base-typography and all components.
+@include angular-material-typography($custom-typography);
+
+
+.full-screen-dialog .mat-dialog-container {
+  max-width: none;
+  width: 100vw;
+  height: 100vh;
+}
+
+
+
+
+
+html, body{
+  margin: 0;
+  height: 100%;
+}
+
+.spacer{
+  flex: 1 1 auto;
+}
+
+mat-sidenav {
+  width: 70px;
+}
+
+mat-sidenav-content{
+  background-color: #f6f7f9;
+}
+
+padding0{
+  padding: 0;
+}
+
+.colorGreen{
+  color: #57ce57;
+}
+
+.colorRed{
+  color: #f96666;
+}
+
+.height60{
+  height: 60px;
+}

@@ -1,9 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {MainComponent} from "./main.component";
-import {Config} from "./config";
-import {AuthGuard} from "./login/auth.guard";
-import {LoginComponent} from "./login/login.component";
+import {MainComponent} from './main.component';
+import {Config} from './config';
+import {AuthGuard} from './login/auth.guard';
+import {LoginComponent} from './login/login.component';
+import {NotificationApiListComponent} from './notifications-api/notifications-api-list/notification-api-list.component';
 
 const routes: Routes = [];
 

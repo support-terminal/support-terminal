@@ -1,0 +1,19 @@
+<div fxLayout='column'>
+    <fieldset>
+        <legend>Параметры запроса данных</legend>
+        <div>
+            <button mat-raised-button color='primary' type='button'
+                    (click)='addParameter()'>
+                Добавить параметр
+            </button>
+        </div>
+        <br/>
+
+      <data-form-parameter-item
+                *ngFor='let p of parametersForms.controls; let i = index'
+                (removeMeEvent)='dropParameter(i)' [parameterForm]='p'>
+        </data-form-parameter-item>
+    </fieldset>
+</div>
+
+

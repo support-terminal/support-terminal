@@ -1,0 +1,46 @@
+<form (ngSubmit)='onSubmit()' #webUserForm='ngForm' fxLayout='column'>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Фаимилия Имя пользователя'
+           id='name' name='name'
+           [(ngModel)]='webUser.name'
+           required
+           #name='ngModel'/>
+    <mat-error *ngIf='name.errors && (name.dirty || name.touched) && name.errors.required'>
+      Required vaue
+    </mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Login пользователя'
+           id='username' name='username'
+           [(ngModel)]='webUser.username'
+           required
+           #username='ngModel'/>
+    <mat-error *ngIf='username.errors && (username.dirty || username.touched) && username.errors.required'>
+      Required vaue
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Пароль'
+           [type]='show ?'text':'password''
+           id='password' name='password'
+           [(ngModel)]='webUser.password'
+           required #password='ngModel'/>
+    <mat-icon matSuffix (click)='show = !show'>{{show ?'visibility_off': 'visibility' }}</mat-icon>
+    <mat-error *ngIf='password.errors && (password.dirty || password.touched) && password.errors.required'>
+      Required vaue
+    </mat-error>
+  </mat-form-field>
+
+  <div fxLayout fxFlexAlign='center' style='margin: 20px;' fxLayoutGap='10px'>
+    <button type='submit' mat-raised-button color='primary'
+              [disabled]='!webUserForm.form.valid'>{{submitButtonText}}</button>
+    <ng-content select='.ng-content-bottom-buttons'></ng-content>
+  </div>
+
+</form>
+
+

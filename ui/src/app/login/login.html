@@ -1,40 +1,40 @@
-<div style="height: 100%; background-color: #ececec;" fxLayout="column">
+<div style='height: 100%; background-color: #ececec;' fxLayout='column'>
 
-  <div fxFlex="345px" fxLayout="row" fxLayoutAlign="center" fxFlexOffset="10%">
+  <div fxFlex='345px' fxLayout='row' fxLayoutAlign='center' fxFlexOffset='10%'>
 
-    <mat-card fxFlex="500px" fxLayout="column">
-      <mat-card-title fxLayoutAlign="center">
+    <mat-card fxFlex='500px' fxLayout='column'>
+      <mat-card-title fxLayoutAlign='center'>
         <h3>Вход в терминал</h3>
       </mat-card-title>
 
-      <form (ngSubmit)="onSubmit(loginForm)"
-            #loginForm="ngForm" fxLayout="column">
+      <form (ngSubmit)='onSubmit(loginForm)'
+            #loginForm='ngForm' fxLayout='column'>
 
         <mat-form-field>
           <input matInput #input
-                 [(ngModel)]="loginData.username"
-                 required type="text"
-                 class="form-control"
-                 id="username-field"
-                 name="username"
-                 placeholder="Логин"
-                 #username="ngModel">
+                 [(ngModel)]='loginData.username'
+                 required type='text'
+                 class='form-control'
+                 id='username-field'
+                 name='username'
+                 placeholder='Логин'
+                 #username='ngModel'>
         </mat-form-field>
 
 
         <mat-form-field>
-          <input matInput placeholder="Пароль"
+          <input matInput placeholder='Пароль'
                  [type]="show ?'text':'password'"
-                 [(ngModel)]="loginData.password"
-                 required class="form-control"
-                 id="password-field"
-                 name="password"
-                 #password="ngModel">
-          <mat-icon matSuffix (click)="show = !show">{{show ?'visibility_off': 'visibility' }}</mat-icon>
+                 [(ngModel)]='loginData.password'
+                 required class='form-control'
+                 id='password-field'
+                 name='password'
+                 #password='ngModel'>
+          <mat-icon matSuffix (click)='show = !show'>{{show ?'visibility_off': 'visibility' }}</mat-icon>
         </mat-form-field>
 
-        <div fxLayout fxFlexAlign="center" style="margin: 20px;" fxLayoutGap="10px">
-          <button type="submit" mat-raised-button color="primary">Login</button>
+        <div fxLayout fxFlexAlign='center' style='margin: 20px;' fxLayoutGap='10px'>
+          <button type='submit' mat-raised-button color='primary'>Login</button>
         </div>
 
       </form>

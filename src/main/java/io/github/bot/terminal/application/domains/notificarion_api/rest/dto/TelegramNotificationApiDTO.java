@@ -1,0 +1,22 @@
+package io.github.bot.terminal.application.domains.notificarion_api.rest.dto;
+
+
+import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.Set;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class TelegramNotificationApiDTO extends AbstractNotificationApiDTO {
+
+    public TelegramNotificationApiDTO() {
+        super(NotificationApiType.Constants.SLACK_BOT);
+    }
+
+    private String name;
+    private String token;
+    private Integer lastUpdateId;
+    private Set<Integer> approvedUsersIds;
+}

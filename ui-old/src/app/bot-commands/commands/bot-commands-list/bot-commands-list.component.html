@@ -1,0 +1,20 @@
+<div fxLayout='column'>
+
+  <mat-toolbar color='primary'>
+    <mat-toolbar-row>
+      <span>Список команд для ботов</span>
+      <span fxFlex='100%'></span>
+      <span fxFlex='100%' fxLayoutAlign='end'>
+        <button mat-button (click)='add()'>
+          <mat-icon aria-label='Добавить новую команду'>playlist_add</mat-icon>
+          Добавить новую команду
+        </button>
+      </span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-list>
+    <bot-command-item *ngFor='let command of commandsList' [command]='command'></bot-command-item>
+  </mat-list>
+
+</div>

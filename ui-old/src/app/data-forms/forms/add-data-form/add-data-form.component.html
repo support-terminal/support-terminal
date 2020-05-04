@@ -1,0 +1,17 @@
+<div fxLayout fxLayoutAlign='start center'>
+  <h2 fxFlex='100%' mat-dialog-title>Новая форма запроса</h2>
+  <button mat-icon-button (click)='close()'>
+    <mat-icon aria-label='Закрыть'
+              matTooltip='Закрыть окно'
+              matTooltipPosition='above'>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <data-form-form (onSubmitEvent)='add($event)'
+                      submitButtonText='Добавить форму'>
+  </data-form-form>
+</mat-dialog-content>
+
+
+
+

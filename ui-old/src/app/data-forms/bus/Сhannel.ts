@@ -1,0 +1,10 @@
+class Channel{
+
+    public static OPEN_ADD_DATA_FORM_DIALOG = 'OPEN_ADD_DATA_FORM_DIALOG';
+    public static OPEN_EDIT_DATA_FORM_DIALOG = 'OPEN_EDIT_DATA_FORM_DIALOG';
+    public static DATA_FORMS_WERE_UPDATED = 'DATA_FORMS_WERE_UPDATED';
+    public static DB_CONNECTIONS_WERE_UPDATED = 'DB_CONNECTIONS_WERE_UPDATED';
+
+}
+
+export default Channel;

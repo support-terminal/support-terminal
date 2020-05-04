@@ -1,0 +1,20 @@
+<div fxLayout='column'>
+
+  <mat-toolbar color='primary'>
+    <mat-toolbar-row>
+      <span>Список ботов</span>
+      <span fxFlex='100%'></span>
+      <span fxFlex='100%' fxLayoutAlign='end'>
+        <button mat-button (click)='add()'>
+          <mat-icon aria-label='Добавить нового бота'>playlist_add</mat-icon>
+           Добавить нового бота
+        </button>
+      </span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-list>
+    <bot-item *ngFor='let bot of botsList' [bot]='bot'></bot-item>
+  </mat-list>
+
+</div>
