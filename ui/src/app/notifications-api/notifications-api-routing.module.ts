@@ -4,6 +4,8 @@ import {MainComponent} from '../main.component';
 import {AuthGuard} from '../login/auth.guard';
 import {NotificationApiListComponent} from './notifications-api-list/notification-api-list.component';
 import {AddNotificationApiComponent} from './add-notification-api/add-notification-api.component';
+import {EditNotificationApiComponent} from './edit-notification-api/edit-notification-api.component';
+import {NotificationApiResolver} from './services/notification-api.resolver';
 
 
 const routes: Routes = [
@@ -14,6 +16,9 @@ const routes: Routes = [
     children: [
       { path: 'notifications-api', component: NotificationApiListComponent},
       { path: 'notifications-api/add', component: AddNotificationApiComponent},
+      { path: 'notifications-api/:id/edit',
+        resolve: {notificationApi: NotificationApiResolver},
+        component: EditNotificationApiComponent},
     ]
   }
 ];

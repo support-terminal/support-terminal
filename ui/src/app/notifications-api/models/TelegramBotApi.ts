@@ -1,6 +1,6 @@
 import NotificationApi from './NotificationApi';
 
 export default class TelegramBotApi extends NotificationApi{
-  name: string;
+  botFatherName: string;
   token: string;
 }

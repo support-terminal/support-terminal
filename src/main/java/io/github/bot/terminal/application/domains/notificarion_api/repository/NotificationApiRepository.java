@@ -29,5 +29,11 @@ public class NotificationApiRepository {
         return db.find().toList();
     }
 
+    public void deleteById(String id) {
+        db.remove(eq("id", id));
+    }
 
+    public void update(AbstractNotificationApiDetails details) {
+        db.update(details);
+    }
 }

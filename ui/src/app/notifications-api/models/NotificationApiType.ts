@@ -1,4 +1,4 @@
 export default class NotificationApiType {
-  name: string;
+  label: string;
   type: string;
 }

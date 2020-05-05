@@ -12,10 +12,10 @@ import java.util.Set;
 public class TelegramNotificationApiDTO extends AbstractNotificationApiDTO {
 
     public TelegramNotificationApiDTO() {
-        super(NotificationApiType.Constants.SLACK_BOT);
+        super(NotificationApiType.Constants.TELEGRAM_BOT);
     }
 
-    private String name;
+    private String botFatherName;
     private String token;
     private Integer lastUpdateId;
     private Set<Integer> approvedUsersIds;

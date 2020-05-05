@@ -9,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class TelegramNotificationApiRequest extends NotificationApiRequest {
 
     public TelegramNotificationApiRequest() {

@@ -5,7 +5,7 @@
     <span class='accessLabel'
           *ngIf="awaitingRequests > '0'">{{awaitingRequests}}</span>
   </a>
-  <a mat-icon-button routerLink="edit">
+  <a mat-icon-button routerLink="{{bot.id}}/edit">
     <mat-icon aria-label='Edit'>edit</mat-icon>
   </a>
 </mat-list-item>

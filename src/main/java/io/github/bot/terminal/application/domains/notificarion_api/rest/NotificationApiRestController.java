@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -26,6 +25,23 @@ public class NotificationApiRestController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public AbstractNotificationApiDTO add(@RequestBody @Valid NotificationApiRequest request) {
         return notificationApiRestService.add(request);
+    }
+
+    @PutMapping("/{id}")
+    public AbstractNotificationApiDTO edit(@PathVariable String id,
+            @RequestBody @Valid NotificationApiRequest request) {
+        return notificationApiRestService.edit(id, request);
+    }
+
+    @GetMapping("/{id}")
+    public AbstractNotificationApiDTO getById(@PathVariable String id) {
+        return notificationApiRestService.get(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String id) {
+        notificationApiRestService.delete(id);
     }
 
     @GetMapping

@@ -24,10 +24,10 @@
     </mat-error>
   </mat-form-field>
 
-  <app-telegram-bot-form *ngIf="bot.type == 'TELEGRAM_BOT'"
+  <app-telegram-bot-form *ngIf="bot.type === 'TELEGRAM_BOT'"
                              [bot]='bot'></app-telegram-bot-form>
 
-  <app-slack-bot-form *ngIf="bot.type == 'SLACK_BOT'"
+  <app-slack-bot-form *ngIf="bot.type === 'SLACK_BOT'"
                                [bot]='bot'></app-slack-bot-form>
 
   <div fxLayout fxFlexAlign='center' style='margin: 20px;' fxLayoutGap='10px'>

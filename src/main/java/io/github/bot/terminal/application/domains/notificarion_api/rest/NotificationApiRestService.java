@@ -29,17 +29,33 @@ public class NotificationApiRestService {
         return converter.mapToDto(notificationApi.getDetails());
     }
 
+    public AbstractNotificationApiDTO edit(String id, NotificationApiRequest request) {
+        NotificationApi notificationApi
+                = notificationApiFactory.merge(id, converter.mapToDetails(request));
+        return converter.mapToDto(notificationApi.getDetails());
+    }
+
+    public AbstractNotificationApiDTO get(String id) {
+        NotificationApi notificationApi
+                = notificationApiFactory.byId(id);
+        return converter.mapToDto(notificationApi.getDetails());
+    }
+
     public List<AbstractNotificationApiDTO> list() {
-       return notificationApiFactory.getAll()
+        return notificationApiFactory.getAll()
                 .stream().map(api -> converter.mapToDto(api.getDetails()))
                 .collect(Collectors.toList());
     }
 
     public List<NotificationApiTypeDTO> types() {
-       return Arrays.stream(NotificationApiType.values())
+        return Arrays.stream(NotificationApiType.values())
                 .map(e -> new NotificationApiTypeDTO().setType(e.name()).setLabel(e.getLabel()))
                 .collect(Collectors.toList());
     }
 
-
+    public void delete(String id) {
+        NotificationApi notificationApi
+                = notificationApiFactory.byId(id);
+        notificationApi.delete();
+    }
 }

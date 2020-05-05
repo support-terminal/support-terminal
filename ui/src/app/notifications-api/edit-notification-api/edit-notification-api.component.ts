@@ -1,11 +1,14 @@
-import {Component, Inject, ViewEncapsulation} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {MatSnackBar} from '@angular/material';
 
 import NotificationApi from '../models/NotificationApi';
 import {NotificationApiService} from '../services/notification-api.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MessagingBusService} from '../../bus/messaging-bus.service';
+import Channel from '../../bus/Сhannel';
 
 @Component({
-  selector: 'edit-bot',
+  selector: 'app-edit-bot',
   templateUrl: './edit-notification-api.component.html',
   styleUrls: ['./edit-notification-api.component.scss'],
   encapsulation: ViewEncapsulation.Emulated
@@ -13,44 +16,44 @@ import {NotificationApiService} from '../services/notification-api.service';
 export class EditNotificationApiComponent {
 
   private bot: NotificationApi;
-  constructor(public dialogRef: MatDialogRef<EditNotificationApiComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private botsService: NotificationApiService,
-              private snackBar: MatSnackBar) {
-       this.bot = data.bot;
+
+  constructor(private route: ActivatedRoute,
+              private messagingBusService: MessagingBusService,
+              private notificationApiService: NotificationApiService,
+              private snackBar: MatSnackBar,
+              private router: Router) {
+    this.bot = route.snapshot.data.notificationApi;
   }
 
-  edit(bot: NotificationApi ):void{
-    this.botsService.update(bot)
-      .subscribe( bot => {
-        this.snackBar.open('Изменения сохранены','',{
-          duration: 3000,
-          panelClass:'colorGreen',
-          horizontalPosition:'right'
+  edit(bot: NotificationApi): void {
+    this.notificationApiService.update(bot)
+      .subscribe(api => {
+        this.snackBar.open('Updated "' + api.label + '"', '', {
+          duration: 4000,
+          panelClass: 'colorGreen',
+          horizontalPosition: 'right'
         });
+        this.messagingBusService.sendMessage({channel: Channel.NOTIFICATIONS_API_WERE_UPDATED});
       });
   }
 
-  delete(){
-    this.botsService.delete(this.bot.id)
-      .subscribe( db => {
-      this.dialogRef.close();
-        this.snackBar.open('Бот удален','',{
-          duration: 3000,
-          panelClass:'colorGreen',
-          horizontalPosition:'right'
+  delete() {
+    this.notificationApiService.delete(this.bot.id)
+      .subscribe(n => {
+        this.snackBar.open('Deleted', '', {
+          duration: 4000,
+          panelClass: 'colorGreen',
+          horizontalPosition: 'right'
         });
-    });
-  }
-
-  close(){
-    this.dialogRef.close();
+        this.messagingBusService.sendMessage({channel: Channel.NOTIFICATIONS_API_WERE_UPDATED});
+        this.router.navigateByUrl('/notifications-api');
+      });
   }
 
   changeCommandState(changeEvent: any) {
-    if(changeEvent.checked){
+    if (changeEvent.checked) {
       this.bot.state = 'ENABLED';
-    }else{
+    } else {
       this.bot.state = 'DISABLED';
     }
   }

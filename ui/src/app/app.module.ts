@@ -17,6 +17,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AngularMaterialModule} from './angular.material.module';
 import 'codemirror/mode/sql/sql';
 import {NotificationsApiModule} from './notifications-api/notifications-api.module';
+import {MessagingBusService} from "./bus/messaging-bus.service";
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {NotificationsApiModule} from './notifications-api/notifications-api.modu
     EventsService,
     AuthService,
     ConfigService,
+    MessagingBusService,
     SharedService
   ],
   bootstrap: [AppComponent]

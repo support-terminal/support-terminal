@@ -13,8 +13,8 @@ public enum NotificationApiType {
     public String getLabel() {
         return label;
     }
-    public static class Constants {
-        public static final String TELEGRAM_BOT = "TELEGRAM_BOT";
-        public static final String SLACK_BOT = "SLACK_BOT";
+    public interface Constants {
+        String TELEGRAM_BOT = "TELEGRAM_BOT";
+        String SLACK_BOT = "SLACK_BOT";
     }
 }

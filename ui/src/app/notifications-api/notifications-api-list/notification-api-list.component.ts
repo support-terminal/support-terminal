@@ -17,17 +17,18 @@ export class NotificationApiListComponent implements OnDestroy {
   private botsListSubscription: Subscription;
 
   constructor(private notificationApiService: NotificationApiService) {
-    this.getBotsList();
- }
-
-  ngOnDestroy() {
-   // this.botsListSubscription.unsubscribe();
+    this.getList();
   }
 
-  getBotsList() {
-    this.notificationApiService.getAll().subscribe(bots => {
-      this.botsList = bots;
-    });
+  ngOnDestroy() {
+    this.botsListSubscription.unsubscribe();
+  }
+
+  getList() {
+    this.botsListSubscription = this.notificationApiService
+      .notificationApiList.subscribe((list) => {
+        this.botsList = list;
+      });
   }
 
 

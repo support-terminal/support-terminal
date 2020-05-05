@@ -10,7 +10,7 @@ export class MessagingBusService {
 
   private message$: Subject<Message>;
 
-  constructor(){
+  constructor() {
     this.message$ = new Subject<Message>();
   }
 

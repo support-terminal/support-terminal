@@ -3,10 +3,13 @@ package io.github.bot.terminal.application.domains.notificarion_api.rest;
 
 import io.github.bot.terminal.application.domains.notificarion_api.entity.AbstractNotificationApiDetails;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.SlackNotificationApiDetails;
+import io.github.bot.terminal.application.domains.notificarion_api.entity.TelegramNotificationApiDetails;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.AbstractNotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO;
+import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.TelegramNotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.SlackNotificationApiRequest;
+import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.TelegramNotificationApiRequest;
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiState;
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,8 @@ public class NotificationApiRestConverter {
     AbstractNotificationApiDetails mapToDetails(NotificationApiRequest request) {
         if (NotificationApiType.SLACK_BOT.name().equals(request.getType())) {
             return mapToDetails((SlackNotificationApiRequest) request);
+        } else if (NotificationApiType.TELEGRAM_BOT.name().equals(request.getType())) {
+            return mapToDetails((TelegramNotificationApiRequest) request);
         }
         throw new IllegalArgumentException("Unknown notification api type");
     }
@@ -35,10 +40,22 @@ public class NotificationApiRestConverter {
         return details;
     }
 
+    TelegramNotificationApiDetails mapToDetails(TelegramNotificationApiRequest request) {
+        TelegramNotificationApiDetails details = new TelegramNotificationApiDetails();
+        details.setToken(request.getToken());
+        details.setLabel(request.getLabel());
+        details.setType(NotificationApiType.TELEGRAM_BOT);
+        details.setState(NotificationApiState.valueOf(request.getState()));
+        details.setBotFatherName(request.getBotFatherName());
+        return details;
+    }
+
 
     AbstractNotificationApiDTO mapToDto(AbstractNotificationApiDetails details) {
         if (NotificationApiType.SLACK_BOT.equals(details.getType())) {
             return mapToDto((SlackNotificationApiDetails) details);
+        } else if (NotificationApiType.TELEGRAM_BOT.equals(details.getType())) {
+            return mapToDto((TelegramNotificationApiDetails) details);
         }
         throw new IllegalArgumentException("Unknown notification api type");
     }
@@ -52,7 +69,17 @@ public class NotificationApiRestConverter {
         dto.setState(details.getState().name());
         dto.setChanel(details.getChanel());
         return dto;
+    }
 
+    TelegramNotificationApiDTO mapToDto(TelegramNotificationApiDetails details) {
+        TelegramNotificationApiDTO dto = new TelegramNotificationApiDTO();
+        dto.setId(details.getId());
+        dto.setToken(details.getToken());
+        dto.setLabel(details.getLabel());
+        dto.setType(details.getType().name());
+        dto.setState(details.getState().name());
+        dto.setBotFatherName(details.getBotFatherName());
+        return dto;
     }
 
 }

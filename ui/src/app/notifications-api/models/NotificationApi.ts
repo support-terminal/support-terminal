@@ -5,6 +5,6 @@ export default class NotificationApi {
   id: string;
   label: string;
   state: string;
-  type: NotificationApiType;
+  type: string;
   joinRequests: JoinRequest[];
 }

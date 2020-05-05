@@ -11,6 +11,8 @@ import {AddNotificationApiComponent} from './add-notification-api/add-notificati
 import {NotificationApiFormComponent} from './notification-api-form/notification-api-form.component';
 import {TelegramBotFormComponent} from './notification-api-form/telegram-form/telegram-bot-form.component';
 import {SlackBotFormComponent} from './notification-api-form/slack-form/slack-bot-form.component';
+import {EditNotificationApiComponent} from './edit-notification-api/edit-notification-api.component';
+import {NotificationApiResolver} from './services/notification-api.resolver';
 
 @NgModule({
     imports: [
@@ -19,12 +21,13 @@ import {SlackBotFormComponent} from './notification-api-form/slack-form/slack-bo
         CommonModule,
         NotificationsApiRoutingModule
     ],
-    providers: [ NotificationApiService],
+    providers: [ NotificationApiService, NotificationApiResolver],
     declarations: [
       NotificationApiListComponent,
       NotificationApiListItemComponent,
 
       AddNotificationApiComponent,
+      EditNotificationApiComponent,
       NotificationApiFormComponent,
       TelegramBotFormComponent,
       SlackBotFormComponent

@@ -33,7 +33,7 @@ export class BotCommandsService {
     this.requestBots();
 
     this.subscription = this.messagingBusService.getMessage().subscribe(message => {
-        if (message.channel == Channel.BOTS_WERE_UPDATED) {
+        if (message.channel == Channel.NOTIFICATIONS_API_WERE_UPDATED) {
             this.requestBots();
         }else if (message.channel == Channel.DB_CONNECTIONS_WERE_UPDATED) {
             console.log('DB_CONNECTIONS_WERE_UPDATED')

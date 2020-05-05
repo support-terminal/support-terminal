@@ -4,20 +4,19 @@ package io.github.bot.terminal.application.domains.notificarion_api.entity;
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository;
 
 
-public final class SlackNotificationApi implements NotificationApi<SlackNotificationApiDetails> {
+public final class TelegramNotificationApi implements NotificationApi<TelegramNotificationApiDetails> {
 
-
-
-    private SlackNotificationApiDetails details;
+    private TelegramNotificationApiDetails details;
+    
     private NotificationApiRepository repository;
 
-   public SlackNotificationApi(SlackNotificationApiDetails details,
-                               NotificationApiRepository repository) {
+   public TelegramNotificationApi(TelegramNotificationApiDetails details,
+                                  NotificationApiRepository repository) {
         this.details = details;
         this.repository = repository;
 
    }
-    public SlackNotificationApiDetails getDetails() {
+    public TelegramNotificationApiDetails getDetails() {
         return details;
     }
 

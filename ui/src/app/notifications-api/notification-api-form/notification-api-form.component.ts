@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEn
 import NotificationApi from '../models/NotificationApi';
 import NotificationApiType from '../models/NotificationApiType';
 import {NotificationApiService} from '../services/notification-api.service';
-import {MatSnackBar} from '@angular/material';
 
 
 @Component({
@@ -21,7 +20,7 @@ export class NotificationApiFormComponent implements OnChanges {
   private botTypes: NotificationApiType[];
 
   constructor(private botsService: NotificationApiService) {
-    this.botsService.getBotTypes().subscribe(types => {
+    this.botsService.getTypes().subscribe(types => {
       this.botTypes = types;
     });
   }
@@ -32,7 +31,7 @@ export class NotificationApiFormComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.initial) {
-      if (this.initial != null && this.initial != undefined) {
+      if (this.initial != null && this.initial !== undefined) {
         this.bot = this.initial;
       }
     }
