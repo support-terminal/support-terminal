@@ -17,7 +17,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AngularMaterialModule} from './angular.material.module';
 import 'codemirror/mode/sql/sql';
 import {NotificationsApiModule} from './notifications-api/notifications-api.module';
-import {MessagingBusService} from "./bus/messaging-bus.service";
+import {MessagingBusService} from './bus/messaging-bus.service';
+import {DbConnectionsModule} from './db-connections/db-connections.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,9 @@ import {MessagingBusService} from "./bus/messaging-bus.service";
     BrowserAnimationsModule,
     AngularMaterialModule,
     AppRoutingModule,
-    NotificationsApiModule
+    // features
+    NotificationsApiModule,
+    DbConnectionsModule
   ],
   providers: [
     AuthGuard,
@@ -46,4 +49,5 @@ import {MessagingBusService} from "./bus/messaging-bus.service";
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

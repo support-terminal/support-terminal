@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SlackNotificationApiDTO extends AbstractNotificationApiDTO {
+public class SlackNotificationApiDTO extends NotificationApiDTO {
 
    public SlackNotificationApiDTO() {
       super(NotificationApiType.Constants.SLACK_BOT);

@@ -3,7 +3,7 @@ package io.github.bot.terminal.application.domains.notificarion_api.rest;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.*;
 import io.github.bot.terminal.application.domains.notificarion_api.factory.NotificationApiFactory;
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository;
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.AbstractNotificationApiDTO;
+import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiTypeDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.TelegramNotificationApiDTO;
@@ -365,7 +365,7 @@ class NotificationApiRestServiceTest {
         when(notificationApiFactory.getAll())
                 .thenReturn(c);
 
-        List<AbstractNotificationApiDTO> list = restService.list();
+        List<NotificationApiDTO> list = restService.list();
 
         SlackNotificationApiDTO apiDTO = (SlackNotificationApiDTO)  list.get(0);
         assertEquals(id, apiDTO.getId());

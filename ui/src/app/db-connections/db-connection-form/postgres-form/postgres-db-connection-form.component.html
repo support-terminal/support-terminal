@@ -1,0 +1,56 @@
+<div fxLayout='column'>
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Host'
+           id='host' name='host'
+           [(ngModel)]='dbConnection.host'
+           required #host='ngModel'/>
+    <mat-error *ngIf='host.errors && (host.dirty || host.touched) && host.errors.required'>
+      Required vaue
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Port'
+           id='port' name='port'
+           [(ngModel)]='dbConnection.port'
+           required #port='ngModel'/>
+    <mat-error *ngIf='port.errors && (port.dirty || port.touched) && port.errors.required'>
+      Required vaue
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='DB Name'
+           id='dbName' name='dbName'
+           [(ngModel)]='dbConnection.dbName'
+           required #dbName='ngModel'/>
+    <mat-error *ngIf='dbName.errors && (dbName.dirty || dbName.touched) && dbName.errors.required'>
+      Required vaue
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Username'
+           id='user' name='user'
+           [(ngModel)]='dbConnection.user'
+           required #user='ngModel'/>
+    <mat-error *ngIf='user.errors && (user.dirty || user.touched) && user.errors.required'>
+      Required vaue
+    </mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Password'
+           [type]="show ?'text':'password'"
+           id='password' name='password'
+           [(ngModel)]='dbConnection.password'
+           required #password='ngModel'/>
+    <mat-icon matSuffix (click)='show = !show'>{{show ?'visibility_off': 'visibility' }}</mat-icon>
+    <mat-error *ngIf='password.errors && (password.dirty || password.touched) && password.errors.required'>
+      Required vaue
+    </mat-error>
+  </mat-form-field>
+
+
+</div>

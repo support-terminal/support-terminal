@@ -1,9 +1,8 @@
 package io.github.bot.terminal.application.domains.notificarion_api.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi;
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.AbstractNotificationApiDTO;
+import io.github.bot.terminal.application.domains.db_connection.rest.requests.PostgresDbConnectionRequest;
+import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiTypeDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.TelegramNotificationApiDTO;
@@ -14,6 +13,8 @@ import io.github.bot.terminal.application.domains.notificarion_api.values.Notifi
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,9 +27,10 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,6 +45,12 @@ class NotificationApiRestControllerTest {
 
     @InjectMocks
     private NotificationApiRestController controller;
+
+    @Captor
+    ArgumentCaptor<SlackNotificationApiRequest> slackRequestArgumentCaptor;
+    @Captor
+    ArgumentCaptor<TelegramNotificationApiRequest> telegramRequestArgumentCaptor;
+
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -112,6 +120,16 @@ class NotificationApiRestControllerTest {
                 .andExpect(jsonPath("$.chanel", is(chanel)))
                 .andExpect(jsonPath("$.token", is(token)));
 
+        verify(restService, times(1))
+                .add(slackRequestArgumentCaptor.capture());
+        SlackNotificationApiRequest value = slackRequestArgumentCaptor.getValue();
+
+        assertEquals(NotificationApiType.Constants.SLACK_BOT, value.getType());
+        assertEquals(label, value.getLabel());
+        assertEquals(token, value.getToken());
+        assertEquals(chanel, value.getChanel());
+        assertEquals(state, value.getState());
+
     }
 
     @Test
@@ -142,6 +160,17 @@ class NotificationApiRestControllerTest {
                 .andExpect(jsonPath("$.label", is(label2)))
                 .andExpect(jsonPath("$.chanel", is(chanel2)))
                 .andExpect(jsonPath("$.token", is(token2)));
+
+        verify(restService, times(1))
+                .edit(eq(id),slackRequestArgumentCaptor.capture());
+        SlackNotificationApiRequest value = slackRequestArgumentCaptor.getValue();
+
+        assertEquals(NotificationApiType.Constants.SLACK_BOT, value.getType());
+        assertEquals(label2, value.getLabel());
+        assertEquals(token2, value.getToken());
+        assertEquals(chanel2, value.getChanel());
+        assertEquals(state2, value.getState());
+
 
     }
 
@@ -186,7 +215,7 @@ class NotificationApiRestControllerTest {
         TelegramNotificationApiRequest request = new TelegramNotificationApiRequest();
         request.setLabel(label);
         request.setToken(token);
-        request.setBotFatherName(chanel);
+        request.setBotFatherName(botFatherName);
         request.setState(state);
 
         this.mockMvc.perform(post("/api/notifications-api")
@@ -200,6 +229,16 @@ class NotificationApiRestControllerTest {
                 .andExpect(jsonPath("$.label", is(label)))
                 .andExpect(jsonPath("$.botFatherName", is(botFatherName)))
                 .andExpect(jsonPath("$.token", is(token)));
+
+        verify(restService, times(1))
+                .add(telegramRequestArgumentCaptor.capture());
+        TelegramNotificationApiRequest value = telegramRequestArgumentCaptor.getValue();
+
+        assertEquals(label, value.getLabel());
+        assertEquals(NotificationApiType.Constants.TELEGRAM_BOT, value.getType());
+        assertEquals(token, value.getToken());
+        assertEquals(botFatherName, value.getBotFatherName());
+        assertEquals(state, value.getState());
 
     }
 
@@ -217,7 +256,7 @@ class NotificationApiRestControllerTest {
         TelegramNotificationApiRequest request = new TelegramNotificationApiRequest();
         request.setLabel(label2);
         request.setToken(token2);
-        request.setBotFatherName(chanel2);
+        request.setBotFatherName(botFatherName2);
         request.setState(state2);
 
         this.mockMvc.perform(put("/api/notifications-api/"+id)
@@ -232,6 +271,15 @@ class NotificationApiRestControllerTest {
                 .andExpect(jsonPath("$.botFatherName", is(botFatherName2)))
                 .andExpect(jsonPath("$.token", is(token2)));
 
+        verify(restService, times(1))
+                .edit(eq(id),telegramRequestArgumentCaptor.capture());
+        TelegramNotificationApiRequest value = telegramRequestArgumentCaptor.getValue();
+
+        assertEquals(label2, value.getLabel());
+        assertEquals(NotificationApiType.Constants.TELEGRAM_BOT, value.getType());
+        assertEquals(token2, value.getToken());
+        assertEquals(botFatherName2, value.getBotFatherName());
+        assertEquals(state2, value.getState());
     }
 
     @Test
@@ -280,7 +328,7 @@ class NotificationApiRestControllerTest {
         dto2.setState(state2);
 
 
-        List<AbstractNotificationApiDTO> c = new ArrayList<>();
+        List<NotificationApiDTO> c = new ArrayList<>();
         c.add(dto1);
         c.add(dto2);
 
@@ -311,6 +359,8 @@ class NotificationApiRestControllerTest {
         this.mockMvc.perform(delete("/api/notifications-api/"+id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+        verify(restService, times(1))
+                .delete(eq(id));
 
     }
 }

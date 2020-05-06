@@ -1,7 +1,7 @@
 package io.github.bot.terminal.application.domains.notificarion_api.rest;
 
 
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.AbstractNotificationApiDTO;
+import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiTypeDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,18 +23,18 @@ public class NotificationApiRestController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public AbstractNotificationApiDTO add(@RequestBody @Valid NotificationApiRequest request) {
+    public NotificationApiDTO add(@RequestBody @Valid NotificationApiRequest request) {
         return notificationApiRestService.add(request);
     }
 
     @PutMapping("/{id}")
-    public AbstractNotificationApiDTO edit(@PathVariable String id,
-            @RequestBody @Valid NotificationApiRequest request) {
+    public NotificationApiDTO edit(@PathVariable String id,
+                                   @RequestBody @Valid NotificationApiRequest request) {
         return notificationApiRestService.edit(id, request);
     }
 
     @GetMapping("/{id}")
-    public AbstractNotificationApiDTO getById(@PathVariable String id) {
+    public NotificationApiDTO getById(@PathVariable String id) {
         return notificationApiRestService.get(id);
     }
 
@@ -45,7 +45,7 @@ public class NotificationApiRestController {
     }
 
     @GetMapping
-    public List<AbstractNotificationApiDTO> list() {
+    public List<NotificationApiDTO> list() {
         return notificationApiRestService.list();
     }
 

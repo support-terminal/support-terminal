@@ -1,0 +1,47 @@
+<form (ngSubmit)='onSubmit()' #dbConnectionForm='ngForm' fxLayout='column'>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='DB connection label'
+           id='name' name='name'
+           [(ngModel)]='dbConnection.name'
+           required
+           #name='ngModel'/>
+    <mat-error *ngIf='name.errors && (name.dirty || name.touched) && name.errors.required'>
+      Required vaue
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder='DB connection type'
+                id='type' name='type'
+                [(ngModel)]='dbConnection.type'
+                required #type='ngModel'>
+      <mat-option *ngFor='let t of dbTypes' [value]='t.type'>
+        {{ t.label }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf='type.errors && (type.dirty || type.touched) && type.errors.required'>Required vaue
+    </mat-error>
+  </mat-form-field>
+
+  <app-oracle-db-connection-form *ngIf="dbConnection.type == 'ORACLE'"
+                             [dbConnection]='dbConnection'></app-oracle-db-connection-form>
+
+  <app-postgres-db-connection-form *ngIf="dbConnection.type == 'POSTGRES'"
+                               [dbConnection]='dbConnection'></app-postgres-db-connection-form>
+
+  <app-mysql-db-connection-form *ngIf="dbConnection.type == 'MYSQL'"
+                               [dbConnection]='dbConnection'></app-mysql-db-connection-form>
+
+
+  <div fxLayout fxFlexAlign='center' style='margin: 20px;' fxLayoutGap='10px'>
+    <button type='button' (click)='checkConnection()' mat-raised-button [disabled]='!dbConnectionForm.form.valid'>Check connection</button>
+
+    <button type='submit' mat-raised-button color='primary'
+              [disabled]='!dbConnectionForm.form.valid'>{{submitButtonText}}</button>
+    <ng-content select='.ng-content-bottom-buttons'></ng-content>
+  </div>
+
+</form>
+
+

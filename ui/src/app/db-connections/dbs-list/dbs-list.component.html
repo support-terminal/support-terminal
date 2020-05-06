@@ -1,0 +1,19 @@
+<div fxLayout='column'>
+
+  <mat-toolbar color='primary'>
+    <mat-toolbar-row>
+      <span>DB connections</span>
+      <span fxFlex='100%'></span>
+      <span fxFlex='100%' fxLayoutAlign='end'>
+         <a mat-button routerLink='add'>
+                     <mat-icon aria-label='Add DB connection'>playlist_add</mat-icon>
+                     Add DB connection
+         </a>
+      </span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-list>
+    <app-db-item *ngFor='let dbConnection of dbsList' [dbConnection]='dbConnection'></app-db-item>
+  </mat-list>
+</div>

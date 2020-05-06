@@ -20,19 +20,19 @@ public class NotificationApiFactory {
     public NotificationApi<?> createNew(AbstractNotificationApiDetails details) {
         details.setId(UUID.randomUUID().toString());
         repository.add(details);
-        return create(details);
+        return build(details);
     }
 
     public NotificationApi<?> byId(String id) {
         AbstractNotificationApiDetails details = getById(id);
-        return create(details);
+        return build(details);
     }
 
     public NotificationApi<?> merge(String id, AbstractNotificationApiDetails detailsUpdate) {
         AbstractNotificationApiDetails details = getById(id);
         detailsUpdate.setId(details.getId());
         repository.update(detailsUpdate);
-        return create(detailsUpdate);
+        return build(detailsUpdate);
     }
 
     private AbstractNotificationApiDetails getById(String id) {
@@ -40,26 +40,26 @@ public class NotificationApiFactory {
                 .orElseThrow(() ->new IllegalArgumentException("Notfication API not found: id="+id));
     }
 
-    private NotificationApi<?> create(AbstractNotificationApiDetails details) {
+    private NotificationApi<?> build(AbstractNotificationApiDetails details) {
         if (NotificationApiType.SLACK_BOT.equals(details.getType())) {
-            return createSlackBotNotificationApi((SlackNotificationApiDetails) details);
+            return build((SlackNotificationApiDetails) details);
         } else if (NotificationApiType.TELEGRAM_BOT.equals(details.getType())) {
-            return createTelegramBotNotificationApi((TelegramNotificationApiDetails) details);
+            return build((TelegramNotificationApiDetails) details);
 
         }
         throw new IllegalArgumentException("Unknown notification api type");
     }
 
-    private NotificationApi<?> createTelegramBotNotificationApi(TelegramNotificationApiDetails details) {
+    private NotificationApi<?> build(TelegramNotificationApiDetails details) {
         return new TelegramNotificationApi(details, repository);
     }
 
-    private NotificationApi<SlackNotificationApiDetails> createSlackBotNotificationApi(SlackNotificationApiDetails details) {
+    private NotificationApi<SlackNotificationApiDetails> build(SlackNotificationApiDetails details) {
         return new SlackNotificationApi(details, repository);
     }
 
     public List<NotificationApi<?>> getAll() {
         return repository.findAll().stream()
-                .map(this::create).collect(Collectors.toList());
+                .map(this::build).collect(Collectors.toList());
     }
 }

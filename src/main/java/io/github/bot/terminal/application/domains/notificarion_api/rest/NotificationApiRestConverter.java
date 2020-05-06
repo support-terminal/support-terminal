@@ -4,7 +4,7 @@ package io.github.bot.terminal.application.domains.notificarion_api.rest;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.AbstractNotificationApiDetails;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.SlackNotificationApiDetails;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.TelegramNotificationApiDetails;
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.AbstractNotificationApiDTO;
+import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.TelegramNotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest;
@@ -51,7 +51,7 @@ public class NotificationApiRestConverter {
     }
 
 
-    AbstractNotificationApiDTO mapToDto(AbstractNotificationApiDetails details) {
+    NotificationApiDTO mapToDto(AbstractNotificationApiDetails details) {
         if (NotificationApiType.SLACK_BOT.equals(details.getType())) {
             return mapToDto((SlackNotificationApiDetails) details);
         } else if (NotificationApiType.TELEGRAM_BOT.equals(details.getType())) {

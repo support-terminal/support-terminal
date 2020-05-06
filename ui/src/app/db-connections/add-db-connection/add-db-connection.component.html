@@ -1,0 +1,14 @@
+<div style="margin: 60px;">
+  <div fxLayout fxLayoutAlign='start center'>
+    <h2 fxFlex='100%' mat-dialog-title>New DB connection</h2>
+  </div>
+  <mat-dialog-content>
+    <app-db-connection-form (onSubmitEvent)='addDbConnection($event)'
+                            submitButtonText='Add'>
+    </app-db-connection-form>
+  </mat-dialog-content>
+</div>
+
+
+
+

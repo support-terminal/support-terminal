@@ -3,8 +3,8 @@ package io.github.bot.terminal.application.domains.notificarion_api.rest.dto;
 import lombok.Data;
 
 @Data
-public abstract class AbstractNotificationApiDTO {
-    public AbstractNotificationApiDTO(String type) {
+public abstract class NotificationApiDTO {
+    public NotificationApiDTO(String type) {
         this.type = type;
     }
 

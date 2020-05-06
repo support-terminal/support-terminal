@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class TestNitriteDataBaseConfiguration {
 
     @Bean(destroyMethod = "close")
-    public Nitrite getNitrite(){
+    public Nitrite getNitriteInMemory(){
         return Nitrite.builder()
                 .compressed()
                 .openOrCreate();
