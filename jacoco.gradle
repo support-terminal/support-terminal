@@ -13,7 +13,8 @@ jacocoTestCoverageVerification {
                 minimum = 1.0
             }
             includes = [
-                    'io.github.bot.terminal.application.domains.notificarion_api.**'
+                    'io.github.bot.terminal.application.domains.notificarion_api.**',
+                    'io.github.bot.terminal.application.domains.db-connection.**'
             ]
         }
     }

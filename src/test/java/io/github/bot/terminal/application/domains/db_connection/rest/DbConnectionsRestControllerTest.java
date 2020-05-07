@@ -65,7 +65,7 @@ class DbConnectionsRestControllerTest {
     public String dbConnectionid2 = UUID.randomUUID().toString();
     public String name2 = UUID.randomUUID().toString();
     public String host2 = UUID.randomUUID().toString();
-    public int port2 = 1233;
+    public int port2 = 1234;
     public String user2 = UUID.randomUUID().toString();
     public String password2 = UUID.randomUUID().toString();
     public String dbName2 = UUID.randomUUID().toString();

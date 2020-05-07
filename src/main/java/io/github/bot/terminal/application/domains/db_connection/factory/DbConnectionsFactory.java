@@ -48,7 +48,7 @@ public class DbConnectionsFactory {
         } else if (DbConnectionType.ORACLE.equals(details.getType())) {
             return createDetails((OracleDbConnectionDetails) details);
         }
-        throw new IllegalArgumentException("Unknown db connection api type");
+        throw new IllegalArgumentException("Unknown db connection api type: " + details.getType());
     }
 
     private DbConnection<?> createDetails(MySqlDbConnectionDetails details) {

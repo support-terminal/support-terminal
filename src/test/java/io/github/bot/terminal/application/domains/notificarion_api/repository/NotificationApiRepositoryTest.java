@@ -25,7 +25,6 @@ public class NotificationApiRepositoryTest {
     @Autowired
     NotificationApiRepository repository;
 
-
     private String slackId = "slackId";
     private String telegramId = "telegramId";
 
