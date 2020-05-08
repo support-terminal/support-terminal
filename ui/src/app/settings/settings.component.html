@@ -1,0 +1,35 @@
+<div fxLayout='column'>
+
+  <mat-toolbar color='primary'>
+    <mat-toolbar-row>
+      <span>Настройки</span>
+      <span fxFlex='100%'></span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-card *ngIf='version != null'>
+    <mat-card-title>Version</mat-card-title>
+    <mat-card-content>
+      {{version}}
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>Automatic update</mat-card-title>
+    <mat-card-content>
+      Вы можете принудительно запустить процесс обновления.
+      Приложение попытается скачать новую версию и самостоятельно обновиться.
+      Во время процесса обновления, приложение временно будет недоступно.
+      Есть <b>риск</b>, что приложение <b>НЕ</b> сможет пройти все шаги обновления и его <b>придется запустить в ручную</b>
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign='end'>
+      <button mat-raised-button color='primary' (click)='update()' fxLayoutAlign='start'>
+        <mat-icon aria-label='Run update'>system_update_alt</mat-icon>
+        Run update
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+
+</div>
+

@@ -211,7 +211,7 @@ class NotificationApiFactoryTest {
         details2.setBotFatherName(botFatherName2);
         details2.setToken(token2);
 
-        List<AbstractNotificationApiDetails> c = new ArrayList();
+        List<NotificationApiDetails> c = new ArrayList();
         c.add(details);
         c.add(details2);
 

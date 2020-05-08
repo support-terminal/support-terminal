@@ -7,7 +7,7 @@ import io.github.bot.terminal.application.domains.db_connection.rest.dto.*;
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.MySqlDbConnectionRequest;
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.OracleDbConnectionRequest;
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.PostgresDbConnectionRequest;
-import io.github.bot.terminal.application.domains.db_connection.rest.values.DbConnectionType;
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

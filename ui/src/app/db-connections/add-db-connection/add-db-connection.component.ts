@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import {MatDialogRef, MatSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {DbConnectionsService} from '../services/db-connections.service';
 import DbConnection from '../models/DbConnection';
 import {MessagingBusService} from '../../bus/messaging-bus.service';
@@ -23,7 +23,7 @@ export class AddDbConnectionComponent {
   addDbConnection(dbConnection: DbConnection): void {
     this.dbConnectionsService.add(dbConnection)
       .subscribe(db => {
-        this.snackBar.open('Db connection ' + db.name, '', {
+        this.snackBar.open('Db connection "' + db.name + '" was saved', '', {
           duration: 3000,
           panelClass: 'colorGreen',
           horizontalPosition: 'right'

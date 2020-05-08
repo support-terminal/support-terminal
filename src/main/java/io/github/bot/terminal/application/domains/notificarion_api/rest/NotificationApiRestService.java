@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NotificationApiRestService {
 
-    private final NotificationApiFactory notificationApiFactory;
+    private final NotificationApiFactory factory;
     private final NotificationApiRestConverter converter;
 
     public NotificationApiDTO add(NotificationApiRequest notificationApiRequest) {
-        NotificationApi notificationApi = notificationApiFactory.createNew(
+        NotificationApi notificationApi = factory.createNew(
                 converter.mapToDetails(notificationApiRequest)
         );
         return converter.mapToDto(notificationApi.getDetails());
@@ -31,18 +31,18 @@ public class NotificationApiRestService {
 
     public NotificationApiDTO edit(String id, NotificationApiRequest request) {
         NotificationApi notificationApi
-                = notificationApiFactory.merge(id, converter.mapToDetails(request));
+                = factory.merge(id, converter.mapToDetails(request));
         return converter.mapToDto(notificationApi.getDetails());
     }
 
     public NotificationApiDTO get(String id) {
         NotificationApi notificationApi
-                = notificationApiFactory.byId(id);
+                = factory.byId(id);
         return converter.mapToDto(notificationApi.getDetails());
     }
 
     public List<NotificationApiDTO> list() {
-        return notificationApiFactory.getAll()
+        return factory.getAll()
                 .stream().map(api -> converter.mapToDto(api.getDetails()))
                 .collect(Collectors.toList());
     }
@@ -55,7 +55,7 @@ public class NotificationApiRestService {
 
     public void delete(String id) {
         NotificationApi notificationApi
-                = notificationApiFactory.byId(id);
+                = factory.byId(id);
         notificationApi.delete();
     }
 }

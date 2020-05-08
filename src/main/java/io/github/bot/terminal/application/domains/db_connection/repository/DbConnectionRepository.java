@@ -1,7 +1,7 @@
 package io.github.bot.terminal.application.domains.db_connection.repository;
 
 
-import io.github.bot.terminal.application.domains.db_connection.entity.AbstractDbConnectionDetails;
+import io.github.bot.terminal.application.domains.db_connection.entity.DbConnectionDetails;
 import lombok.RequiredArgsConstructor;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.stereotype.Repository;
@@ -15,21 +15,21 @@ import static org.dizitart.no2.objects.filters.ObjectFilters.eq;
 @RequiredArgsConstructor
 public class DbConnectionRepository {
 
-    private final ObjectRepository<AbstractDbConnectionDetails> db;
+    private final ObjectRepository<DbConnectionDetails> db;
 
-    public void add(AbstractDbConnectionDetails dbConnection) {
+    public void add(DbConnectionDetails dbConnection) {
         db.insert(dbConnection);
     }
 
-    public void update(AbstractDbConnectionDetails dbConnection) {
+    public void update(DbConnectionDetails dbConnection) {
         db.update(dbConnection);
     }
 
-    public Optional<AbstractDbConnectionDetails> findById(String id) {
+    public Optional<DbConnectionDetails> findById(String id) {
         return Optional.ofNullable(db.find(eq("id", id)).firstOrDefault());
     }
 
-    public List<AbstractDbConnectionDetails> findAll() {
+    public List<DbConnectionDetails> findAll() {
         return db.find().toList();
     }
 

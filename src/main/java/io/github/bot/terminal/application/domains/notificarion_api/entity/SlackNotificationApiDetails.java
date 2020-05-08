@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class SlackNotificationApiDetails extends AbstractNotificationApiDetails {
+public class SlackNotificationApiDetails extends NotificationApiDetails {
 
     public SlackNotificationApiDetails() {
         type = NotificationApiType.SLACK_BOT;

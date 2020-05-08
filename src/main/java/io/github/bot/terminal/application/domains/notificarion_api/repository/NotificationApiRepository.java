@@ -1,7 +1,7 @@
 package io.github.bot.terminal.application.domains.notificarion_api.repository;
 
 
-import io.github.bot.terminal.application.domains.notificarion_api.entity.AbstractNotificationApiDetails;
+import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApiDetails;
 import lombok.RequiredArgsConstructor;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.stereotype.Service;
@@ -15,17 +15,17 @@ import static org.dizitart.no2.objects.filters.ObjectFilters.eq;
 @RequiredArgsConstructor
 public class NotificationApiRepository {
 
-    private final ObjectRepository<AbstractNotificationApiDetails> db;
+    private final ObjectRepository<NotificationApiDetails> db;
 
-    public void add(AbstractNotificationApiDetails snapshot) {
+    public void add(NotificationApiDetails snapshot) {
         db.insert(snapshot);
     }
 
-    public Optional<AbstractNotificationApiDetails> findById(String id) {
+    public Optional<NotificationApiDetails> findById(String id) {
         return Optional.ofNullable(db.find(eq("id", id)).firstOrDefault());
     }
 
-    public List<AbstractNotificationApiDetails> findAll() {
+    public List<NotificationApiDetails> findAll() {
         return db.find().toList();
     }
 
@@ -33,7 +33,7 @@ public class NotificationApiRepository {
         db.remove(eq("id", id));
     }
 
-    public void update(AbstractNotificationApiDetails details) {
+    public void update(NotificationApiDetails details) {
         db.update(details);
     }
 }

@@ -18,7 +18,7 @@ import org.dizitart.no2.objects.Id;
         @JsonSubTypes.Type(value = SlackNotificationApiDetails.class, name = NotificationApiType.Constants.SLACK_BOT),
         @JsonSubTypes.Type(value = TelegramNotificationApiDetails.class, name = NotificationApiType.Constants.TELEGRAM_BOT)
 })
-public class AbstractNotificationApiDetails {
+public class NotificationApiDetails {
     @Id
     protected String id;
     protected String label;

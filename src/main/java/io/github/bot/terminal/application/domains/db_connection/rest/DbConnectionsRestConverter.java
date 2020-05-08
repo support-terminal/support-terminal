@@ -1,7 +1,7 @@
 package io.github.bot.terminal.application.domains.db_connection.rest;
 
 
-import io.github.bot.terminal.application.domains.db_connection.entity.AbstractDbConnectionDetails;
+import io.github.bot.terminal.application.domains.db_connection.entity.DbConnectionDetails;
 import io.github.bot.terminal.application.domains.db_connection.entity.MySqlDbConnectionDetails;
 import io.github.bot.terminal.application.domains.db_connection.entity.OracleDbConnectionDetails;
 import io.github.bot.terminal.application.domains.db_connection.entity.PostgresDbConnectionDetails;
@@ -13,9 +13,7 @@ import io.github.bot.terminal.application.domains.db_connection.rest.requests.Db
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.MySqlDbConnectionRequest;
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.OracleDbConnectionRequest;
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.PostgresDbConnectionRequest;
-import io.github.bot.terminal.application.domains.db_connection.rest.values.DbConnectionType;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.SlackNotificationApiDetails;
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO;
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 class DbConnectionsRestConverter {
 
-    AbstractDbConnectionDetails mapToDetails(DbConnectionRequest request) {
+    DbConnectionDetails mapToDetails(DbConnectionRequest request) {
         if (DbConnectionType.MYSQL.name().equals(request.getType())) {
             return mapToDetails((MySqlDbConnectionRequest) request);
         } else if (DbConnectionType.POSTGRES.name().equals(request.getType())) {
@@ -71,7 +69,7 @@ class DbConnectionsRestConverter {
         return details;
     }
 
-    DbConnectionDTO mapToDto(AbstractDbConnectionDetails details) {
+    DbConnectionDTO mapToDto(DbConnectionDetails details) {
         if (DbConnectionType.MYSQL.equals(details.getType())) {
             return mapToDto((MySqlDbConnectionDetails) details);
         } else if (DbConnectionType.POSTGRES.equals(details.getType())) {

@@ -7,7 +7,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 import java.util.Optional;
 
-public abstract class DbConnection<D extends AbstractDbConnectionDetails> implements Persistable {
+public abstract class DbConnection<D extends DbConnectionDetails> implements Persistable {
 
     public abstract D getDetails();
 

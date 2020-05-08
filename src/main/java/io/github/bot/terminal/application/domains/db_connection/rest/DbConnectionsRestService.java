@@ -7,7 +7,7 @@ import io.github.bot.terminal.application.domains.db_connection.rest.dto.CheckDb
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionDTO;
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionTypeDTO;
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.DbConnectionRequest;
-import io.github.bot.terminal.application.domains.db_connection.rest.values.DbConnectionType;
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

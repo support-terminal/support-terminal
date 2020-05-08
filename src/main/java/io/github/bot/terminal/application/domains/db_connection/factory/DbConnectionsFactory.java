@@ -3,7 +3,7 @@ package io.github.bot.terminal.application.domains.db_connection.factory;
 
 import io.github.bot.terminal.application.domains.db_connection.entity.*;
 import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
-import io.github.bot.terminal.application.domains.db_connection.rest.values.DbConnectionType;
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,30 +17,30 @@ public class DbConnectionsFactory {
 
     private final DbConnectionRepository repository;
 
-    public DbConnection<?> createNew(AbstractDbConnectionDetails details) {
+    public DbConnection<?> createNew(DbConnectionDetails details) {
         details.setId(UUID.randomUUID().toString());
         repository.add(details);
         return build(details);
     }
 
     public DbConnection<?> byId(String id) {
-        AbstractDbConnectionDetails details = getById(id);
+        DbConnectionDetails details = getById(id);
         return build(details);
     }
 
-    public DbConnection<?> merge(String id, AbstractDbConnectionDetails detailsUpdate) {
-        AbstractDbConnectionDetails details = getById(id);
+    public DbConnection<?> merge(String id, DbConnectionDetails detailsUpdate) {
+        DbConnectionDetails details = getById(id);
         detailsUpdate.setId(details.getId());
         repository.update(detailsUpdate);
         return build(detailsUpdate);
     }
 
-    private AbstractDbConnectionDetails getById(String id) {
+    private DbConnectionDetails getById(String id) {
         return repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Notfication API not found: id=" + id));
     }
 
-    public DbConnection<?> build(AbstractDbConnectionDetails details) {
+    public DbConnection<?> build(DbConnectionDetails details) {
         if (DbConnectionType.MYSQL.equals(details.getType())) {
             return createDetails((MySqlDbConnectionDetails) details);
         } else if (DbConnectionType.POSTGRES.equals(details.getType())) {

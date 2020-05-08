@@ -2,11 +2,7 @@ package io.github.bot.terminal.application.domains.db_connection.factory;
 
 import io.github.bot.terminal.application.domains.db_connection.entity.*;
 import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
-import io.github.bot.terminal.application.domains.db_connection.rest.values.DbConnectionType;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.*;
-import io.github.bot.terminal.application.domains.notificarion_api.factory.NotificationApiFactory;
-import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository;
-import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType;
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -332,7 +328,7 @@ class DbConnectionsFactoryTest {
         details2.setSid(sid2);
 
 
-        List<AbstractDbConnectionDetails> c = new ArrayList();
+        List<DbConnectionDetails> c = new ArrayList();
         c.add(details);
         c.add(details2);
 

@@ -17,30 +17,30 @@ public class NotificationApiFactory {
 
     private final NotificationApiRepository repository;
 
-    public NotificationApi<?> createNew(AbstractNotificationApiDetails details) {
+    public NotificationApi<?> createNew(NotificationApiDetails details) {
         details.setId(UUID.randomUUID().toString());
         repository.add(details);
         return build(details);
     }
 
     public NotificationApi<?> byId(String id) {
-        AbstractNotificationApiDetails details = getById(id);
+        NotificationApiDetails details = getById(id);
         return build(details);
     }
 
-    public NotificationApi<?> merge(String id, AbstractNotificationApiDetails detailsUpdate) {
-        AbstractNotificationApiDetails details = getById(id);
+    public NotificationApi<?> merge(String id, NotificationApiDetails detailsUpdate) {
+        NotificationApiDetails details = getById(id);
         detailsUpdate.setId(details.getId());
         repository.update(detailsUpdate);
         return build(detailsUpdate);
     }
 
-    private AbstractNotificationApiDetails getById(String id) {
+    private NotificationApiDetails getById(String id) {
        return repository.findById(id)
                 .orElseThrow(() ->new IllegalArgumentException("Notfication API not found: id="+id));
     }
 
-    private NotificationApi<?> build(AbstractNotificationApiDetails details) {
+    private NotificationApi<?> build(NotificationApiDetails details) {
         if (NotificationApiType.SLACK_BOT.equals(details.getType())) {
             return build((SlackNotificationApiDetails) details);
         } else if (NotificationApiType.TELEGRAM_BOT.equals(details.getType())) {

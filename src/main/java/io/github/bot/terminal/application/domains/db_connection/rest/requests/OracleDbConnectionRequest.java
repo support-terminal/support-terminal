@@ -1,7 +1,7 @@
 package io.github.bot.terminal.application.domains.db_connection.rest.requests;
 
 
-import io.github.bot.terminal.application.domains.db_connection.rest.values.DbConnectionType;
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

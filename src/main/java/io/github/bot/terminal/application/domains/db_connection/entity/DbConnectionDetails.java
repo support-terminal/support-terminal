@@ -3,7 +3,7 @@ package io.github.bot.terminal.application.domains.db_connection.entity;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.github.bot.terminal.application.domains.db_connection.rest.values.DbConnectionType;
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dizitart.no2.objects.Id;
@@ -20,7 +20,7 @@ import org.dizitart.no2.objects.Id;
         @JsonSubTypes.Type(value = OracleDbConnectionDetails.class, name = DbConnectionType.Constants.ORACLE),
         @JsonSubTypes.Type(value = MySqlDbConnectionDetails.class, name = DbConnectionType.Constants.MYSQL)
 })
-public abstract class AbstractDbConnectionDetails {
+public abstract class DbConnectionDetails {
     @Id
     protected String id;
     protected String name;

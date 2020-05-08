@@ -1,6 +1,6 @@
 package io.github.bot.terminal.application.domains.notificarion_api.config;
 
-import io.github.bot.terminal.application.domains.notificarion_api.entity.AbstractNotificationApiDetails;
+import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApiDetails;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 public class NotificationApiConfig {
 
     @Bean
-    public ObjectRepository<AbstractNotificationApiDetails> notificationApiObjectRepository(Nitrite db) {
-        ObjectRepository<AbstractNotificationApiDetails> repository = db.getRepository(AbstractNotificationApiDetails.class);
+    public ObjectRepository<NotificationApiDetails> notificationApiObjectRepository(Nitrite db) {
+        ObjectRepository<NotificationApiDetails> repository = db.getRepository(NotificationApiDetails.class);
         return repository;
     }
 

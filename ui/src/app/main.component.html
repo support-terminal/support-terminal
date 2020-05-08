@@ -26,6 +26,13 @@
             </button>
           </mat-list-item>
 
+          <mat-list-item>
+            <button mat-icon-button matTooltip='Settings'
+                    matTooltipPosition='right' routerLink='/settings'>
+              <mat-icon>settings</mat-icon>
+            </button>
+          </mat-list-item>
+
 
         </mat-list>
 
@@ -38,7 +45,7 @@
 
           </as-split-area>
           <as-split-area size='10' #autoScrollMe style='background-color: #eeeeee;'>
-           <events-console></events-console>
+           <app-events-console></app-events-console>
           </as-split-area>
         </as-split>
       </mat-sidenav-content>

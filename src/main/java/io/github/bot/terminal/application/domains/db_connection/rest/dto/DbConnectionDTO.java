@@ -3,7 +3,7 @@ package io.github.bot.terminal.application.domains.db_connection.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.github.bot.terminal.application.domains.db_connection.rest.values.DbConnectionType;
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

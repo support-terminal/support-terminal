@@ -5,7 +5,7 @@ import {Subscription} from 'rxjs';
 
 
 @Component({
-  selector: 'events-console',
+  selector: 'app-events-console',
   styleUrls: ['./events-console.component.scss'],
   templateUrl: './events-console.component.html'
 })

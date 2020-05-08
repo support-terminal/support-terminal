@@ -1,7 +1,7 @@
 package io.github.bot.terminal.application.domains.notificarion_api.repository;
 
 import io.github.bot.terminal.application.domains.notificarion_api.NotificationApiRepositoryTestConfig;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.AbstractNotificationApiDetails;
+import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApiDetails;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.SlackNotificationApiDetails;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.TelegramNotificationApiDetails;
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiState;
@@ -157,7 +157,7 @@ public class NotificationApiRepositoryTest {
 
         repository.add(details2);
 
-        List<AbstractNotificationApiDetails> all = repository.findAll();
+        List<NotificationApiDetails> all = repository.findAll();
 
         TelegramNotificationApiDetails byId = (TelegramNotificationApiDetails) all.get(0);
         assertEquals(telegramId, byId.getId());

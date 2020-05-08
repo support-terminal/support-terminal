@@ -19,12 +19,15 @@ import 'codemirror/mode/sql/sql';
 import {NotificationsApiModule} from './notifications-api/notifications-api.module';
 import {MessagingBusService} from './bus/messaging-bus.service';
 import {DbConnectionsModule} from './db-connections/db-connections.module';
+import {SettingsComponent} from './settings/settings.component';
+import {SettingsService} from './settings/settings.service';
 
 @NgModule({
   declarations: [
     MainComponent,
     AppComponent,
     EventsConsoleComponent,
+    SettingsComponent,
     LoginComponent
   ],
   imports: [
@@ -45,7 +48,8 @@ import {DbConnectionsModule} from './db-connections/db-connections.module';
     AuthService,
     ConfigService,
     MessagingBusService,
-    SharedService
+    SharedService,
+    SettingsService
   ],
   bootstrap: [AppComponent]
 })

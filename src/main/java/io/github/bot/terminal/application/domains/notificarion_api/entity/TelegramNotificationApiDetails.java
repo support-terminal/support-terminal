@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class TelegramNotificationApiDetails extends AbstractNotificationApiDetails {
+public class TelegramNotificationApiDetails extends NotificationApiDetails {
 
     public TelegramNotificationApiDetails() {
         type = NotificationApiType.TELEGRAM_BOT;

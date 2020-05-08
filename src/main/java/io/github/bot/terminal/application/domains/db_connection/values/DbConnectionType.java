@@ -1,4 +1,4 @@
-package io.github.bot.terminal.application.domains.db_connection.rest.values;
+package io.github.bot.terminal.application.domains.db_connection.values;
 
 
 public enum DbConnectionType {

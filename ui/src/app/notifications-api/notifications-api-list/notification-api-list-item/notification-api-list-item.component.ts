@@ -1,4 +1,4 @@
-import {Component, Input, SimpleChanges, ViewEncapsulation} from '@angular/core';
+import {Component, Input, ViewEncapsulation} from '@angular/core';
 import NotificationApi from '../../models/NotificationApi';
 
 

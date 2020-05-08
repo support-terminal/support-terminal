@@ -1,16 +1,11 @@
 package io.github.bot.terminal.application.domains.db_connection.repository;
 
 import io.github.bot.terminal.application.domains.db_connection.DbConnectionsRepositoryTestConfig;
-import io.github.bot.terminal.application.domains.db_connection.entity.AbstractDbConnectionDetails;
+import io.github.bot.terminal.application.domains.db_connection.entity.DbConnectionDetails;
 import io.github.bot.terminal.application.domains.db_connection.entity.MySqlDbConnectionDetails;
 import io.github.bot.terminal.application.domains.db_connection.entity.OracleDbConnectionDetails;
 import io.github.bot.terminal.application.domains.db_connection.entity.PostgresDbConnectionDetails;
-import io.github.bot.terminal.application.domains.db_connection.rest.values.DbConnectionType;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.AbstractNotificationApiDetails;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.SlackNotificationApiDetails;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.TelegramNotificationApiDetails;
-import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType;
-import org.junit.After;
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -259,7 +254,7 @@ class DbConnectionRepositoryTest {
 
         repository.add(details2);
 
-        List<AbstractDbConnectionDetails> all = repository.findAll();
+        List<DbConnectionDetails> all = repository.findAll();
 
         PostgresDbConnectionDetails byId = (PostgresDbConnectionDetails) all.get(0);
         assertEquals(name, byId.getName());

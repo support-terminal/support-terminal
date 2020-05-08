@@ -6,6 +6,6 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class MySqlDbConnectionDetails extends AbstractDbConnectionDetails {
+public class MySqlDbConnectionDetails extends DbConnectionDetails {
     private String dbName;
 }
