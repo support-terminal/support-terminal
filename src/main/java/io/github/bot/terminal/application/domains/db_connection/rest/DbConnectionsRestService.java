@@ -3,7 +3,6 @@ package io.github.bot.terminal.application.domains.db_connection.rest;
 
 import io.github.bot.terminal.application.domains.db_connection.entity.DbConnection;
 import io.github.bot.terminal.application.domains.db_connection.factory.DbConnectionsFactory;
-import io.github.bot.terminal.application.domains.db_connection.rest.dto.CheckDbConnectionDTO;
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionDTO;
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionTypeDTO;
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.DbConnectionRequest;
@@ -60,6 +59,7 @@ class DbConnectionsRestService {
                 .map(e -> new DbConnectionTypeDTO().setType(e.name()).setLabel(e.getLabel()))
                 .collect(Collectors.toList());
     }
+/*
 
     public CheckDbConnectionDTO check(DbConnectionRequest request) {
         DbConnection dbConnection = factory.createNew(
@@ -73,5 +73,6 @@ class DbConnectionsRestService {
             return new CheckDbConnectionDTO(false);
         }
     }
+*/
 
 }

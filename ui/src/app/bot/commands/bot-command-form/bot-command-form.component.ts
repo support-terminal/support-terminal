@@ -14,81 +14,84 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import BotCommand from '../../models/BotCommand';
 import Bot from '../../models/Bot';
 import {NotificationApiService} from '../../../notifications-api/services/notification-api.service';
+import ActionType from '../../models/ActionType';
 
 
 @Component({
-    selector: 'app-bot-command-form',
-    templateUrl: './bot-command-form.component.html',
-    styleUrls: ['./bot-command-form.component.scss'],
-    encapsulation: ViewEncapsulation.Emulated
+  selector: 'app-bot-command-form',
+  templateUrl: './bot-command-form.component.html',
+  styleUrls: ['./bot-command-form.component.scss'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class BotCommandFormComponent implements OnDestroy, OnChanges {
+  @Output() onSubmitEvent: EventEmitter<BotCommand> = new EventEmitter();
 
-    constructor(private botCommandsService: BotCommandsService,
-                private notificationApiService: NotificationApiService,
-                private fb: FormBuilder) {
+  @Input() initial: BotCommand;
+  @Input() submitButtonText: string;
+  private botsSubscription: Rx.Subscription;
 
-        this.initForm();
-        this.botsSubscription = this.notificationApiService.notificationApiList.subscribe((bots) => {
-            this.bots = bots;
-        });
-    }
+  private bots: Bot[];
 
-    @Output() onSubmitEvent: EventEmitter<BotCommand> = new EventEmitter();
-    @Input() initial: BotCommand;
-    @Input() submitButtonText: string;
+  private botCommandModel: BotCommand = new BotCommand();
 
-    private botsSubscription: Rx.Subscription;
+  private botCommandForm: FormGroup;
 
-    private bots: Bot[];
+  public actionTypes: ActionType[];
 
-    private botCommandModel: BotCommand = new BotCommand();
-    private botCommandForm: FormGroup;
+  constructor(private botCommandsService: BotCommandsService,
+              private notificationApiService: NotificationApiService,
+              private fb: FormBuilder) {
 
-    public actionTypes = [
-        {name: 'Sql select as text', type: 'SQL_SELECT_AS_TEXT'}
-    ];
+    this.initForm();
+    this.botCommandsService.getTypes().subscribe(types => {
+      this.actionTypes = types;
+    });
+    this.botsSubscription = this.notificationApiService.notificationApiList.subscribe((bots) => {
+      this.bots = bots;
+    });
+  }
 
-    initForm() {
-      this.botCommandForm = this.fb.group({
-        name: ['', Validators.required ],
-        cmd: ['', Validators.required ],
-        botIds: [null, Validators.compose([Validators.minLength(1), Validators.required])],
-        action: this.fb.group({
-          type: [''],
-        })
-      });
-    }
 
-    onSubmit(): void {
-      this.botCommandModel = this.botCommandForm.value;
-      this.botCommandModel.action = this.botCommandForm.controls.action.value;
-      this.onSubmitEvent.emit(this.botCommandModel);
-    }
+  initForm() {
+    this.botCommandForm = this.fb.group({
+      name: ['', Validators.required],
+      cmd: ['', Validators.required],
+      botIds: [null, Validators.compose([Validators.minLength(1), Validators.required])],
+      action: this.fb.group({
+        type: [''],
+      })
+    });
+  }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.initial) {
-            if (this.initial != null) {
+  onSubmit(): void {
+    this.botCommandModel = this.botCommandForm.value;
+    this.botCommandModel.action = this.botCommandForm.controls.action.value;
+    this.onSubmitEvent.emit(this.botCommandModel);
+  }
 
-              this.botCommandModel = this.initial;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.initial) {
+      if (this.initial != null) {
 
-              const id = this.botCommandForm.controls.id as FormArray;
-              if (id == null) {
-                this.botCommandForm.addControl('id', this.fb.control({}));
-              }
-              this.botCommandForm.controls.id.setValue(this.botCommandModel.id);
-              this.botCommandForm.controls.name.setValue(this.botCommandModel.name);
-              this.botCommandForm.controls.cmd.setValue(this.botCommandModel.cmd);
-              this.botCommandForm.controls.botIds.setValue(this.botCommandModel.botIds);
-              (this.botCommandForm.controls.action as FormGroup).controls.type.setValue(this.botCommandModel.action.type);
+        this.botCommandModel = this.initial;
 
-            }
+        const id = this.botCommandForm.controls.id as FormArray;
+        if (id == null) {
+          this.botCommandForm.addControl('id', this.fb.control({}));
         }
-    }
+        this.botCommandForm.controls.id.setValue(this.botCommandModel.id);
+        this.botCommandForm.controls.name.setValue(this.botCommandModel.name);
+        this.botCommandForm.controls.cmd.setValue(this.botCommandModel.cmd);
+        this.botCommandForm.controls.botIds.setValue(this.botCommandModel.botIds);
+        (this.botCommandForm.controls.action as FormGroup).controls.type.setValue(this.botCommandModel.action.type);
 
-    ngOnDestroy() {
-        this.botsSubscription.unsubscribe();
+      }
     }
+  }
+
+  ngOnDestroy() {
+    this.botsSubscription.unsubscribe();
+  }
 
 
 }

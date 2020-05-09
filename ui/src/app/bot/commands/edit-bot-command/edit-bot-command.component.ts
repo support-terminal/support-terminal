@@ -1,60 +1,54 @@
-import {Component, Inject, ViewEncapsulation} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {MatSnackBar} from '@angular/material';
 import {BotCommandsService} from '../services/bot-commands.service';
 import BotCommand from '../../models/BotCommand';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MessagingBusService} from '../../../bus/messaging-bus.service';
+import Channel from '../../../bus/Сhannel';
 
 
 @Component({
-    selector: 'app-edit-bot-command',
-    templateUrl: './edit-bot-command.component.html',
-    styleUrls: ['./edit-bot-command.component.scss'],
-    encapsulation: ViewEncapsulation.Emulated
+  selector: 'app-edit-bot-command',
+  templateUrl: './edit-bot-command.component.html',
+  styleUrls: ['./edit-bot-command.component.scss'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class EditBotCommandComponent {
 
-    private command: BotCommand;
+  private command: BotCommand;
 
-    constructor(public dialogRef: MatDialogRef<EditBotCommandComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any,
-                private botCommandsService: BotCommandsService,
-                private snackBar: MatSnackBar) {
-        this.command = data.command;
-    }
+  constructor(private route: ActivatedRoute,
+              private messagingBusService: MessagingBusService,
+              private router: Router,
+              private botCommandsService: BotCommandsService,
+              private snackBar: MatSnackBar) {
+    this.command = route.snapshot.data.command;
 
-    edit(command: BotCommand): void {
-        this.botCommandsService.update(command)
-            .subscribe(command => {
-                this.snackBar.open('Изменения сохранены', '', {
-                    duration: 3000,
-                    panelClass: 'colorGreen',
-                    horizontalPosition: 'right'
-                });
-            });
-    }
+  }
 
-    changeCommandState(changeEvent: any) {
-        if(changeEvent.checked){
-            this.command.state = 'ENABLED';
-        }else{
-            this.command.state = 'DISABLED';
-        }
-    }
+  edit(command: BotCommand): void {
+    this.botCommandsService.update(command)
+      .subscribe(cmd => {
+        this.snackBar.open('Saved', '', {
+          duration: 3000,
+          panelClass: 'colorGreen',
+          horizontalPosition: 'right'
+        });
+        this.messagingBusService.sendMessage({channel: Channel.BOT_COMMANDS_WERE_UPDATED});
+      });
+  }
 
-    delete() {
-        console.log('delete')
-        this.botCommandsService.delete(this.command.id)
-            .subscribe(command => {
-                this.dialogRef.close();
-                this.snackBar.open('Удалено', '', {
-                    duration: 3000,
-                    panelClass: 'colorGreen',
-                    horizontalPosition: 'right'
-                });
-            });
-    }
-
-    close() {
-        this.dialogRef.close();
-    }
+  delete() {
+    this.botCommandsService.delete(this.command.id)
+      .subscribe(command => {
+        this.snackBar.open('Удалено', '', {
+          duration: 3000,
+          panelClass: 'colorGreen',
+          horizontalPosition: 'right'
+        });
+        this.messagingBusService.sendMessage({channel: Channel.BOT_COMMANDS_WERE_UPDATED});
+        this.router.navigateByUrl('/bot-commands');
+      });
+  }
 
 }

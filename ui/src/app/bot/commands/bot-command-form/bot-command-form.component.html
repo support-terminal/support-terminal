@@ -42,7 +42,7 @@
                 id='type' name='type'
                 formControlName='type'>
       <mat-option *ngFor="let t of actionTypes" [value]="t.type">
-        {{ t.name }}
+        {{ t.label }}
       </mat-option>
     </mat-select>
     <mat-error *ngIf="(botCommandForm.controls['action'].controls['type'].dirty || botCommandForm.controls['action'].controls['type'].touched)

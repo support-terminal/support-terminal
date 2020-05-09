@@ -18,7 +18,7 @@ const routes: Routes = [
       {path: 'bot-commands/add', component: AddBotCommandComponent},
       {
         path: 'bot-commands/:id/edit',
-        resolve: {dbConnection: BotCommandsResolver},
+        resolve: {command: BotCommandsResolver},
         component: EditBotCommandComponent
       },
     ]

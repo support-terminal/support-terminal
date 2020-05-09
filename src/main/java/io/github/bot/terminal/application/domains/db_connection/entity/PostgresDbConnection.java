@@ -4,7 +4,7 @@ package io.github.bot.terminal.application.domains.db_connection.entity;
 import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
 
 
-public final class PostgresDbConnection extends DbConnection<PostgresDbConnectionDetails> {
+public class PostgresDbConnection extends DbConnection<PostgresDbConnectionDetails> {
 
     private PostgresDbConnectionDetails details;
     private DbConnectionRepository repository;

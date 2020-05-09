@@ -39,7 +39,7 @@ public class BotCommandsRestConverter {
 
     BotCommandDTO mapToDto(BotCommandDetails details) {
         BotCommandDTO dto = new BotCommandDTO();
-        dto.setId(details.getName());
+        dto.setId(details.getId());
         dto.setName(details.getName());
         dto.setCmd(details.getCmd());
         dto.setState(details.getState().name());

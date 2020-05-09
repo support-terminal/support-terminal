@@ -1,6 +1,7 @@
 package io.github.bot.terminal.application.domains.bot_commands.rest;
 
 import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandDTO;
+import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandTypeDTO;
 import io.github.bot.terminal.application.domains.bot_commands.rest.requests.BotCommandRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,14 +29,18 @@ public class BotCommandsRestController {
     public Collection<BotCommandDTO> list() {
         return service.list();
     }
-/*
 
+    @GetMapping("/types")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Collection<BotCommandTypeDTO> types() {
+        return service.types();
+    }
 
 
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public BotCommandDTO getById(@PathVariable String id) {
-        return service.getById(id);
+        return service.get(id);
     }
 
     @DeleteMapping("/{id}")
@@ -48,11 +53,9 @@ public class BotCommandsRestController {
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public BotCommandDTO edit(@PathVariable String id,
-                              @RequestBody @Valid BotCommandRequest request) throws Exception {
+                              @RequestBody @Valid BotCommandRequest request){
         return service.edit(id, request);
     }
-*/
-
 
 }
 

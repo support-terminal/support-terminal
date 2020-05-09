@@ -1,9 +1,10 @@
 package io.github.bot.terminal.application.domains.bot_commands.entity;
 
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository;
+import io.github.bot.terminal.application.domains.common.Persistable;
 import io.github.bot.terminal.application.domains.common.action.entity.Action;
 
-public class BotCommand {
+public class BotCommand implements Persistable {
 
     private BotCommandRepository repository;
     private BotCommandDetails details;
@@ -17,5 +18,10 @@ public class BotCommand {
 
     public BotCommandDetails getDetails() {
         return details;
+    }
+
+    @Override
+    public void delete() {
+        repository.deleteById(details.getId());
     }
 }

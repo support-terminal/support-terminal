@@ -4,7 +4,7 @@ package io.github.bot.terminal.application.domains.db_connection.entity;
 import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
 
 
-public final class MySqlDbConnection extends DbConnection<MySqlDbConnectionDetails> {
+public class MySqlDbConnection extends DbConnection<MySqlDbConnectionDetails> {
 
     private MySqlDbConnectionDetails details;
     private DbConnectionRepository repository;

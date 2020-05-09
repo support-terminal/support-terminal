@@ -4,7 +4,7 @@ package io.github.bot.terminal.application.domains.db_connection.entity;
 import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
 
 
-public final class OracleDbConnection extends DbConnection<OracleDbConnectionDetails> {
+public class OracleDbConnection extends DbConnection<OracleDbConnectionDetails> {
 
     private OracleDbConnectionDetails details;
     private DbConnectionRepository repository;

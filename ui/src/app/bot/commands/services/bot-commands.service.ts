@@ -6,6 +6,7 @@ import {Inject, OnDestroy} from '@angular/core';
 import {MessagingBusService} from '../../../bus/messaging-bus.service';
 import Channel from '../../../bus/Сhannel';
 import BotCommand from '../../models/BotCommand';
+import ActionType from '../../models/ActionType';
 
 
 export class BotCommandsService implements OnDestroy {
@@ -40,6 +41,10 @@ export class BotCommandsService implements OnDestroy {
       .subscribe(list => {
         this.botCommandsList.next(list);
       });
+  }
+
+  getTypes(): Observable<ActionType[]> {
+    return this.http.get<ActionType[]>(this.url + '/types', this.headers);
   }
 
   get(commandId: string): Observable<BotCommand> {

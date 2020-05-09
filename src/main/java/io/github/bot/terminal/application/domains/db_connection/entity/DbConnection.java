@@ -18,24 +18,24 @@ public abstract class DbConnection<D extends DbConnectionDetails> implements Per
     public abstract String getCheckSelect();
 
     public void check() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(getClassName());
-        dataSource.setUrl(getUrl());
-        dataSource.setUsername(getDetails().getUser());
-        dataSource.setPassword(getDetails().getPassword());
-        JdbcTemplate template = new JdbcTemplate(dataSource);
+        JdbcTemplate template = createJdbcTemplate();
         template.execute(getCheckSelect());
     }
 
-    public Optional<DataSource> getDataSource(String dbConnectionId) {
+     JdbcTemplate createJdbcTemplate() {
+        return new JdbcTemplate(getDataSource().get());
+    }
+
+    public Optional<DataSource> getDataSource() {
         try {
             DriverManagerDataSource dataSource = new DriverManagerDataSource();
-            dataSource.setDriverClassName(getClassName());
             dataSource.setUrl(getUrl());
             dataSource.setUsername(getDetails().getUser());
             dataSource.setPassword(getDetails().getPassword());
+            dataSource.setDriverClassName(getClassName());
             return Optional.of(dataSource);
         } catch (Exception ex) {
+            //TODO log out -- !!!When class name not found - it means that we forget jar driver or we dont see it
             return Optional.empty();
         }
     }
