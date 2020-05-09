@@ -22,13 +22,15 @@ public class BotCommandsRestController {
     public BotCommandDTO add(@RequestBody @Valid BotCommandRequest request) {
         return service.add(request);
     }
-/*
 
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
     public Collection<BotCommandDTO> list() {
         return service.list();
     }
+/*
+
+
 
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
