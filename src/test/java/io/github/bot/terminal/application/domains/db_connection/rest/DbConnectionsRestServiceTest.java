@@ -21,8 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -119,6 +118,35 @@ class DbConnectionsRestServiceTest {
         );
 
     }
+
+    @Test
+    public void checkPostgresDbConnection() {
+
+        DbConnection c1 = Mockito.mock(DbConnection.class);
+        DbConnection c2 = Mockito.mock(DbConnection.class);
+
+        doThrow(new RuntimeException("some issues")).when(c2).check();
+
+        when(factory.build(any()))
+                .thenReturn(c1)
+                .thenReturn(c2);
+
+        PostgresDbConnectionRequest request = new PostgresDbConnectionRequest();
+        request.setName(name);
+        request.setHost(host);
+        request.setPort(port);
+        request.setUser(user);
+        request.setPassword(password);
+        request.setDbName(dbName);
+
+        CheckDbConnectionDTO dto = service.check(request);
+        assertTrue(dto.isSuccess());
+
+        CheckDbConnectionDTO dto2 = service.check(request);
+        assertFalse(dto2.isSuccess());
+
+    }
+
 
     @Test
     public void addNewPostgresDbConnection() {

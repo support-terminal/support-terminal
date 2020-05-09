@@ -1,5 +1,6 @@
 package io.github.bot.terminal.application.domains.db_connection.rest;
 
+import io.github.bot.terminal.application.domains.db_connection.rest.dto.CheckDbConnectionDTO;
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionDTO;
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionTypeDTO;
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.DbConnectionRequest;
@@ -26,12 +27,12 @@ public class DbConnectionsRestController {
         return dbConnectionsApiService.add(dbConnectionRequest);
     }
 
- /*   @PostMapping("/check")
+    @PostMapping("/check")
     @ResponseStatus(code = HttpStatus.OK)
     public CheckDbConnectionDTO checkConnection(@RequestBody @Valid DbConnectionRequest dbConnectionRequest) {
         return dbConnectionsApiService.check(dbConnectionRequest);
     }
-*/
+
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
     public List<DbConnectionDTO> list() {

@@ -92,6 +92,37 @@ class DbConnectionsRestControllerTest {
     }
 
     @Test
+    public void testPostgresDataBaseConnection() throws Exception {
+
+        PostgresDbConnectionRequest request = new PostgresDbConnectionRequest();
+        request.setName(name);
+        request.setHost(host);
+        request.setPort(port);
+        request.setUser(user);
+        request.setPassword(password);
+        request.setDbName(dbName);
+
+        when(service.check(any())).thenReturn(new CheckDbConnectionDTO(true));
+
+        this.mockMvc.perform(post("/api/db-connections/check")
+                .content(mapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+
+                .andExpect(jsonPath("$.success", is(true)));
+
+        verify(service, times(1))
+                .check(postgresRequestArgumentCaptor.capture());
+        PostgresDbConnectionRequest value = postgresRequestArgumentCaptor.getValue();
+
+        assertEquals(name, value.getName());
+        assertEquals(host, value.getHost());
+        assertEquals(port, value.getPort());
+        assertEquals(user, value.getUser());
+        assertEquals(password, value.getPassword());
+        assertEquals(dbName, value.getDbName());
+    }
+    @Test
     public void addPostgresDataBaseConnection() throws Exception {
 
         PostgresDbConnectionDTO dto = new PostgresDbConnectionDTO();

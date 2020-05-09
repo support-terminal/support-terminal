@@ -34,13 +34,13 @@ export class DbConnectionFormComponent implements OnChanges{
     this.dbConnectionsService.checkConnection(this.dbConnection)
       .subscribe(res => {
         if (res.success) {
-          this.snackBar.open('Удачно', '', {
+          this.snackBar.open('Success', '', {
             duration: 5000,
             panelClass: 'colorGreen',
             horizontalPosition: 'right'
           });
         } else {
-          this.snackBar.open('Не удалось установить соединение', '', {
+          this.snackBar.open('Not success', '', {
             duration: 5000,
             panelClass: 'colorRed',
             horizontalPosition: 'right'
