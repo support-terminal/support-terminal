@@ -5,7 +5,7 @@
            [(ngModel)]='dbConnection.host'
            required #host='ngModel'/>
     <mat-error *ngIf='host.errors && (host.dirty || host.touched) && host.errors.required'>
-      Required vaue
+      Required value
     </mat-error>
   </mat-form-field>
 
@@ -15,7 +15,7 @@
            [(ngModel)]='dbConnection.port'
            required #port='ngModel'/>
     <mat-error *ngIf='port.errors && (port.dirty || port.touched) && port.errors.required'>
-      Required vaue
+      Required value
     </mat-error>
   </mat-form-field>
 
@@ -25,7 +25,7 @@
            [(ngModel)]='dbConnection.dbName'
            required #dbName='ngModel'/>
     <mat-error *ngIf='dbName.errors && (dbName.dirty || dbName.touched) && dbName.errors.required'>
-      Required vaue
+      Required value
     </mat-error>
   </mat-form-field>
 
@@ -35,7 +35,7 @@
            [(ngModel)]='dbConnection.user'
            required #user='ngModel'/>
     <mat-error *ngIf='user.errors && (user.dirty || user.touched) && user.errors.required'>
-      Required vaue
+      Required value
     </mat-error>
   </mat-form-field>
 
@@ -48,7 +48,7 @@
            required #password='ngModel'/>
     <mat-icon matSuffix (click)='show = !show'>{{show ?'visibility_off': 'visibility' }}</mat-icon>
     <mat-error *ngIf='password.errors && (password.dirty || password.touched) && password.errors.required'>
-      Required vaue
+      Required value
     </mat-error>
   </mat-form-field>
 

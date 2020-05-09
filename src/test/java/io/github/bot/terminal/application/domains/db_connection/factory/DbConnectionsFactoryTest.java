@@ -86,6 +86,7 @@ class DbConnectionsFactoryTest {
 
         verify(repository, times(1)).add(postgresCaptor.capture());
         PostgresDbConnectionDetails passedDetails = postgresCaptor.getValue();
+        assertNotNull(passedDetails.getId());
         assertEquals(name, passedDetails.getName());
         assertEquals(host, passedDetails.getHost());
         assertEquals(port, passedDetails.getPort());
@@ -118,6 +119,7 @@ class DbConnectionsFactoryTest {
 
         verify(repository, times(1)).add(mysqlCaptor.capture());
         MySqlDbConnectionDetails passedDetails = mysqlCaptor.getValue();
+        assertNotNull(passedDetails.getId());
         assertEquals(name, passedDetails.getName());
         assertEquals(host, passedDetails.getHost());
         assertEquals(port, passedDetails.getPort());
@@ -150,6 +152,7 @@ class DbConnectionsFactoryTest {
 
         verify(repository, times(1)).add(oracleCaptor.capture());
         OracleDbConnectionDetails passedDetails = oracleCaptor.getValue();
+        assertNotNull(passedDetails.getId());
         assertEquals(name, passedDetails.getName());
         assertEquals(host, passedDetails.getHost());
         assertEquals(port, passedDetails.getPort());

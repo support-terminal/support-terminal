@@ -1,9 +1,9 @@
 package io.github.bot.terminal.application.domains.bot_commands.factory;
 
 
-import io.github.bot.terminal.application.domains.db_connection.entity.*;
-import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
-import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
+import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommand;
+import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommandDetails;
+import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,55 +15,36 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BotCommandsFactory {
 
-    private final DbConnectionRepository repository;
+    private final BotCommandRepository repository;
 
-    public DbConnection<?> createNew(DbConnectionDetails details) {
+    public BotCommand createNew(BotCommandDetails details) {
         details.setId(UUID.randomUUID().toString());
         repository.add(details);
         return build(details);
     }
 
-    public DbConnection<?> byId(String id) {
-        DbConnectionDetails details = getById(id);
+    public BotCommand byId(String id) {
+        BotCommandDetails details = getById(id);
         return build(details);
     }
 
-    public DbConnection<?> merge(String id, DbConnectionDetails detailsUpdate) {
-        DbConnectionDetails details = getById(id);
+    public BotCommand merge(String id, BotCommandDetails detailsUpdate) {
+        BotCommandDetails details = getById(id);
         detailsUpdate.setId(details.getId());
         repository.update(detailsUpdate);
         return build(detailsUpdate);
     }
 
-    private DbConnectionDetails getById(String id) {
+    private BotCommandDetails getById(String id) {
         return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Notfication API not found: id=" + id));
+                .orElseThrow(() -> new IllegalArgumentException("Bot command not found: id=" + id));
     }
 
-    public DbConnection<?> build(DbConnectionDetails details) {
-        if (DbConnectionType.MYSQL.equals(details.getType())) {
-            return createDetails((MySqlDbConnectionDetails) details);
-        } else if (DbConnectionType.POSTGRES.equals(details.getType())) {
-            return createDetails((PostgresDbConnectionDetails) details);
-        } else if (DbConnectionType.ORACLE.equals(details.getType())) {
-            return createDetails((OracleDbConnectionDetails) details);
-        }
-        throw new IllegalArgumentException("Unknown db connection api type: " + details.getType());
+    public BotCommand build(BotCommandDetails details) {
+        return new BotCommand(details, repository);
     }
 
-    private DbConnection<?> createDetails(MySqlDbConnectionDetails details) {
-        return new MySqlDbConnection(details, repository);
-    }
-
-    private DbConnection<PostgresDbConnectionDetails> createDetails(PostgresDbConnectionDetails details) {
-        return new PostgresDbConnection(details, repository);
-    }
-
-    private DbConnection<OracleDbConnectionDetails> createDetails(OracleDbConnectionDetails details) {
-        return new OracleDbConnection(details, repository);
-    }
-
-    public List<DbConnection<?>> getAll() {
+    public List<BotCommand> getAll() {
         return repository.findAll().stream()
                 .map(this::build).collect(Collectors.toList());
     }

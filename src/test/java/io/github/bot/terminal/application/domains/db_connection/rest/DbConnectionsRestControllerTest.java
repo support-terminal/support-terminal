@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class DbConnectionsRestControllerTest {
 
     @Mock
-    private DbConnectionsRestService restService;
+    private DbConnectionsRestService service;
 
     @InjectMocks
     private DbConnectionsRestController controller;
@@ -82,7 +82,7 @@ class DbConnectionsRestControllerTest {
         DbConnectionTypeDTO dto = new DbConnectionTypeDTO();
         dto.setType(DbConnectionType.POSTGRES.name());
         dto.setLabel(DbConnectionType.POSTGRES.getLabel());
-        when(restService.types()).thenReturn(Collections.singletonList(dto));
+        when(service.types()).thenReturn(Collections.singletonList(dto));
 
         this.mockMvc.perform(get("/api/db-connections/types")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -103,7 +103,7 @@ class DbConnectionsRestControllerTest {
         dto.setUser(user);
         dto.setPassword(password);
         dto.setDbName(dbName);
-        when(restService.add(any())).thenReturn(dto);
+        when(service.add(any())).thenReturn(dto);
 
         PostgresDbConnectionRequest request = new PostgresDbConnectionRequest();
         request.setName(name);
@@ -127,7 +127,7 @@ class DbConnectionsRestControllerTest {
                 .andExpect(jsonPath("$.password", is(password)))
                 .andExpect(jsonPath("$.dbName", is(dbName)));
 
-        verify(restService, times(1))
+        verify(service, times(1))
                 .add(postgresRequestArgumentCaptor.capture());
         PostgresDbConnectionRequest value = postgresRequestArgumentCaptor.getValue();
 
@@ -151,7 +151,7 @@ class DbConnectionsRestControllerTest {
         dto.setUser(user);
         dto.setPassword(password);
         dto.setDbName(dbName);
-        when(restService.add(any())).thenReturn(dto);
+        when(service.add(any())).thenReturn(dto);
 
         MySqlDbConnectionRequest request = new MySqlDbConnectionRequest();
         request.setName(name);
@@ -175,7 +175,7 @@ class DbConnectionsRestControllerTest {
                 .andExpect(jsonPath("$.password", is(password)))
                 .andExpect(jsonPath("$.dbName", is(dbName)));
 
-        verify(restService, times(1))
+        verify(service, times(1))
                 .add(mysqlRequestArgumentCaptor.capture());
         MySqlDbConnectionRequest value = mysqlRequestArgumentCaptor.getValue();
 
@@ -199,7 +199,7 @@ class DbConnectionsRestControllerTest {
         dto.setUser(user);
         dto.setPassword(password);
         dto.setSid(sid);
-        when(restService.add(any())).thenReturn(dto);
+        when(service.add(any())).thenReturn(dto);
 
         OracleDbConnectionRequest request = new OracleDbConnectionRequest();
         request.setName(name);
@@ -223,7 +223,7 @@ class DbConnectionsRestControllerTest {
                 .andExpect(jsonPath("$.password", is(password)))
                 .andExpect(jsonPath("$.sid", is(sid)));
 
-        verify(restService, times(1))
+        verify(service, times(1))
                 .add(oracleRequestArgumentCaptor.capture());
         OracleDbConnectionRequest value = oracleRequestArgumentCaptor.getValue();
 
@@ -247,7 +247,7 @@ class DbConnectionsRestControllerTest {
         dto.setUser(user);
         dto.setPassword(password);
         dto.setDbName(dbName);
-        when(restService.edit(any(), any())).thenReturn(dto);
+        when(service.edit(any(), any())).thenReturn(dto);
 
         PostgresDbConnectionRequest request = new PostgresDbConnectionRequest();
         request.setName(name);
@@ -271,7 +271,7 @@ class DbConnectionsRestControllerTest {
                 .andExpect(jsonPath("$.password", is(password)))
                 .andExpect(jsonPath("$.dbName", is(dbName)));
 
-        verify(restService, times(1))
+        verify(service, times(1))
                 .edit(eq(dbConnectionid), postgresRequestArgumentCaptor.capture());
         PostgresDbConnectionRequest value = postgresRequestArgumentCaptor.getValue();
 
@@ -295,7 +295,7 @@ class DbConnectionsRestControllerTest {
         dto.setUser(user);
         dto.setPassword(password);
         dto.setDbName(dbName);
-        when(restService.edit(any(), any())).thenReturn(dto);
+        when(service.edit(any(), any())).thenReturn(dto);
 
         MySqlDbConnectionRequest request = new MySqlDbConnectionRequest();
         request.setName(name);
@@ -319,7 +319,7 @@ class DbConnectionsRestControllerTest {
                 .andExpect(jsonPath("$.password", is(password)))
                 .andExpect(jsonPath("$.dbName", is(dbName)));
 
-        verify(restService, times(1))
+        verify(service, times(1))
                 .edit(eq(dbConnectionid), mysqlRequestArgumentCaptor.capture());
         MySqlDbConnectionRequest value = mysqlRequestArgumentCaptor.getValue();
 
@@ -343,7 +343,7 @@ class DbConnectionsRestControllerTest {
         dto.setUser(user);
         dto.setPassword(password);
         dto.setSid(sid);
-        when(restService.edit(any(), any())).thenReturn(dto);
+        when(service.edit(any(), any())).thenReturn(dto);
 
         OracleDbConnectionRequest request = new OracleDbConnectionRequest();
         request.setName(name);
@@ -367,7 +367,7 @@ class DbConnectionsRestControllerTest {
                 .andExpect(jsonPath("$.password", is(password)))
                 .andExpect(jsonPath("$.sid", is(sid)));
 
-        verify(restService, times(1))
+        verify(service, times(1))
                 .edit(eq(dbConnectionid), oracleRequestArgumentCaptor.capture());
         OracleDbConnectionRequest value = oracleRequestArgumentCaptor.getValue();
 
@@ -391,7 +391,7 @@ class DbConnectionsRestControllerTest {
         dto.setUser(user);
         dto.setPassword(password);
         dto.setDbName(dbName);
-        when(restService.get(any())).thenReturn(dto);
+        when(service.get(any())).thenReturn(dto);
 
         this.mockMvc.perform(get("/api/db-connections/" + dbConnectionid)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -406,7 +406,7 @@ class DbConnectionsRestControllerTest {
                 .andExpect(jsonPath("$.password", is(password)))
                 .andExpect(jsonPath("$.dbName", is(dbName)));
 
-        verify(restService, times(1))
+        verify(service, times(1))
                 .get(eq(dbConnectionid));
     }
 
@@ -422,7 +422,7 @@ class DbConnectionsRestControllerTest {
         dto.setUser(user);
         dto.setPassword(password);
         dto.setDbName(dbName);
-        when(restService.get(any())).thenReturn(dto);
+        when(service.get(any())).thenReturn(dto);
 
         this.mockMvc.perform(get("/api/db-connections/" + dbConnectionid)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -437,7 +437,7 @@ class DbConnectionsRestControllerTest {
                 .andExpect(jsonPath("$.password", is(password)))
                 .andExpect(jsonPath("$.dbName", is(dbName)));
 
-        verify(restService, times(1))
+        verify(service, times(1))
                 .get(eq(dbConnectionid));
     }
 
@@ -452,7 +452,7 @@ class DbConnectionsRestControllerTest {
         dto.setUser(user);
         dto.setPassword(password);
         dto.setSid(sid);
-        when(restService.get(any())).thenReturn(dto);
+        when(service.get(any())).thenReturn(dto);
 
         this.mockMvc.perform(get("/api/db-connections/" + dbConnectionid)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -467,7 +467,7 @@ class DbConnectionsRestControllerTest {
                 .andExpect(jsonPath("$.password", is(password)))
                 .andExpect(jsonPath("$.sid", is(sid)));
 
-        verify(restService, times(1))
+        verify(service, times(1))
                 .get(eq(dbConnectionid));
     }
 
@@ -498,7 +498,7 @@ class DbConnectionsRestControllerTest {
         c.add(dto1);
         c.add(dto2);
 
-        when(restService.list()).thenReturn(c);
+        when(service.list()).thenReturn(c);
 
         this.mockMvc.perform(get("/api/db-connections")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -530,7 +530,7 @@ class DbConnectionsRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(restService, times(1))
+        verify(service, times(1))
                 .delete(eq(dbConnectionid));
 
 

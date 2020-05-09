@@ -1,6 +1,7 @@
 package io.github.bot.terminal.application.domains.bot_commands.rest;
 
 
+import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommand;
 import io.github.bot.terminal.application.domains.bot_commands.factory.BotCommandsFactory;
 import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandDTO;
 import io.github.bot.terminal.application.domains.bot_commands.rest.requests.BotCommandRequest;
@@ -17,10 +18,10 @@ public class BotCommandsRestService {
     private final BotCommandsRestConverter converter;
 
     public BotCommandDTO add(BotCommandRequest request) {
-        NotificationApi notificationApi = factory.createNew(
+        BotCommand command = factory.createNew(
                 converter.mapToDetails(request)
         );
-        return converter.mapToDto(notificationApi.getDetails());
+        return converter.mapToDto(command.getDetails());
     }
 /*
     public BotCommandDTO edit(String id, NotificationApiRequest request) {

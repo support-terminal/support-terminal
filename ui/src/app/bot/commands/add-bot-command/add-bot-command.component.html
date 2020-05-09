@@ -1,0 +1,14 @@
+<div style="margin: 60px;">
+  <div fxLayout fxLayoutAlign='start center'>
+    <h2 fxFlex='100%' mat-dialog-title>Add new bot command</h2>
+  </div>
+  <mat-dialog-content>
+    <app-bot-command-form (onSubmitEvent)='add($event)'
+                          submitButtonText='Add'>
+    </app-bot-command-form>
+  </mat-dialog-content>
+</div>
+
+
+
+

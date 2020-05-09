@@ -1,0 +1,74 @@
+<form [formGroup]='botCommandForm' (ngSubmit)='onSubmit()' fxLayout='column'>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Command label'
+           id='name' name='name'
+           formControlName='name'/>
+    <mat-error *ngIf=" (botCommandForm.controls['name'].dirty || botCommandForm.controls['name'].touched)
+                       && botCommandForm.controls['name'].errors && botCommandForm.controls['name'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Command'
+           id='cmd' name='cmd'
+           formControlName='cmd'/>
+    <mat-error *ngIf=" (botCommandForm.controls['cmd'].dirty || botCommandForm.controls['cmd'].touched)
+                       && botCommandForm.controls['cmd'].errors && botCommandForm.controls['cmd'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field>
+    <mat-select placeholder='Notification Api'
+                multiple
+                formControlName='botIds'>
+      <mat-option *ngFor='let bot of bots' [value]='bot.id'>
+        {{ bot.label }}
+      </mat-option>
+    </mat-select>
+
+    <mat-error *ngIf="(botCommandForm.controls['botIds'].dirty || botCommandForm.controls['botIds'].touched)
+                       && botCommandForm.controls['botIds'].errors && botCommandForm.controls['botIds'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field [formGroup]="botCommandForm.controls['action']">
+    <mat-select placeholder='Command type'
+                id='type' name='type'
+                formControlName='type'>
+      <mat-option *ngFor="let t of actionTypes" [value]="t.type">
+        {{ t.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="(botCommandForm.controls['action'].controls['type'].dirty || botCommandForm.controls['action'].controls['type'].touched)
+                       && botCommandForm.controls['action'].controls['type'].errors && botCommandForm.controls['action'].controls['type'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <app-sql-select-as-text-bot-command-form *ngIf="botCommandForm.controls['action'].value.type == 'SQL_SELECT_AS_TEXT'"
+                    [actionForm]="botCommandForm.controls['action']"
+                    [actionModel]='botCommandModel.action'>
+  </app-sql-select-as-text-bot-command-form >
+
+  <app-sql-select-as-text-bot-command-form  *ngIf="botCommandForm.controls['action'].value.type == 'SQL_SELECT_IN_EXCEL_FILE'"
+                             [actionForm]="botCommandForm.controls['action']"
+                             [actionModel]='botCommandModel.action'>
+  </app-sql-select-as-text-bot-command-form >
+
+  <div fxLayout fxFlexAlign='center' style='margin: 20px;' fxLayoutGap='10px'>
+    <button type='submit' mat-raised-button color='primary'
+              [disabled]='botCommandForm.invalid'>{{submitButtonText}}</button>
+
+    <ng-content select='.ng-content-bottom-buttons'></ng-content>
+
+  </div>
+
+</form>
+
+

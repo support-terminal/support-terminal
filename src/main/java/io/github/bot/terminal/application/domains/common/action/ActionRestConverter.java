@@ -16,32 +16,32 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ActionRestConverter {
 
-    ActionDetails mapToDetails(ActionRequest request) {
+    public ActionDetails mapToDetails(ActionRequest request) {
         if (ActionType.SQL_SELECT_AS_TEXT.name().equals(request.getType())) {
             return mapToDetails((SqlSelectAsTextActionRequest) request);
         }
         throw new IllegalArgumentException("Unknown type: " + request.getType());
     }
 
-    SqlSelectAsTextActionDetails mapToDetails(SqlSelectAsTextActionRequest request) {
+    public SqlSelectAsTextActionDetails mapToDetails(SqlSelectAsTextActionRequest request) {
         SqlSelectAsTextActionDetails details = new SqlSelectAsTextActionDetails();
         details.setType(ActionType.SQL_SELECT_AS_TEXT);
-        details.setDataBaseId(request.getDataBaseId());
+        details.setDbConnectionId(request.getDbConnectionId());
         details.setSelect(request.getSelect());
         details.setResultTemplate(request.getResultTemplate());
         return details;
     }
 
-    ActionDTO mapToDto(ActionDetails details) {
+    public ActionDTO mapToDto(ActionDetails details) {
         if (ActionType.SQL_SELECT_AS_TEXT.equals(details.getType())) {
             return mapToDto((SqlSelectAsTextActionDetails) details);
         }
         throw new IllegalArgumentException("Unknown type: " + details.getType());
     }
 
-    SqlSelectAsTextActionDTO mapToDto(SqlSelectAsTextActionDetails details) {
+    public SqlSelectAsTextActionDTO mapToDto(SqlSelectAsTextActionDetails details) {
         SqlSelectAsTextActionDTO dto = new SqlSelectAsTextActionDTO();
-        dto.setDataBaseId(details.getDataBaseId());
+        dto.setDbConnectionId(details.getDbConnectionId());
         dto.setSelect(details.getSelect());
         dto.setResultTemplate(details.getResultTemplate());
         dto.setType(details.getType().name());

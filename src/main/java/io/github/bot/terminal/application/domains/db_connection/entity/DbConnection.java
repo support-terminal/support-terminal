@@ -27,7 +27,7 @@ public abstract class DbConnection<D extends DbConnectionDetails> implements Per
         template.execute(getCheckSelect());
     }
 
-    public Optional<DataSource> getDataSource(String dataBaseId) {
+    public Optional<DataSource> getDataSource(String dbConnectionId) {
         try {
             DriverManagerDataSource dataSource = new DriverManagerDataSource();
             dataSource.setDriverClassName(getClassName());

@@ -20,7 +20,7 @@ public class SqlSelectAsTextActionDetails extends ActionDetails {
     @NotBlank
     private String select;
     @NotBlank
-    private String dataBaseId;
+    private String dbConnectionId;
     @NotBlank
     private String resultTemplate;
 

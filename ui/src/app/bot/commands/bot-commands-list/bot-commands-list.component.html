@@ -1,0 +1,20 @@
+<div fxLayout='column'>
+
+  <mat-toolbar color='primary'>
+    <mat-toolbar-row>
+      <span>Bot commands</span>
+      <span fxFlex='100%'></span>
+      <span fxFlex='100%' fxLayoutAlign='end'>
+          <a mat-button routerLink='add'>
+                     <mat-icon aria-label='Add bot command'>playlist_add</mat-icon>
+                     Add bot command
+         </a>
+      </span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-list>
+    <app-bot-command-item *ngFor='let command of commandsList' [command]='command'></app-bot-command-item>
+  </mat-list>
+
+</div>

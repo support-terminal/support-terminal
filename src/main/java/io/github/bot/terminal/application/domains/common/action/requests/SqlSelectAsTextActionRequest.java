@@ -10,7 +10,7 @@ public class SqlSelectAsTextActionRequest extends ActionRequest {
     @NotBlank
     private String select;
     @NotBlank
-    private String dataBaseId;
+    private String dbConnectionId;
     @NotBlank
     private String resultTemplate;
 

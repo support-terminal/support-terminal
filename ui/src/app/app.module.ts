@@ -21,6 +21,7 @@ import {MessagingBusService} from './bus/messaging-bus.service';
 import {DbConnectionsModule} from './db-connections/db-connections.module';
 import {SettingsComponent} from './settings/settings.component';
 import {SettingsService} from './settings/settings.service';
+import {BotCommandsModule} from './bot/commands/bot-commands.module';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {SettingsService} from './settings/settings.service';
     AppRoutingModule,
     // features
     NotificationsApiModule,
-    DbConnectionsModule
+    DbConnectionsModule,
+    BotCommandsModule
   ],
   providers: [
     AuthGuard,

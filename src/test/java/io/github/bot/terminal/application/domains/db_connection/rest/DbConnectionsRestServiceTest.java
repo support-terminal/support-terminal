@@ -37,7 +37,7 @@ class DbConnectionsRestServiceTest {
     private DbConnectionRepository repository;
 
     private DbConnectionsRestConverter converter = spy(new DbConnectionsRestConverter());
-    private DbConnectionsRestService restService;
+    private DbConnectionsRestService service;
 
     @Captor
     ArgumentCaptor<PostgresDbConnectionDetails> postgresDetailsCaptor;
@@ -67,7 +67,7 @@ class DbConnectionsRestServiceTest {
 
     @BeforeEach
     public void inti() {
-        restService = new DbConnectionsRestService(factory, converter);
+        service = new DbConnectionsRestService(factory, converter);
     }
 
 
@@ -83,7 +83,7 @@ class DbConnectionsRestServiceTest {
         request.setDbName(dbName);
 
         assertThrows(IllegalArgumentException.class, () ->
-                restService.add(request)
+                service.add(request)
         );
 
     }
@@ -115,7 +115,7 @@ class DbConnectionsRestServiceTest {
         request.setDbName(dbName);
 
         assertThrows(IllegalArgumentException.class, () ->
-                restService.add(request)
+                service.add(request)
         );
 
     }
@@ -146,7 +146,7 @@ class DbConnectionsRestServiceTest {
         request.setPassword(password);
         request.setDbName(dbName);
 
-        PostgresDbConnectionDTO apiDTO = (PostgresDbConnectionDTO) restService.add(request);
+        PostgresDbConnectionDTO apiDTO = (PostgresDbConnectionDTO) service.add(request);
         assertEquals(dbConnectionid, apiDTO.getId());
         assertEquals(name, apiDTO.getName());
         assertEquals(host, apiDTO.getHost());
@@ -194,7 +194,7 @@ class DbConnectionsRestServiceTest {
         request.setPassword(password);
         request.setDbName(dbName);
 
-        MySqlDbConnectionDTO apiDTO = (MySqlDbConnectionDTO) restService.add(request);
+        MySqlDbConnectionDTO apiDTO = (MySqlDbConnectionDTO) service.add(request);
         assertEquals(dbConnectionid, apiDTO.getId());
         assertEquals(name, apiDTO.getName());
         assertEquals(host, apiDTO.getHost());
@@ -242,7 +242,7 @@ class DbConnectionsRestServiceTest {
         request.setPassword(password);
         request.setSid(sid);
 
-        OracleDbConnectionDTO apiDTO = (OracleDbConnectionDTO) restService.add(request);
+        OracleDbConnectionDTO apiDTO = (OracleDbConnectionDTO) service.add(request);
         assertEquals(dbConnectionid, apiDTO.getId());
         assertEquals(name, apiDTO.getName());
         assertEquals(host, apiDTO.getHost());
@@ -291,7 +291,7 @@ class DbConnectionsRestServiceTest {
         request.setSid(sid2);
 
 
-        OracleDbConnectionDTO apiDTO = (OracleDbConnectionDTO) restService.edit(dbConnectionid, request);
+        OracleDbConnectionDTO apiDTO = (OracleDbConnectionDTO) service.edit(dbConnectionid, request);
         assertEquals(dbConnectionid, apiDTO.getId());
         assertEquals(name2, apiDTO.getName());
         assertEquals(host2, apiDTO.getHost());
@@ -340,7 +340,7 @@ class DbConnectionsRestServiceTest {
         request.setDbName(dbName2);
 
 
-        PostgresDbConnectionDTO apiDTO = (PostgresDbConnectionDTO) restService.edit(dbConnectionid, request);
+        PostgresDbConnectionDTO apiDTO = (PostgresDbConnectionDTO) service.edit(dbConnectionid, request);
         assertEquals(dbConnectionid, apiDTO.getId());
         assertEquals(name2, apiDTO.getName());
         assertEquals(host2, apiDTO.getHost());
@@ -389,7 +389,7 @@ class DbConnectionsRestServiceTest {
         request.setDbName(dbName2);
 
 
-        MySqlDbConnectionDTO apiDTO = (MySqlDbConnectionDTO) restService.edit(dbConnectionid, request);
+        MySqlDbConnectionDTO apiDTO = (MySqlDbConnectionDTO) service.edit(dbConnectionid, request);
         assertEquals(dbConnectionid, apiDTO.getId());
         assertEquals(name2, apiDTO.getName());
         assertEquals(host2, apiDTO.getHost());
@@ -428,7 +428,7 @@ class DbConnectionsRestServiceTest {
         when(factory.byId(eq(dbConnectionid)))
                 .thenReturn(connection);
 
-        MySqlDbConnectionDTO apiDTO = (MySqlDbConnectionDTO) restService.get(dbConnectionid);
+        MySqlDbConnectionDTO apiDTO = (MySqlDbConnectionDTO) service.get(dbConnectionid);
         assertEquals(dbConnectionid, apiDTO.getId());
         assertEquals(name, apiDTO.getName());
         assertEquals(host, apiDTO.getHost());
@@ -456,7 +456,7 @@ class DbConnectionsRestServiceTest {
         when(factory.byId(eq(dbConnectionid)))
                 .thenReturn(connection);
 
-        PostgresDbConnectionDTO apiDTO = (PostgresDbConnectionDTO) restService.get(dbConnectionid);
+        PostgresDbConnectionDTO apiDTO = (PostgresDbConnectionDTO) service.get(dbConnectionid);
         assertEquals(dbConnectionid, apiDTO.getId());
         assertEquals(name, apiDTO.getName());
         assertEquals(host, apiDTO.getHost());
@@ -484,7 +484,7 @@ class DbConnectionsRestServiceTest {
         when(factory.byId(eq(dbConnectionid)))
                 .thenReturn(connection);
 
-        OracleDbConnectionDTO apiDTO = (OracleDbConnectionDTO) restService.get(dbConnectionid);
+        OracleDbConnectionDTO apiDTO = (OracleDbConnectionDTO) service.get(dbConnectionid);
         assertEquals(dbConnectionid, apiDTO.getId());
         assertEquals(name, apiDTO.getName());
         assertEquals(host, apiDTO.getHost());
@@ -502,7 +502,7 @@ class DbConnectionsRestServiceTest {
         when(factory.byId(eq(dbConnectionid)))
                 .thenReturn(dbConnection);
 
-        restService.delete(dbConnectionid);
+        service.delete(dbConnectionid);
         verify(dbConnection, timeout(1)).delete();
     }
 
@@ -541,7 +541,7 @@ class DbConnectionsRestServiceTest {
         when(factory.getAll())
                 .thenReturn(c);
 
-        List<DbConnectionDTO> list = restService.list();
+        List<DbConnectionDTO> list = service.list();
 
         OracleDbConnectionDTO apiDTO1 = (OracleDbConnectionDTO) list.get(0);
         assertEquals(dbConnectionid, apiDTO1.getId());
@@ -567,7 +567,7 @@ class DbConnectionsRestServiceTest {
 
     @Test
     public void getTypes() {
-        List<DbConnectionTypeDTO> types = restService.types();
+        List<DbConnectionTypeDTO> types = service.types();
         assertEquals(3, types.size());
         assertEquals(DbConnectionType.POSTGRES.name(), types.get(0).getType());
         assertEquals(DbConnectionType.POSTGRES.getLabel(), types.get(0).getLabel());
