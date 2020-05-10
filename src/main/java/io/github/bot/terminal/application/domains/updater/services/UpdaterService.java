@@ -30,17 +30,14 @@ public class UpdaterService {
 
     private final RestTemplate restTemplate;
     private final RestTemplate restTemplateForFiles;
-    private final ApplicationEventsService applicationEventsService;
+    private final ApplicationEventsService eventsService;
     private static final String ACTUAL_APP_VERSION_URL = "https://api.github.com/repos/support-terminal/support-terminal/releases/latest";
     private static final String ACTUAL_UPDATER_VERSION_URL = "https://api.github.com/repos/support-terminal/updater/releases/latest";
 
-    /**
-     * Запуск автообновления системы
-     */
     public void runAutoUpdate() throws Exception {
 
         log.info("Started application auto-update");
-        applicationEventsService.notifyUi("Started application auto-update");
+        eventsService.notifyInfo("Started application auto-update");
 
         createPathWithParentsOrClear(UPDATE_FILE_PATH);
 
@@ -48,7 +45,7 @@ public class UpdaterService {
         ReleaseInfo actualUpdaterAppVersionInfo = restTemplate.exchange(ACTUAL_UPDATER_VERSION_URL, HttpMethod.GET, HttpEntity.EMPTY, ReleaseInfo.class).getBody();
 
         log.info("Start download update files");
-        applicationEventsService.notifyUi("Start download update files");
+        eventsService.notifyInfo("Start download update files");
 
         //Скачиваем файлы в папку обнолений
         String appFilePath = fetchFile(actualAppVersionInfo.getAssets().get(0).getBrowserDownloadUrl(),
@@ -60,7 +57,7 @@ public class UpdaterService {
                 UPDATE_FILE_PATH + actualUpdaterAppVersionInfo.getAssets().get(0).getName())
                 .toAbsolutePath().toString();
 
-        applicationEventsService.notifyUi("Download update files completed");
+        eventsService.notifyInfo("Download update files completed");
 
         ApplicationHome home = new ApplicationHome();
         String currentApplicationPath = home.getDir().toPath().toAbsolutePath().toString();
@@ -79,7 +76,7 @@ public class UpdaterService {
                 .append(currentJarPath);
 
         log.info("Start updater " + commanBuilder.toString());
-        applicationEventsService.notifyUi("The application is going to shutdown. Refresh browser page after 5 minutes");
+        eventsService.notifyInfo("The application is going to shutdown. Refresh browser page after 5 minutes");
 
         Process proc = Runtime.getRuntime().exec(commanBuilder.toString());
         if (proc.isAlive()) {

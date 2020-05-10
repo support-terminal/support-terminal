@@ -1,6 +1,8 @@
 package io.github.bot.terminal.application.domains.notificarion_api.rest;
 
 
+import io.github.bot.terminal.application.domains.events.models.ApplicationEvent;
+import io.github.bot.terminal.application.domains.events.services.ApplicationEventsService;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi;
 import io.github.bot.terminal.application.domains.notificarion_api.factory.NotificationApiFactory;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO;
@@ -8,13 +10,14 @@ import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.Noti
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest;
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NotificationApiRestService {

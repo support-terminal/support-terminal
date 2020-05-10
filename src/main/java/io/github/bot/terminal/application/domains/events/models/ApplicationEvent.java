@@ -11,7 +11,13 @@ import java.util.Date;
 @Accessors(chain = true)
 @EqualsAndHashCode
 public class ApplicationEvent {
-    private String text;
+    private String message;
+    private Level level;
     private Date date;
+
+    public static enum Level{
+        INFO,
+        ERROR
+    }
 }
 

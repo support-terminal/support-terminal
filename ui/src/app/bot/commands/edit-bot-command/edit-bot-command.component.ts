@@ -41,7 +41,7 @@ export class EditBotCommandComponent {
   delete() {
     this.botCommandsService.delete(this.command.id)
       .subscribe(command => {
-        this.snackBar.open('Удалено', '', {
+        this.snackBar.open('Deleted', '', {
           duration: 3000,
           panelClass: 'colorGreen',
           horizontalPosition: 'right'
