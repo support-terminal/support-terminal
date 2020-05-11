@@ -1,6 +1,8 @@
 package io.github.bot.terminal.application.domains.notificarion_api.factory;
 
 
+import io.github.bot.terminal.application.domains.integrations.slack.SlackApiClient;
+import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.*;
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository;
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 public class NotificationApiFactory {
 
     private final NotificationApiRepository repository;
+    private final SlackApiClient slackApiClient;
+    private final TelegramApiClient telegramApiClient;
 
     public NotificationApi<?> createNew(NotificationApiDetails details) {
         details.setId(UUID.randomUUID().toString());
@@ -51,11 +55,11 @@ public class NotificationApiFactory {
     }
 
     private NotificationApi<?> build(TelegramNotificationApiDetails details) {
-        return new TelegramNotificationApi(details, repository);
+        return new TelegramNotificationApi(details, repository, telegramApiClient);
     }
 
     private NotificationApi<SlackNotificationApiDetails> build(SlackNotificationApiDetails details) {
-        return new SlackNotificationApi(details, repository);
+        return new SlackNotificationApi(details, repository, slackApiClient);
     }
 
     public List<NotificationApi<?>> getAll() {

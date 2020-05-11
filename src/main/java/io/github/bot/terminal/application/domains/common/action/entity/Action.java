@@ -1,7 +1,9 @@
 package io.github.bot.terminal.application.domains.common.action.entity;
 
-public class Action {
+import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi;
 
-    private ActionDetails details;
+public interface Action {
 
+    void proceedAndNotify(NotificationApi<?> notificationApi);
 }
+

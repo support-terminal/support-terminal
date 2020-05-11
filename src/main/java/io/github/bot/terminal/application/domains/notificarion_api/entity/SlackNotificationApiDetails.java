@@ -14,4 +14,5 @@ public class SlackNotificationApiDetails extends NotificationApiDetails {
 
     private String token;
     private String chanel;
+    private Double oldest;
 }

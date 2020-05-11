@@ -22,7 +22,7 @@ public abstract class DbConnection<D extends DbConnectionDetails> implements Per
         template.execute(getCheckSelect());
     }
 
-     JdbcTemplate createJdbcTemplate() {
+    public JdbcTemplate createJdbcTemplate() {
         return new JdbcTemplate(getDataSource().get());
     }
 

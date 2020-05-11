@@ -4,6 +4,10 @@ package io.github.bot.terminal.application.domains.bot_commands.factory;
 import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommand;
 import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommandDetails;
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository;
+import io.github.bot.terminal.application.domains.common.action.entity.Action;
+import io.github.bot.terminal.application.domains.common.action.factory.ActionsFactory;
+import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi;
+import io.github.bot.terminal.application.domains.notificarion_api.factory.NotificationApiFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,8 @@ import java.util.stream.Collectors;
 public class BotCommandsFactory {
 
     private final BotCommandRepository repository;
+    private final ActionsFactory actionsFactory;
+    private final NotificationApiFactory notificationApiFactory;
 
     public BotCommand createNew(BotCommandDetails details) {
         details.setId(UUID.randomUUID().toString());
@@ -41,11 +47,16 @@ public class BotCommandsFactory {
     }
 
     public BotCommand build(BotCommandDetails details) {
-        return new BotCommand(details, repository);
+        List<NotificationApi> notificationApis = details.getBotIds().stream()
+                .map(n -> notificationApiFactory.byId(n))
+                .collect(Collectors.toList());
+        Action action = actionsFactory.build(details.getActionDetails());
+        return new BotCommand(details, repository, action, notificationApis);
     }
 
     public List<BotCommand> getAll() {
-        return repository.findAll().stream()
+        return repository
+                .findAll().stream()
                 .map(this::build).collect(Collectors.toList());
     }
 }
