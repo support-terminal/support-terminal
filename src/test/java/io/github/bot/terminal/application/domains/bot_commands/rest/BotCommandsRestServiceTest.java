@@ -1,7 +1,7 @@
 package io.github.bot.terminal.application.domains.bot_commands.rest;
 
 import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommand;
-import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommandDetails;
+import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails;
 import io.github.bot.terminal.application.domains.bot_commands.factory.BotCommandsFactory;
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository;
 import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandDTO;
@@ -13,12 +13,6 @@ import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsT
 import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextActionDetails;
 import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsTextActionRequest;
 import io.github.bot.terminal.application.domains.common.action.values.ActionType;
-import io.github.bot.terminal.application.domains.db_connection.entity.DbConnection;
-import io.github.bot.terminal.application.domains.db_connection.entity.MySqlDbConnection;
-import io.github.bot.terminal.application.domains.db_connection.entity.MySqlDbConnectionDetails;
-import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionTypeDTO;
-import io.github.bot.terminal.application.domains.db_connection.rest.dto.MySqlDbConnectionDTO;
-import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,9 +32,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BotCommandsRestServiceTest {
-
-    @Mock
-    private BotCommandsFactory factory;
 
     @Mock
     private BotCommandRepository repository;
@@ -75,7 +66,7 @@ class BotCommandsRestServiceTest {
 
     @BeforeEach
     public void inti() {
-        service = new BotCommandsRestService(factory, converter);
+        service = new BotCommandsRestService(repository, converter);
     }
 
 

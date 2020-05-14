@@ -1,21 +1,11 @@
 package io.github.bot.terminal.application.domains.bot_commands.rest;
 
 
-import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommandDetails;
+import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails;
 import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandDTO;
 import io.github.bot.terminal.application.domains.bot_commands.rest.requests.BotCommandRequest;
 import io.github.bot.terminal.application.domains.bot_commands.values.BotCommandState;
 import io.github.bot.terminal.application.domains.common.action.ActionRestConverter;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApiDetails;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.SlackNotificationApiDetails;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.TelegramNotificationApiDetails;
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO;
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO;
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.TelegramNotificationApiDTO;
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.SlackNotificationApiRequest;
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.TelegramNotificationApiRequest;
-import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiState;
-import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

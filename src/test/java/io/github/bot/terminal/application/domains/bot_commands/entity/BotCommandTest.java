@@ -1,13 +1,9 @@
 package io.github.bot.terminal.application.domains.bot_commands.entity;
 
+import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails;
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository;
 import io.github.bot.terminal.application.domains.bot_commands.values.BotCommandState;
-import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextActionDetails;
 import io.github.bot.terminal.application.domains.common.action.values.ActionType;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.SlackNotificationApi;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.SlackNotificationApiDetails;
-import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

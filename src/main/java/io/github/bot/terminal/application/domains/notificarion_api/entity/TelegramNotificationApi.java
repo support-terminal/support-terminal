@@ -4,6 +4,7 @@ package io.github.bot.terminal.application.domains.notificarion_api.entity;
 import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient;
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository;
 
+import java.util.Date;
 import java.util.List;
 
 

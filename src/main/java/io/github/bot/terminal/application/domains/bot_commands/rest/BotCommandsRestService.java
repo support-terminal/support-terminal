@@ -1,18 +1,17 @@
 package io.github.bot.terminal.application.domains.bot_commands.rest;
 
 
-import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommand;
-import io.github.bot.terminal.application.domains.bot_commands.factory.BotCommandsFactory;
+import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails;
+import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository;
 import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandDTO;
 import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandTypeDTO;
 import io.github.bot.terminal.application.domains.bot_commands.rest.requests.BotCommandRequest;
 import io.github.bot.terminal.application.domains.common.action.values.ActionType;
-import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,44 +20,51 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class BotCommandsRestService {
 
-    private final BotCommandsFactory factory;
+    private final BotCommandRepository repository;
     private final BotCommandsRestConverter converter;
 
     public BotCommandDTO add(BotCommandRequest request) {
-        BotCommand command = factory.createNew(
-                converter.mapToDetails(request)
-        );
-        return converter.mapToDto(command.getDetails());
+        BotCommandDetails details = converter.mapToDetails(request);
+        details.setId(UUID.randomUUID().toString());
+        repository.add(details);
+        return converter.mapToDto(details);
     }
 
     public BotCommandDTO edit(String id, BotCommandRequest request) {
-        BotCommand command
-                = factory.merge(id, converter.mapToDetails(request));
-        return converter.mapToDto(command.getDetails());
+        BotCommandDetails detailsUpdate = converter.mapToDetails(request);
+        BotCommandDetails details = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Bot command not found: id=" + id));
+        detailsUpdate.setId(details.getId());
+        repository.update(detailsUpdate);
+        return converter.mapToDto(detailsUpdate);
     }
 
     public BotCommandDTO get(String id) {
-        BotCommand command
-                = factory.byId(id);
-        return converter.mapToDto(command.getDetails());
+        return converter.mapToDto(getById(id));
     }
 
     public List<BotCommandDTO> list() {
-        return factory.getAll()
-                .stream().map(c -> converter.mapToDto(c.getDetails()))
+        return repository.findAll()
+                .stream().map(converter::mapToDto)
                 .collect(Collectors.toList());
     }
 
-
     public void delete(String id) {
-        BotCommand command
-                = factory.byId(id);
-        command.delete();
+        repository.transaction(id, (repository) -> {
+            if (repository.findById(id).isPresent()) {
+                repository.deleteById(id);
+            }
+        });
     }
 
     public List<BotCommandTypeDTO> types() {
         return Stream.of(ActionType.SQL_SELECT_AS_TEXT)
                 .map(t -> new BotCommandTypeDTO().setLabel(t.getLabel()).setType(t.name()))
                 .collect(Collectors.toList());
+    }
+
+    private BotCommandDetails getById(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Bot command not found: id=" + id));
     }
 }

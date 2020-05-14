@@ -1,6 +1,6 @@
 package io.github.bot.terminal.application.domains.bot_commands.factory;
 
-import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommandDetails;
+import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails;
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository;
 import io.github.bot.terminal.application.domains.bot_commands.values.BotCommandState;
 import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextActionDetails;

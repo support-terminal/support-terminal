@@ -1,4 +1,4 @@
-package io.github.bot.terminal.application.domains.bot_commands.entity;
+package io.github.bot.terminal.application.domains.bot_commands.repository;
 
 import io.github.bot.terminal.application.domains.bot_commands.values.BotCommandState;
 import io.github.bot.terminal.application.domains.common.action.entity.ActionDetails;

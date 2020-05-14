@@ -1,6 +1,6 @@
 package io.github.bot.terminal.application.domains.bot_commands.config;
 
-import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommandDetails;
+import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.context.annotation.Bean;

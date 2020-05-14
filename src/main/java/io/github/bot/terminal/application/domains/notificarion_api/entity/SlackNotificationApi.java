@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 
 public final class SlackNotificationApi implements NotificationApi<SlackNotificationApiDetails> {
 
-
     private final SlackNotificationApiDetails details;
     private final NotificationApiRepository repository;
     private final SlackApiClient slackApiClient;
+    private Double oldest;
 
     public SlackNotificationApi(SlackNotificationApiDetails details,
                                 NotificationApiRepository repository,
@@ -80,7 +80,6 @@ public final class SlackNotificationApi implements NotificationApi<SlackNotifica
         });
     }
 
-    //todo закешировать
     private Optional<Channel> getChanel() {
         GetChannelsResponse channelsResponse = slackApiClient.getСhannels(details.getToken());
         if (!Boolean.TRUE.equals(channelsResponse.getOk())) {
