@@ -7,7 +7,10 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import(TestNitriteDataBaseConfiguration.class)
-@ComponentScan("io.github.bot.terminal.application.domains.notificarion_api")
+@ComponentScan({
+        "io.github.bot.terminal.application.domains.notificarion_api.repository",
+        "io.github.bot.terminal.application.domains.notificarion_api.config"
+})
 public class NotificationApiRepositoryTestConfig {
 
 }

@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import(TestNitriteDataBaseConfiguration.class)
 @ComponentScan({
-        "io.github.bot.terminal.application.domains.bot_commands",
-        "io.github.bot.terminal.application.domains.common"
+        "io.github.bot.terminal.application.domains.bot_commands.config",
+        "io.github.bot.terminal.application.domains.bot_commands.repository"
 })
 public class BotCommandsRepositoryTestConfig {
 

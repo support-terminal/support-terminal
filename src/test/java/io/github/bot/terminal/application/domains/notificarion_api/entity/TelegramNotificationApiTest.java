@@ -25,25 +25,4 @@ class TelegramNotificationApiTest {
     private String token = "token";
 
 
-
-
-    @Test
-    public void deleteTelegramApi(){
-
-        TelegramNotificationApiDetails details2 = new TelegramNotificationApiDetails();
-        details2.setId(id);
-        details2.setLabel(label);
-        details2.setType(NotificationApiType.TELEGRAM_BOT);
-        details2.setState(state);
-        details2.setBotFatherName(botFatherName);
-        details2.setToken(token);
-
-        NotificationApi api2 = new TelegramNotificationApi(details2, repository);
-
-        api2.delete();
-        verify(repository, times(1)).deleteById(eq(id));
-
-    }
-
-
 }

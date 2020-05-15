@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.Lock;
@@ -23,6 +24,7 @@ public class BotCommandRepository {
     private final ConcurrentMap<String, ReentrantLock> locks = new ConcurrentHashMap<>();
 
     public void add(BotCommandDetails details) {
+        details.setId(UUID.randomUUID().toString());
         db.insert(details);
     }
 
@@ -39,7 +41,11 @@ public class BotCommandRepository {
     }
 
     public void deleteById(String id) {
-        db.remove(eq("id", id));
+        transaction(id, (repository) -> {
+            if (repository.findById(id).isPresent()) {
+                db.remove(eq("id", id));
+            }
+        });
     }
 
     public void transaction(String id, Consumer<BotCommandRepository> action) {

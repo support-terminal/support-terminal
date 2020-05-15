@@ -18,7 +18,6 @@ public final class SlackNotificationApi implements NotificationApi<SlackNotifica
     private final SlackNotificationApiDetails details;
     private final NotificationApiRepository repository;
     private final SlackApiClient slackApiClient;
-    private Double oldest;
 
     public SlackNotificationApi(SlackNotificationApiDetails details,
                                 NotificationApiRepository repository,
@@ -41,7 +40,6 @@ public final class SlackNotificationApi implements NotificationApi<SlackNotifica
             return Collections.emptyList();
         }
         Channel chanel = chanelOptional.get();
-
 
         GetChannelHistoryResponse channelHistory
                 = slackApiClient.getChannelHistory(details.getToken(),

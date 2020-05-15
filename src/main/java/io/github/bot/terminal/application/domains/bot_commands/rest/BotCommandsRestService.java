@@ -25,7 +25,6 @@ public class BotCommandsRestService {
 
     public BotCommandDTO add(BotCommandRequest request) {
         BotCommandDetails details = converter.mapToDetails(request);
-        details.setId(UUID.randomUUID().toString());
         repository.add(details);
         return converter.mapToDto(details);
     }
@@ -50,11 +49,7 @@ public class BotCommandsRestService {
     }
 
     public void delete(String id) {
-        repository.transaction(id, (repository) -> {
-            if (repository.findById(id).isPresent()) {
-                repository.deleteById(id);
-            }
-        });
+        repository.deleteById(id);
     }
 
     public List<BotCommandTypeDTO> types() {

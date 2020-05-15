@@ -1,5 +1,7 @@
 package io.github.bot.terminal.application.domains.notificarion_api.rest;
 
+import io.github.bot.terminal.application.domains.integrations.slack.SlackApiClient;
+import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.*;
 import io.github.bot.terminal.application.domains.notificarion_api.factory.NotificationApiFactory;
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository;
@@ -36,6 +38,12 @@ class NotificationApiRestServiceTest {
     private NotificationApiFactory notificationApiFactory;
     @Mock
     private NotificationApiRepository repository;
+
+    @Mock
+    private TelegramApiClient telegramApiClient;
+
+    @Mock
+    private SlackApiClient slackApiClient;
 
     private NotificationApiRestConverter converter = spy(new NotificationApiRestConverter());
     private NotificationApiRestService restService;
@@ -92,7 +100,7 @@ class NotificationApiRestServiceTest {
         details.setChanel(chanel);
         details.setToken(token);
 
-        NotificationApi api = new SlackNotificationApi(details, repository);
+        NotificationApi api = new SlackNotificationApi(details, repository, slackApiClient);
 
         when(notificationApiFactory.createNew(any()))
                 .thenReturn(api);
@@ -120,7 +128,7 @@ class NotificationApiRestServiceTest {
         details.setChanel(chanel);
         details.setToken(token);
 
-        NotificationApi api = new SlackNotificationApi(details, repository);
+        NotificationApi api = new SlackNotificationApi(details, repository, slackApiClient);
 
         when(notificationApiFactory.createNew(any()))
                 .thenReturn(api);
@@ -160,7 +168,7 @@ class NotificationApiRestServiceTest {
         details.setChanel(chanel2);
         details.setToken(token2);
 
-        NotificationApi api = new SlackNotificationApi(details, repository);
+        NotificationApi api = new SlackNotificationApi(details, repository, slackApiClient);
 
         when(notificationApiFactory.merge(anyString(), any()))
                 .thenReturn(api);
@@ -199,7 +207,7 @@ class NotificationApiRestServiceTest {
         details.setChanel(chanel);
         details.setToken(token);
 
-        NotificationApi api = new SlackNotificationApi(details, repository);
+        NotificationApi api = new SlackNotificationApi(details, repository, slackApiClient);
 
         when(notificationApiFactory.byId(eq(id)))
                 .thenReturn(api);
@@ -226,7 +234,7 @@ class NotificationApiRestServiceTest {
         details.setBotFatherName(botFatherName);
         details.setToken(token);
 
-        NotificationApi api = new TelegramNotificationApi(details, repository);
+        NotificationApi api = new TelegramNotificationApi(details, repository, telegramApiClient);
 
         when(notificationApiFactory.createNew(any()))
                 .thenReturn(api);
@@ -265,7 +273,7 @@ class NotificationApiRestServiceTest {
         details.setBotFatherName(botFatherName2);
         details.setToken(token2);
 
-        NotificationApi api = new TelegramNotificationApi(details, repository);
+        NotificationApi api = new TelegramNotificationApi(details, repository, telegramApiClient);
 
         when(notificationApiFactory.merge(anyString(), any()))
                 .thenReturn(api);
@@ -305,7 +313,7 @@ class NotificationApiRestServiceTest {
         details.setBotFatherName(botFatherName);
         details.setToken(token);
 
-        NotificationApi api = new TelegramNotificationApi(details, repository);
+        NotificationApi api = new TelegramNotificationApi(details, repository, telegramApiClient);
 
         when(notificationApiFactory.byId(eq(id)))
                 .thenReturn(api);
@@ -345,7 +353,7 @@ class NotificationApiRestServiceTest {
         details.setChanel(chanel);
         details.setToken(token);
 
-        NotificationApi api1 = new SlackNotificationApi(details, repository);
+        NotificationApi api1 = new SlackNotificationApi(details, repository, slackApiClient);
 
         TelegramNotificationApiDetails details2 = new TelegramNotificationApiDetails();
         details2.setId(id2);
@@ -355,7 +363,7 @@ class NotificationApiRestServiceTest {
         details2.setBotFatherName(botFatherName2);
         details2.setToken(token2);
 
-        NotificationApi api2 = new TelegramNotificationApi(details2, repository);
+        NotificationApi api2 = new TelegramNotificationApi(details2, repository, telegramApiClient);
 
 
         List<NotificationApi<?>> c = new ArrayList();
@@ -384,7 +392,6 @@ class NotificationApiRestServiceTest {
         assertEquals(NotificationApiType.TELEGRAM_BOT.name(), apiDTO2.getType());
 
     }
-
 
     @Test
     public void getTypes() {

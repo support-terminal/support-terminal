@@ -1,5 +1,7 @@
 package io.github.bot.terminal.application.domains.notificarion_api.factory;
 
+import io.github.bot.terminal.application.domains.integrations.slack.SlackApiClient;
+import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.*;
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository;
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiState;
@@ -25,13 +27,17 @@ class NotificationApiFactoryTest {
     @Mock
     private NotificationApiRepository repository;
 
+    @Mock
+    private SlackApiClient slackApiClient;
+    @Mock
+    private TelegramApiClient telegramApiClient;
+
     private NotificationApiFactory factory;
 
     @Captor
     ArgumentCaptor<SlackNotificationApiDetails> slackDetailsCaptor;
     @Captor
     ArgumentCaptor<TelegramNotificationApiDetails> telegramDetailsCaptor;
-
 
     private String label = "label";
     private NotificationApiState state = NotificationApiState.ENABLED;
@@ -50,9 +56,8 @@ class NotificationApiFactoryTest {
 
     @BeforeEach
     void init() {
-        factory = new NotificationApiFactory(repository);
+        factory = new NotificationApiFactory(repository, slackApiClient, telegramApiClient);
     }
-
 
     @Test
     void createNewSlackNotificationApi() {
@@ -95,7 +100,6 @@ class NotificationApiFactoryTest {
         details.setToken(token);
 
         when(repository.findById(eq(id))).thenReturn(Optional.of(details));
-
 
         SlackNotificationApiDetails detailsUpdate = new SlackNotificationApiDetails();
         detailsUpdate.setLabel(label2);

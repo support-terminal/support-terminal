@@ -1,5 +1,6 @@
 package io.github.bot.terminal.application.domains.notificarion_api.entity;
 
+import io.github.bot.terminal.application.domains.integrations.slack.SlackApiClient;
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository;
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiState;
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType;
@@ -18,6 +19,8 @@ class SlackNotificationApiTest {
 
     @Mock
     private NotificationApiRepository repository;
+    @Mock
+    private SlackApiClient client;
 
     private String id = "id";
     private String label = "label";
@@ -36,11 +39,12 @@ class SlackNotificationApiTest {
         details.setChanel(chanel);
         details.setToken(token);
 
-        NotificationApi api1 = new SlackNotificationApi(details, repository);
+        NotificationApi api1 = new SlackNotificationApi(details, repository, client);
 
         api1.delete();
         verify(repository, times(1)).deleteById(eq(id));
 
     }
+
 
 }
