@@ -53,5 +53,19 @@ public class NotificationApiRestController {
     public List<NotificationApiTypeDTO> types() {
         return notificationApiRestService.types();
     }
+
+ /*   @PutMapping(value = "/{botId}/join/{joinId}/denied")
+    @ResponseStatus(code = HttpStatus.OK)
+    public void deniedJoinRequest(@PathVariable String botId,
+                                  @PathVariable String joinId) throws Exception {
+        joinRequestsApiService.denied(botId, joinId);
+    }
+
+    @PutMapping(value = "/{botId}/join/{joinId}/accept")
+    @ResponseStatus(code = HttpStatus.OK)
+    public void acceptJoinRequest(@PathVariable String botId,
+                                  @PathVariable String joinId) throws Exception {
+        joinRequestsApiService.accept(botId, joinId);
+    }*/
 }
 
