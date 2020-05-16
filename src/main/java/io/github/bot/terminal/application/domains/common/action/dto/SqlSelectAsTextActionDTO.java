@@ -6,12 +6,10 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 public class SqlSelectAsTextActionDTO extends ActionDTO {
-
     @NotBlank
     private String select;
     @NotBlank
     private String dbConnectionId;
     @NotBlank
     private String resultTemplate;
-
 }
