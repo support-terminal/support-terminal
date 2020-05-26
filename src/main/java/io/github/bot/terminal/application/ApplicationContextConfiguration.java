@@ -13,6 +13,7 @@ import org.apache.http.impl.client.ProxyAuthenticationStrategy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -31,6 +32,7 @@ import java.util.concurrent.Executors;
 
 @EnableAsync
 @EnableScheduling
+@EnableMBeanExport
 @PropertySource(value = "file:${user.home}/.support-terminal/config.properties",
         ignoreResourceNotFound = true)
 @SpringBootApplication

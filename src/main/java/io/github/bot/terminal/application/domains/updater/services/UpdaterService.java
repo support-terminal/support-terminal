@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.http.*;
+import org.springframework.jmx.export.annotation.ManagedOperation;
+import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,6 +24,7 @@ import static java.util.Optional.ofNullable;
 
 @Slf4j
 @Service
+@ManagedResource
 @RequiredArgsConstructor
 public class UpdaterService {
 
@@ -34,6 +37,7 @@ public class UpdaterService {
     private static final String ACTUAL_APP_VERSION_URL = "https://api.github.com/repos/support-terminal/support-terminal/releases/latest";
     private static final String ACTUAL_UPDATER_VERSION_URL = "https://api.github.com/repos/support-terminal/updater/releases/latest";
 
+    @ManagedOperation
     public void runAutoUpdate() throws Exception {
 
         log.info("Started application auto-update");

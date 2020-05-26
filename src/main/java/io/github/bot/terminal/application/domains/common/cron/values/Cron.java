@@ -9,6 +9,10 @@ public enum Cron {
 
     private String cron;
 
+    public String getCron() {
+        return cron;
+    }
+
     Cron(String cron) {
         this.cron = cron;
     }

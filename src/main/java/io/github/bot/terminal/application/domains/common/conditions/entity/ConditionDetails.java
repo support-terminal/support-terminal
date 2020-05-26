@@ -6,11 +6,8 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class Condition {
+public class ConditionDetails {
     private ConditionType conditionType;
     private Double expectedValue;
-    public boolean check(Double value){
-        return conditionType.check(value, expectedValue);
-    }
 }
 

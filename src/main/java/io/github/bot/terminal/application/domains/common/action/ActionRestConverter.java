@@ -2,10 +2,13 @@ package io.github.bot.terminal.application.domains.common.action;
 
 
 import io.github.bot.terminal.application.domains.common.action.dto.ActionDTO;
+import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsOneNumberValueActionDTO;
 import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsTextActionDTO;
 import io.github.bot.terminal.application.domains.common.action.entity.ActionDetails;
+import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsOneNumberValueActionDetails;
 import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextActionDetails;
 import io.github.bot.terminal.application.domains.common.action.requests.ActionRequest;
+import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsOneNumberValueActionRequest;
 import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsTextActionRequest;
 import io.github.bot.terminal.application.domains.common.action.values.ActionType;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,9 @@ public class ActionRestConverter {
         if (ActionType.SQL_SELECT_AS_TEXT.name().equals(request.getType())) {
             return mapToDetails((SqlSelectAsTextActionRequest) request);
         }
+        if (ActionType.SQL_SELECT_AS_ONE_NUMBER.name().equals(request.getType())) {
+            return mapToDetails((SqlSelectAsOneNumberValueActionRequest) request);
+        }
         throw new IllegalArgumentException("Unknown type: " + request.getType());
     }
 
@@ -31,10 +37,20 @@ public class ActionRestConverter {
         details.setResultTemplate(request.getResultTemplate());
         return details;
     }
+    public SqlSelectAsOneNumberValueActionDetails mapToDetails(SqlSelectAsOneNumberValueActionRequest request) {
+        SqlSelectAsOneNumberValueActionDetails details = new SqlSelectAsOneNumberValueActionDetails();
+        details.setType(ActionType.SQL_SELECT_AS_ONE_NUMBER);
+        details.setDbConnectionId(request.getDbConnectionId());
+        details.setSelect(request.getSelect());
+        return details;
+    }
 
     public ActionDTO mapToDto(ActionDetails details) {
         if (ActionType.SQL_SELECT_AS_TEXT.equals(details.getType())) {
             return mapToDto((SqlSelectAsTextActionDetails) details);
+        }
+        if (ActionType.SQL_SELECT_AS_ONE_NUMBER.equals(details.getType())) {
+            return mapToDto((SqlSelectAsOneNumberValueActionDetails) details);
         }
         throw new IllegalArgumentException("Unknown type: " + details.getType());
     }
@@ -44,6 +60,14 @@ public class ActionRestConverter {
         dto.setDbConnectionId(details.getDbConnectionId());
         dto.setSelect(details.getSelect());
         dto.setResultTemplate(details.getResultTemplate());
+        dto.setType(details.getType().name());
+        return dto;
+    }
+
+    public SqlSelectAsOneNumberValueActionDTO mapToDto(SqlSelectAsOneNumberValueActionDetails details) {
+        SqlSelectAsOneNumberValueActionDTO dto = new SqlSelectAsOneNumberValueActionDTO();
+        dto.setDbConnectionId(details.getDbConnectionId());
+        dto.setSelect(details.getSelect());
         dto.setType(details.getType().name());
         return dto;
     }

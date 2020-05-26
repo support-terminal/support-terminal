@@ -15,6 +15,7 @@ import javax.validation.constraints.NotBlank;
         visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SqlSelectAsTextActionDetails.class, name = ActionType.Constants.SQL_SELECT_AS_TEXT),
+        @JsonSubTypes.Type(value = SqlSelectAsOneNumberValueActionDetails.class, name = ActionType.Constants.SQL_SELECT_AS_ONE_NUMBER)
 })
 public abstract class ActionDetails {
 

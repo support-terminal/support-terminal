@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,8 +30,7 @@ public class BotCommandsRestService {
 
     public BotCommandDTO edit(String id, BotCommandRequest request) {
         BotCommandDetails detailsUpdate = converter.mapToDetails(request);
-        BotCommandDetails details = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Bot command not found: id=" + id));
+        BotCommandDetails details = getById(id);
         detailsUpdate.setId(details.getId());
         repository.update(detailsUpdate);
         return converter.mapToDto(detailsUpdate);
