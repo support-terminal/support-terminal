@@ -3,10 +3,6 @@ package io.github.bot.terminal.application.domains.bot_commands.factory;
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails;
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository;
 import io.github.bot.terminal.application.domains.bot_commands.values.BotCommandState;
-import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextActionDetails;
-import io.github.bot.terminal.application.domains.common.action.values.ActionType;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -15,12 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BotCommandsFactoryTest {

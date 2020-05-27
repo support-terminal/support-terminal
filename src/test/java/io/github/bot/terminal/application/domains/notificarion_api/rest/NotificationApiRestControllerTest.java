@@ -1,7 +1,6 @@
 package io.github.bot.terminal.application.domains.notificarion_api.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.bot.terminal.application.domains.db_connection.rest.requests.PostgresDbConnectionRequest;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiTypeDTO;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO;

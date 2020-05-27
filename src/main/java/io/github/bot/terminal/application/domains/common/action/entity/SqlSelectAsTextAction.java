@@ -32,7 +32,7 @@ public class SqlSelectAsTextAction implements Action {
     private final String resultTemplate;
 
     @Override
-    public void proceedAndNotify(NotificationApi<?> notificationApi) {
+    public ActionResult execute() {
         try {
             JdbcTemplate template = dbConnection.createJdbcTemplate();
             List<Map<String, Object>> rows = template.queryForList(select);
@@ -42,9 +42,10 @@ public class SqlSelectAsTextAction implements Action {
                 responseBuilder.append(System.lineSeparator());
             }
             String responseMessage = responseBuilder.toString();
-            notificationApi.sendMessage(new Message().setText(responseMessage));
+            return new ActionResultImpl(responseMessage);
         } catch (Exception ex) {
             log.warn("Problem to execute select: {}", select);
+            throw ex;
         }
     }
 
@@ -56,5 +57,25 @@ public class SqlSelectAsTextAction implements Action {
         });
         StringSubstitutor sub = new StringSubstitutor(model);
         return sub.replace(resultTemplate);
+    }
+
+    public class ActionResultImpl implements ActionResult<String>{
+
+        private final String result;
+
+        public ActionResultImpl(String result) {
+            this.result = result;
+        }
+
+        @Override
+        public void notify(NotificationApi notificationApi) {
+            notificationApi.sendMessage(new Message().setText(result));
+        }
+
+        @Override
+        public String getResult() {
+            return result;
+        }
+
     }
 }

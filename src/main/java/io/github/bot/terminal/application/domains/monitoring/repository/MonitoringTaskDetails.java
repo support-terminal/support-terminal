@@ -17,7 +17,7 @@ public class MonitoringTaskDetails {
     private String id;
     private String name;
     private MonitoringTaskState state;
-    private ActionDetails action;
+    private ActionDetails actionDetails;
     private String cron;
     private List<ConditionDetails> conditions;
     private List<NotifyDetails> notifyList;

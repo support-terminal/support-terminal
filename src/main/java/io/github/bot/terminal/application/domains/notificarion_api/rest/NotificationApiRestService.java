@@ -1,8 +1,6 @@
 package io.github.bot.terminal.application.domains.notificarion_api.rest;
 
 
-import io.github.bot.terminal.application.domains.events.models.ApplicationEvent;
-import io.github.bot.terminal.application.domains.events.services.ApplicationEventsService;
 import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi;
 import io.github.bot.terminal.application.domains.notificarion_api.factory.NotificationApiFactory;
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO;

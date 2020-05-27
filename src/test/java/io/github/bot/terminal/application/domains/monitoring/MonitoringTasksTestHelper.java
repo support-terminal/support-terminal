@@ -1,6 +1,5 @@
 package io.github.bot.terminal.application.domains.monitoring;
 
-import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails;
 import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsOneNumberValueActionDTO;
 import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsOneNumberValueActionDetails;
 import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsOneNumberValueActionRequest;
@@ -145,7 +144,7 @@ public class MonitoringTasksTestHelper {
         MonitoringTaskDetails details = new MonitoringTaskDetails();
         details.setName(name1);
         details.setState(state1);
-        details.setAction(actionDetails);
+        details.setActionDetails(actionDetails);
         details.setCron(cron1.getCron());
         details.setNotifyList(notifyList);
         details.setConditions(conditions);

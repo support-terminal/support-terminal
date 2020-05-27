@@ -3,7 +3,6 @@ package io.github.bot.terminal.application.domains.notificarion_api.rest.request
 
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 

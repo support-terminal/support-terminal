@@ -1,7 +1,6 @@
 package io.github.bot.terminal.application.domains.monitoring.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandDTO;
 import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsOneNumberValueActionRequest;
 import io.github.bot.terminal.application.domains.monitoring.MonitoringTasksTestHelper;
 import io.github.bot.terminal.application.domains.monitoring.rest.dto.MonitoringTaskDTO;

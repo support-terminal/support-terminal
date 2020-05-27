@@ -26,7 +26,7 @@ public class MonitoringTasksRestConverter {
         MonitoringTaskDetails details = new MonitoringTaskDetails();
         details.setName(request.getName());
         details.setState(MonitoringTaskState.valueOf(request.getState()));
-        details.setAction(actionRestConverter.mapToDetails(request.getAction()));
+        details.setActionDetails(actionRestConverter.mapToDetails(request.getAction()));
         details.setCron(request.getCron());
         details.setConditions(request.getConditions().stream()
                 .map(c -> conditionRestConverter.mapToDetails(c)).collect(Collectors.toList()));
@@ -40,7 +40,7 @@ public class MonitoringTasksRestConverter {
         dto.setId(details.getId());
         dto.setName(details.getName());
         dto.setState(details.getState().name());
-        dto.setAction(actionRestConverter.mapToDto(details.getAction()));
+        dto.setAction(actionRestConverter.mapToDto(details.getActionDetails()));
         dto.setCron(details.getCron());
         dto.setConditions(details.getConditions().stream()
                 .map(c -> conditionRestConverter.mapToDto(c)).collect(Collectors.toList()));

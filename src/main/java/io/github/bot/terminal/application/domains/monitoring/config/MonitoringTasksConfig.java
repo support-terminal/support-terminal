@@ -5,6 +5,8 @@ import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @Configuration
 public class MonitoringTasksConfig {
@@ -13,6 +15,11 @@ public class MonitoringTasksConfig {
     public ObjectRepository<MonitoringTaskDetails> monitoringTaskDetailsObjectRepository(Nitrite db) {
         return db.getRepository(MonitoringTaskDetails.class);
     }
-
+    @Bean
+    public TaskScheduler getMonitoringTasksScheduler(){
+        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+        taskScheduler.setPoolSize(10);
+        return taskScheduler;
+    }
 }
 

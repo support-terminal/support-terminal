@@ -25,7 +25,7 @@ public class BotCommand {
         if (!isEnabled) {
             return;
         }
-        action.proceedAndNotify(notificationApi);
+        action.execute().notify(notificationApi);
     }
 
 }

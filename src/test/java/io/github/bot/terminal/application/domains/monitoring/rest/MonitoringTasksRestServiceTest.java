@@ -10,6 +10,7 @@ import io.github.bot.terminal.application.domains.monitoring.repository.Monitori
 import io.github.bot.terminal.application.domains.monitoring.repository.MonitoringTaskRepository;
 import io.github.bot.terminal.application.domains.monitoring.rest.dto.MonitoringTaskDTO;
 import io.github.bot.terminal.application.domains.monitoring.rest.requests.MonitoringTaskRequest;
+import io.github.bot.terminal.application.domains.workers.MonitoringTasksWorker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,13 +19,9 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -38,6 +35,8 @@ class MonitoringTasksRestServiceTest extends MonitoringTasksTestHelper {
             conditionRestConverter, notifyRestConverter));
     @Mock
     private MonitoringTaskRepository repository;
+    @Mock
+    private MonitoringTasksWorker worker;
     private MonitoringTasksRestService service;
 
     @Captor
@@ -46,7 +45,7 @@ class MonitoringTasksRestServiceTest extends MonitoringTasksTestHelper {
 
     @BeforeEach
     public void inti() {
-        service = new MonitoringTasksRestService(repository, converter);
+        service = new MonitoringTasksRestService(repository, converter, worker);
     }
 
     @Test
@@ -82,7 +81,7 @@ class MonitoringTasksRestServiceTest extends MonitoringTasksTestHelper {
         assertEquals(cron1.getCron(), details.getCron());
 
         SqlSelectAsOneNumberValueActionDetails actionDetails
-                = (SqlSelectAsOneNumberValueActionDetails) details.getAction();
+                = (SqlSelectAsOneNumberValueActionDetails) details.getActionDetails();
         assertEquals(actionType1, actionDetails.getType());
         assertEquals(select1, actionDetails.getSelect());
         assertEquals(dbConnectionId1, actionDetails.getDbConnectionId());
@@ -92,6 +91,8 @@ class MonitoringTasksRestServiceTest extends MonitoringTasksTestHelper {
 
         assertEquals(notificationApiId1, details.getNotifyList().get(0).getNotificationApiId());
         assertEquals(messageTemplate1, details.getNotifyList().get(0).getMessageTemplate());
+
+        verify(worker, times(1)).runRefreshSchedulers();
     }
 
 }

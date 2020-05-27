@@ -30,7 +30,7 @@ class BotCommandsWorker {
     private final ExecutorService executorService;
 
     @Scheduled(fixedDelay = 7_000)
-    public void botCommandsScheduler() throws InterruptedException {
+    public void scheduler() throws InterruptedException {
         List<Callable<Object>> callables = new ArrayList<>();
         for (NotificationApi<?> notificationApi : notificationApiFactory.getAll()) {
             callables.add(Executors.callable(() -> handle(notificationApi)));

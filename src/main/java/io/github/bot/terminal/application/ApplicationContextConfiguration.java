@@ -17,11 +17,9 @@ import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
@@ -54,13 +52,6 @@ public class ApplicationContextConfiguration {
     @Bean
     public PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean(name = "myTaskScheduler")
-    public TaskScheduler getMyTaskScheduler(){
-        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
-        taskScheduler.setPoolSize(5);
-        return taskScheduler;
     }
 
     @Bean

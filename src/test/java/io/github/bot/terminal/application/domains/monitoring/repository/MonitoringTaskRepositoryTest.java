@@ -37,7 +37,7 @@ class MonitoringTaskRepositoryTest extends MonitoringTasksTestHelper {
         assertEquals(cron1.getCron(), byId.getCron());
 
         SqlSelectAsOneNumberValueActionDetails actionDetails
-                = (SqlSelectAsOneNumberValueActionDetails) byId.getAction();
+                = (SqlSelectAsOneNumberValueActionDetails) byId.getActionDetails();
         assertEquals(actionType1, actionDetails.getType());
         assertEquals(select1, actionDetails.getSelect());
         assertEquals(dbConnectionId1, actionDetails.getDbConnectionId());

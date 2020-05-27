@@ -4,6 +4,7 @@ import io.github.bot.terminal.application.domains.monitoring.repository.Monitori
 import io.github.bot.terminal.application.domains.monitoring.repository.MonitoringTaskRepository;
 import io.github.bot.terminal.application.domains.monitoring.rest.dto.MonitoringTaskDTO;
 import io.github.bot.terminal.application.domains.monitoring.rest.requests.MonitoringTaskRequest;
+import io.github.bot.terminal.application.domains.workers.MonitoringTasksWorker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,12 @@ public class MonitoringTasksRestService {
 
     private final MonitoringTaskRepository repository;
     private final MonitoringTasksRestConverter converter;
+    private final MonitoringTasksWorker worker;
 
     public MonitoringTaskDTO add(MonitoringTaskRequest request) {
         MonitoringTaskDetails details = converter.mapToDetails(request);
         repository.add(details);
+        worker.runRefreshSchedulers();
         return converter.mapToDto(details);
     }
 
@@ -28,6 +31,7 @@ public class MonitoringTasksRestService {
         MonitoringTaskDetails details = getById(id);
         detailsUpdate.setId(details.getId());
         repository.update(detailsUpdate);
+        worker.runRefreshSchedulers();
         return converter.mapToDto(detailsUpdate);
     }
 
@@ -43,6 +47,7 @@ public class MonitoringTasksRestService {
 
     public void delete(String id) {
         repository.deleteById(id);
+        worker.runRefreshSchedulers();
     }
 
     private MonitoringTaskDetails getById(String id) {
