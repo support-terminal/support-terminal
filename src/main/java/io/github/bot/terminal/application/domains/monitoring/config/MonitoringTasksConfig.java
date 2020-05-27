@@ -15,7 +15,7 @@ public class MonitoringTasksConfig {
     public ObjectRepository<MonitoringTaskDetails> monitoringTaskDetailsObjectRepository(Nitrite db) {
         return db.getRepository(MonitoringTaskDetails.class);
     }
-    @Bean
+    @Bean("monitoringTasksScheduler")
     public TaskScheduler getMonitoringTasksScheduler(){
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
         taskScheduler.setPoolSize(10);
