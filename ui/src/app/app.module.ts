@@ -22,6 +22,7 @@ import {DbConnectionsModule} from './db-connections/db-connections.module';
 import {SettingsComponent} from './settings/settings.component';
 import {SettingsService} from './settings/settings.service';
 import {BotCommandsModule} from './bot/commands/bot-commands.module';
+import {BotMonitoringTasksModule} from './bot/monitoring/bot-monitoring-task.module.ts';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {BotCommandsModule} from './bot/commands/bot-commands.module';
     // features
     NotificationsApiModule,
     DbConnectionsModule,
-    BotCommandsModule
+    BotCommandsModule,
+    BotMonitoringTasksModule
   ],
   providers: [
     AuthGuard,

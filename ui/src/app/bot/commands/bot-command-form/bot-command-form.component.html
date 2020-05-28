@@ -25,7 +25,7 @@
     <mat-select placeholder='Notification Api'
                 multiple
                 formControlName='botIds'>
-      <mat-option *ngFor='let bot of bots' [value]='bot.id'>
+      <mat-option *ngFor='let bot of notificationApis' [value]='bot.id'>
         {{ bot.label }}
       </mat-option>
     </mat-select>

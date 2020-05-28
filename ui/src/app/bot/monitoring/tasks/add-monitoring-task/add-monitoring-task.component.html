@@ -1,0 +1,10 @@
+<div style="margin: 60px;">
+  <div fxLayout fxLayoutAlign='start center'>
+    <h2 fxFlex='100%' mat-dialog-title>New monitoring task</h2>
+  </div>
+  <mat-dialog-content>
+    <app-bot-monitoring-task-form (onSubmitEvent)='add($event)'
+                                  submitButtonText='Add'>
+    </app-bot-monitoring-task-form>
+  </mat-dialog-content>
+</div>

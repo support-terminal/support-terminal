@@ -9,6 +9,7 @@ import io.github.bot.terminal.application.domains.monitoring.rest.dto.Monitoring
 import io.github.bot.terminal.application.domains.monitoring.rest.requests.MonitoringTaskRequest;
 import io.github.bot.terminal.application.domains.monitoring.values.MonitoringTaskState;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -25,8 +26,15 @@ public class MonitoringTasksRestConverter {
     MonitoringTaskDetails mapToDetails(MonitoringTaskRequest request) {
         MonitoringTaskDetails details = new MonitoringTaskDetails();
         details.setName(request.getName());
-        details.setState(MonitoringTaskState.valueOf(request.getState()));
-        details.setActionDetails(actionRestConverter.mapToDetails(request.getAction()));
+
+        if(StringUtils.isNotBlank(request.getState())) {
+            details.setState(MonitoringTaskState.valueOf(request.getState()));
+        }
+
+        if(request.getAction() != null) {
+            details.setActionDetails(actionRestConverter.mapToDetails(request.getAction()));
+        }
+
         details.setCron(request.getCron());
         details.setConditions(request.getConditions().stream()
                 .map(c -> conditionRestConverter.mapToDetails(c)).collect(Collectors.toList()));
@@ -40,7 +48,9 @@ public class MonitoringTasksRestConverter {
         dto.setId(details.getId());
         dto.setName(details.getName());
         dto.setState(details.getState().name());
-        dto.setAction(actionRestConverter.mapToDto(details.getActionDetails()));
+        if(details.getActionDetails() != null) {
+            dto.setAction(actionRestConverter.mapToDto(details.getActionDetails()));
+        }
         dto.setCron(details.getCron());
         dto.setConditions(details.getConditions().stream()
                 .map(c -> conditionRestConverter.mapToDto(c)).collect(Collectors.toList()));

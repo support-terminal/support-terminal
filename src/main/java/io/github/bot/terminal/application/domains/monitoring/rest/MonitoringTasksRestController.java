@@ -1,7 +1,11 @@
 package io.github.bot.terminal.application.domains.monitoring.rest;
 
 
+import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandTypeDTO;
+import io.github.bot.terminal.application.domains.common.conditions.dto.ConditionTypeDTO;
+import io.github.bot.terminal.application.domains.common.cron.dto.CronFrequencyDTO;
 import io.github.bot.terminal.application.domains.monitoring.rest.dto.MonitoringTaskDTO;
+import io.github.bot.terminal.application.domains.monitoring.rest.dto.MonitoringTaskTypeDTO;
 import io.github.bot.terminal.application.domains.monitoring.rest.requests.MonitoringTaskRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -48,6 +53,24 @@ public class MonitoringTasksRestController {
     public MonitoringTaskDTO edit(@PathVariable String id,
                                   @RequestBody @Valid MonitoringTaskRequest request) {
         return monitoringTasksRestService.edit(id, request);
+    }
+
+    @GetMapping("/cron-frequencies")
+    @ResponseStatus(code = HttpStatus.OK)
+    public List<CronFrequencyDTO> cronFrequencies() {
+        return monitoringTasksRestService.cronFrequencies();
+    }
+
+    @GetMapping("/conditions")
+    @ResponseStatus(code = HttpStatus.OK)
+    public List<ConditionTypeDTO> conditionTypes() {
+        return monitoringTasksRestService.conditionTypes();
+    }
+
+    @GetMapping("/types")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Collection<MonitoringTaskTypeDTO> types() {
+        return monitoringTasksRestService.types();
     }
 
 }

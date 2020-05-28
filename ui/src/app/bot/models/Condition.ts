@@ -1,4 +1,4 @@
 export default class Condition {
   type: string;
-  expectedValue?: string;
+  expectedValue: string;
 }

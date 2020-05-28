@@ -3,11 +3,7 @@ import {Component, OnDestroy, ViewEncapsulation} from '@angular/core';
 
 import {BotCommandsService} from '../services/bot-commands.service';
 import {Subscription} from 'rxjs';
-import {MessagingBusService} from '../../../bus/messaging-bus.service';
-import Channel from '../../../bus/Сhannel';
 import BotCommand from '../../models/BotCommand';
-import DbConnection from '../../../db-connections/models/DbConnection';
-import {DbConnectionsService} from '../../../db-connections/services/db-connections.service';
 
 
 @Component({

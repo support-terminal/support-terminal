@@ -8,6 +8,7 @@ import lombok.Data;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,14 +18,14 @@ public class MonitoringTaskRequest {
 
     private String state;
 
+    @NotBlank
+    private String cron;
+
     @NotNull
     @Valid
     private ActionRequest action;
 
-    @NotBlank
-    private String cron;
+    private List<ConditionRequest> conditions = new ArrayList<>();
 
-    private List<ConditionRequest> conditions;
-
-    private List<NotifyRequest> notifyList;
+    private List<NotifyRequest> notifyList = new ArrayList<>();
 }

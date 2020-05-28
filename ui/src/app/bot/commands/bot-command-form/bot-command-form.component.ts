@@ -12,7 +12,7 @@ import {BotCommandsService} from '../services/bot-commands.service';
 import * as Rx from 'rxjs';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import BotCommand from '../../models/BotCommand';
-import Bot from '../../models/Bot';
+import NotificationApi from '../../models/Bot';
 import {NotificationApiService} from '../../../notifications-api/services/notification-api.service';
 import ActionType from '../../models/ActionType';
 
@@ -28,9 +28,8 @@ export class BotCommandFormComponent implements OnDestroy, OnChanges {
 
   @Input() initial: BotCommand;
   @Input() submitButtonText: string;
-  private botsSubscription: Rx.Subscription;
-
-  private bots: Bot[];
+  private notificationsApisSubscription: Rx.Subscription;
+  private notificationApis: NotificationApi[];
 
   private botCommandModel: BotCommand = new BotCommand();
 
@@ -46,8 +45,8 @@ export class BotCommandFormComponent implements OnDestroy, OnChanges {
     this.botCommandsService.getTypes().subscribe(types => {
       this.actionTypes = types;
     });
-    this.botsSubscription = this.notificationApiService.notificationApiList.subscribe((bots) => {
-      this.bots = bots;
+    this.notificationsApisSubscription = this.notificationApiService.notificationApiList.subscribe((bots) => {
+      this.notificationApis = bots;
     });
   }
 
@@ -90,7 +89,7 @@ export class BotCommandFormComponent implements OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.botsSubscription.unsubscribe();
+    this.notificationsApisSubscription.unsubscribe();
   }
 
 
