@@ -16,7 +16,7 @@ public class MonitoringTaskRequest {
     @NotBlank
     private String name;
 
-    private String state;
+    private boolean enabled;
 
     @NotBlank
     private String cron;

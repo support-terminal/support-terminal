@@ -13,7 +13,9 @@ public class ConditionsFactory {
 
 
     public Condition build(ConditionDetails details) {
-          return new Condition();
+        return new Condition()
+                .setConditionType(details.getConditionType())
+                .setExpectedValue(details.getExpectedValue());
     }
 
 

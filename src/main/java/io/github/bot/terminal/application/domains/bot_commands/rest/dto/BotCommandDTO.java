@@ -16,6 +16,6 @@ public class BotCommandDTO {
     private String cmd;
     private Collection<String> botIds;
     private ActionDTO action;
-    private String state;
+    private boolean enabled;
 }
 

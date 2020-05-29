@@ -20,7 +20,7 @@ public class BotCommandsRestConverter {
         BotCommandDetails details = new BotCommandDetails();
         details.setName(request.getName());
         details.setCmd(request.getCmd());
-        details.setState(BotCommandState.valueOf(request.getState()));
+        details.setState(BotCommandState.resolve(request.isEnabled()));
         details.setBotIds(request.getBotIds());
         details.setActionDetails(actionRestConverter.mapToDetails(request.getAction()));
         return details;
@@ -32,7 +32,7 @@ public class BotCommandsRestConverter {
         dto.setId(details.getId());
         dto.setName(details.getName());
         dto.setCmd(details.getCmd());
-        dto.setState(details.getState().name());
+        dto.setEnabled(details.getState().isEnabled());
         dto.setBotIds(details.getBotIds());
         dto.setAction(actionRestConverter.mapToDto(details.getActionDetails()));
         return dto;

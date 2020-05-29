@@ -1,5 +1,10 @@
 <form [formGroup]='botTaskForm' (ngSubmit)='onSubmit()' fxLayout='column'>
 
+  <mat-slide-toggle *ngIf="botTaskForm.controls['id'].value"
+    id='enabled' name='enabled'
+    formControlName="enabled"
+                    color="primary">Enabled</mat-slide-toggle>
+
   <mat-form-field fxFlex>
     <input matInput placeholder='Task name'
            id='name' name='name'
@@ -40,7 +45,7 @@
 
   <app-sql-select-as-one-number-task-form *ngIf="botTaskForm.controls['action'].value.type == 'SQL_SELECT_AS_ONE_NUMBER'"
                                            [actionForm]="botTaskForm.controls['action']"
-                                           [actionModel]='botTaskForm.action'>
+                                           [actionModel]='botTaskModel.action'>
   </app-sql-select-as-one-number-task-form >
 
 

@@ -5,7 +5,7 @@ export default class BotCommand {
     name: string;
     cmd: string;
     botIds: string;
-    state: string;
+    enabled: boolean;
     action: Action;
 
     constructor() {

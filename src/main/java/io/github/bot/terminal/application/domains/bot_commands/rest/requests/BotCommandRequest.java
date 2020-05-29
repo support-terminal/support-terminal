@@ -1,7 +1,6 @@
 package io.github.bot.terminal.application.domains.bot_commands.rest.requests;
 
 
-import io.github.bot.terminal.application.domains.bot_commands.values.BotCommandState;
 import io.github.bot.terminal.application.domains.common.action.requests.ActionRequest;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -27,6 +26,6 @@ public class BotCommandRequest {
     @NotEmpty
     private Collection<String> botIds;
 
-    private String state = BotCommandState.ENABLED.name();
+    private boolean enabled;
 
 }

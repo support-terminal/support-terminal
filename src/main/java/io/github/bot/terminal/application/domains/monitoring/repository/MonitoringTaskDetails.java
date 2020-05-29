@@ -16,7 +16,7 @@ public class MonitoringTaskDetails {
     @Id
     private String id;
     private String name;
-    private MonitoringTaskState state = MonitoringTaskState.ENABLED;
+    private MonitoringTaskState state;
     private ActionDetails actionDetails;
     private String cron;
     private List<ConditionDetails> conditions;

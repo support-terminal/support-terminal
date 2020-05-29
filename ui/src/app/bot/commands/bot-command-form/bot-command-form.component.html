@@ -1,5 +1,10 @@
 <form [formGroup]='botCommandForm' (ngSubmit)='onSubmit()' fxLayout='column'>
 
+  <mat-slide-toggle *ngIf="botCommandForm.controls['id'].value"
+                    id='enabled' name='enabled'
+                    formControlName="enabled"
+                    color="primary">Enabled</mat-slide-toggle>
+
   <mat-form-field fxFlex>
     <input matInput placeholder='Command label'
            id='name' name='name'

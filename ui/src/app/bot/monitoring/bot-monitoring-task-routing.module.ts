@@ -4,6 +4,8 @@ import {MonitoringTasksListComponent} from './tasks/monitoring-tasks-list/monito
 import {AuthGuard} from '../../login/auth.guard';
 import {MainComponent} from '../../main.component';
 import {AddMonitoringTaskComponent} from './tasks/add-monitoring-task/add-monitoring-task.component';
+import {MonitoringTasksResolver} from './tasks/services/monitoring-tasks.resolver';
+import {EditMonitoringTaskComponent} from './tasks/edit-monitoring-task/edit-monitoring-task.component';
 
 
 const routes: Routes = [
@@ -14,6 +16,11 @@ const routes: Routes = [
     children: [
       {path: 'bot-monitoring', component: MonitoringTasksListComponent},
       {path: 'bot-monitoring/add', component: AddMonitoringTaskComponent},
+      {
+        path: 'bot-monitoring/:id/edit',
+        resolve: {task: MonitoringTasksResolver},
+        component: EditMonitoringTaskComponent
+      },
     ]
   }
 ];

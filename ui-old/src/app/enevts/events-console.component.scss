@@ -1,8 +1,0 @@
-@import '~@angular/material/theming';
-
-@include mat-core();
-
-$main-toolbar-primary: mat-palette($mat-blue, 800, 700, 900);
-$main-toolbar-accent:  mat-palette($mat-red, A200, A100, A400);
-$main-toolbar-theme:   mat-light-theme($main-toolbar-primary, $main-toolbar-accent);
-@include mat-toolbar-theme($main-toolbar-theme);

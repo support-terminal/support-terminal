@@ -21,7 +21,6 @@ export class SqlSelectAsTextBotCommandFormComponent implements OnDestroy, OnChan
   constructor(private botCommandsService: BotCommandsService,
               private dbConnectionsService: DbConnectionsService,
               private fb: FormBuilder) {
-
   this.dataBasesSubscription = this.dbConnectionsService.dbConnectionsList.subscribe((dataBases) => {
       this.dataBases = dataBases;
     });

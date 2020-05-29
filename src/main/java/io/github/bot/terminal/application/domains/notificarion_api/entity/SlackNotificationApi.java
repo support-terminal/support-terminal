@@ -1,6 +1,7 @@
 package io.github.bot.terminal.application.domains.notificarion_api.entity;
 
 
+import io.github.bot.terminal.application.domains.integrations.DocumentFile;
 import io.github.bot.terminal.application.domains.integrations.slack.SlackApiClient;
 import io.github.bot.terminal.application.domains.integrations.slack.models.Channel;
 import io.github.bot.terminal.application.domains.integrations.slack.models.SlackMessage;
@@ -9,6 +10,7 @@ import io.github.bot.terminal.application.domains.integrations.slack.responses.G
 import io.github.bot.terminal.application.domains.integrations.slack.responses.GetChannelsResponse;
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -75,6 +77,17 @@ public final class SlackNotificationApi implements NotificationApi<SlackNotifica
             request.setText(message.getText());
             request.setChannel(channel.getId());
             slackApiClient.sendMessage(details.getToken(), request);
+        });
+    }
+
+    @Override
+    public void sendDocument(DocumentFile file) {
+        getChanel().ifPresent(channel -> {
+            try {
+                slackApiClient.sendDocument(details.getToken(), channel.getId(), file);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 

@@ -50,5 +50,4 @@ export class EditBotCommandComponent {
         this.router.navigateByUrl('/bot-commands');
       });
   }
-
 }

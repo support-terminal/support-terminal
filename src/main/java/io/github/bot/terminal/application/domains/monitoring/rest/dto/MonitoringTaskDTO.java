@@ -13,7 +13,7 @@ import java.util.List;
 public class MonitoringTaskDTO {
     private String id;
     private String name;
-    private String state;
+    private boolean enabled;
     private ActionDTO action;
     private String cron;
     private List<ConditionDTO> conditions;

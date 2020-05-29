@@ -14,17 +14,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Accessors(chain = true)
 public class SqlSelectAsOneNumberValueAction implements Action {
 
-    public SqlSelectAsOneNumberValueAction(String select, String resultTemplate, DbConnection dbConnection) {
+    public SqlSelectAsOneNumberValueAction(String select, DbConnection dbConnection) {
         this.select = select;
-        this.resultTemplate = resultTemplate;
         this.dbConnection = dbConnection;
     }
 
     private final String select;
 
     private final DbConnection dbConnection;
-
-    private final String resultTemplate;
 
     @Override
     public ActionResult execute() {

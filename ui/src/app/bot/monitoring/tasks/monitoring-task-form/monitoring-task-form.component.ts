@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import MonitoringTask from '../models/MonitoringTask';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NotificationApiService} from '../../../../notifications-api/services/notification-api.service';
@@ -14,7 +14,7 @@ import ConditionType from '../../../models/ConditionType';
   styleUrls: ['./monitoring-task-form.component.scss'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class MonitoringTaskFormComponent {
+export class MonitoringTaskFormComponent implements OnChanges {
 
   @Output() onSubmitEvent: EventEmitter<MonitoringTask> = new EventEmitter();
   @Input() initial: MonitoringTask;
@@ -32,6 +32,24 @@ export class MonitoringTaskFormComponent {
               private fb: FormBuilder) {
 
     this.initForm();
+    this.initDictionaries();
+  }
+
+  initForm() {
+    this.botTaskForm = this.fb.group({
+      id: [''],
+      enabled: [''],
+      name: ['', Validators.required],
+      cron: ['', Validators.required],
+      action: this.fb.group({
+        type: [''],
+      }),
+      conditions: this.fb.array([]),
+      notifyList: this.fb.array([])
+    });
+  }
+
+  initDictionaries() {
     this.monitoringTasksService.getCronFrequencies().subscribe(crons => {
       this.cronFrequencies = crons;
     });
@@ -43,26 +61,46 @@ export class MonitoringTaskFormComponent {
     });
   }
 
-  initForm() {
-    this.botTaskForm = this.fb.group({
-      id: [''],
-      state: [''],
-      name: ['', Validators.required],
-      cron: ['', Validators.required],
-      action: this.fb.group({
-        type: [''],
-      }),
-      conditions: this.fb.array([]),
-      notifyList: this.fb.array([])
-    });
-  }
-
-
   onSubmit(): void {
     this.botTaskModel = this.botTaskForm.value;
-    this.botTaskModel.action = this.botTaskForm.controls.action.value;
     this.onSubmitEvent.emit(this.botTaskModel);
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.initial) {
+      if (this.initial != null) {
+        this.botTaskModel = this.initial;
+        this.botTaskForm.controls.id.setValue(this.botTaskModel.id);
+        this.botTaskForm.controls.name.setValue(this.botTaskModel.name);
+        this.botTaskForm.controls.enabled.setValue(this.botTaskModel.enabled);
+
+        this.botTaskForm.controls.cron.setValue(this.botTaskModel.cron);
+        (this.botTaskForm.controls.action as FormGroup).controls.type.setValue(this.botTaskModel.action.type);
+
+        if (Array.isArray(this.botTaskModel.conditions) && this.botTaskModel.conditions.length > 0) {
+          this.botTaskModel.conditions.forEach((c) => {
+            (this.botTaskForm.controls.conditions as FormArray).push(
+              this.fb.group({
+                type: [c.type, Validators.required],
+                expectedValue: [c.expectedValue, Validators.required]
+              }));
+          });
+        }
+
+        if (Array.isArray(this.botTaskModel.notifyList) && this.botTaskModel.notifyList.length > 0) {
+          this.botTaskModel.notifyList.forEach((n) => {
+            (this.botTaskForm.controls.notifyList as FormArray).push(
+              this.fb.group({
+                notificationApiId: [n.notificationApiId, Validators.required],
+                messageTemplate: [n.messageTemplate, Validators.required]
+              }));
+          });
+        }
+
+      }
+    }
+  }
+
 
   addCondition(conditionType: ConditionType) {
     (this.botTaskForm.controls.conditions as FormArray).push(
@@ -80,7 +118,7 @@ export class MonitoringTaskFormComponent {
     }
   }
 
-  addNotify(type: string) {
+  addNotify() {
     (this.botTaskForm.controls.notifyList as FormArray).push(
       this.fb.group({
         notificationApiId: ['', Validators.required],

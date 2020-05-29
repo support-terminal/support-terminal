@@ -1,6 +1,7 @@
 package io.github.bot.terminal.application.domains.notificarion_api.entity;
 
 
+import io.github.bot.terminal.application.domains.integrations.DocumentFile;
 import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient;
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository;
 
@@ -51,6 +52,11 @@ public final class TelegramNotificationApi implements NotificationApi<TelegramNo
 
     @Override
     public void sendMessage(Message message) {
+
+    }
+
+    @Override
+    public void sendDocument(DocumentFile file) {
 
     }
 }

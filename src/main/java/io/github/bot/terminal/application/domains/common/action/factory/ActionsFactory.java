@@ -1,10 +1,7 @@
 package io.github.bot.terminal.application.domains.common.action.factory;
 
 
-import io.github.bot.terminal.application.domains.common.action.entity.Action;
-import io.github.bot.terminal.application.domains.common.action.entity.ActionDetails;
-import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextAction;
-import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextActionDetails;
+import io.github.bot.terminal.application.domains.common.action.entity.*;
 import io.github.bot.terminal.application.domains.common.action.values.ActionType;
 import io.github.bot.terminal.application.domains.db_connection.entity.DbConnection;
 import io.github.bot.terminal.application.domains.db_connection.factory.DbConnectionsFactory;
@@ -23,6 +20,12 @@ public class ActionsFactory {
                     = (SqlSelectAsTextActionDetails) actionDetails;
             DbConnection<?> dbConnection = dbConnectionsFactory.byId(details.getDbConnectionId());
             return new SqlSelectAsTextAction(details.getSelect(), details.getResultTemplate(), dbConnection);
+        }
+        if (ActionType.SQL_SELECT_AS_ONE_NUMBER.equals(actionDetails.getType())) {
+            SqlSelectAsOneNumberValueActionDetails details
+                    = (SqlSelectAsOneNumberValueActionDetails) actionDetails;
+            DbConnection<?> dbConnection = dbConnectionsFactory.byId(details.getDbConnectionId());
+            return new SqlSelectAsOneNumberValueAction(details.getSelect(), dbConnection);
         }
         throw new IllegalArgumentException("Action type not found");
     }

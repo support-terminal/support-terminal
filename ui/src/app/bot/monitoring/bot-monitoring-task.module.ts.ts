@@ -14,6 +14,7 @@ import {MonitoringTasksResolver} from './tasks/services/monitoring-tasks.resolve
 import {SqlSelectAsOneNumberTaskFormComponent} from './tasks/monitoring-task-form/sql-select-as-one-number-task/sql-select-as-one-number-task-form.component';
 import {MonitoringTaskConditionItemComponent} from './tasks/monitoring-task-form/monitoring-task-condition-item/monitoring-task-condition-item.component';
 import {MonitoringTaskNotifyItemComponent} from './tasks/monitoring-task-form/monitoring-task-notify-item/monitoring-task-notify-item.component';
+import {EditMonitoringTaskComponent} from './tasks/edit-monitoring-task/edit-monitoring-task.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import {MonitoringTaskNotifyItemComponent} from './tasks/monitoring-task-form/mo
   providers: [MonitoringTasksResolver, MonitoringTasksService],
   declarations: [
     AddMonitoringTaskComponent,
+    EditMonitoringTaskComponent,
     MonitoringTaskFormComponent,
     SqlSelectAsOneNumberTaskFormComponent,
     MonitoringTaskConditionItemComponent,
