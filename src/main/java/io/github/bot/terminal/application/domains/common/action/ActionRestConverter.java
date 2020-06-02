@@ -2,12 +2,15 @@ package io.github.bot.terminal.application.domains.common.action;
 
 
 import io.github.bot.terminal.application.domains.common.action.dto.ActionDTO;
+import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsExcelFileActionDTO;
 import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsOneNumberValueActionDTO;
 import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsTextActionDTO;
 import io.github.bot.terminal.application.domains.common.action.entity.ActionDetails;
 import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsOneNumberValueActionDetails;
 import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextActionDetails;
+import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectInExcelFileActionDetails;
 import io.github.bot.terminal.application.domains.common.action.requests.ActionRequest;
+import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsExcelFileActionRequest;
 import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsOneNumberValueActionRequest;
 import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsTextActionRequest;
 import io.github.bot.terminal.application.domains.common.action.values.ActionType;
@@ -23,6 +26,9 @@ public class ActionRestConverter {
         if (ActionType.SQL_SELECT_AS_TEXT.name().equals(request.getType())) {
             return mapToDetails((SqlSelectAsTextActionRequest) request);
         }
+        if (ActionType.SQL_SELECT_IN_EXCEL_FILE.name().equals(request.getType())) {
+            return mapToDetails((SqlSelectAsExcelFileActionRequest) request);
+        }
         if (ActionType.SQL_SELECT_AS_ONE_NUMBER.name().equals(request.getType())) {
             return mapToDetails((SqlSelectAsOneNumberValueActionRequest) request);
         }
@@ -37,6 +43,16 @@ public class ActionRestConverter {
         details.setResultTemplate(request.getResultTemplate());
         return details;
     }
+
+    public SqlSelectInExcelFileActionDetails mapToDetails(SqlSelectAsExcelFileActionRequest request) {
+        SqlSelectInExcelFileActionDetails details = new SqlSelectInExcelFileActionDetails();
+        details.setType(ActionType.SQL_SELECT_IN_EXCEL_FILE);
+        details.setDbConnectionId(request.getDbConnectionId());
+        details.setSelect(request.getSelect());
+        details.setFileNameTemplate(request.getFileNameTemplate());
+        return details;
+    }
+
     public SqlSelectAsOneNumberValueActionDetails mapToDetails(SqlSelectAsOneNumberValueActionRequest request) {
         SqlSelectAsOneNumberValueActionDetails details = new SqlSelectAsOneNumberValueActionDetails();
         details.setType(ActionType.SQL_SELECT_AS_ONE_NUMBER);
@@ -49,6 +65,9 @@ public class ActionRestConverter {
         if (ActionType.SQL_SELECT_AS_TEXT.equals(details.getType())) {
             return mapToDto((SqlSelectAsTextActionDetails) details);
         }
+        if (ActionType.SQL_SELECT_IN_EXCEL_FILE.equals(details.getType())) {
+            return mapToDto((SqlSelectInExcelFileActionDetails) details);
+        }
         if (ActionType.SQL_SELECT_AS_ONE_NUMBER.equals(details.getType())) {
             return mapToDto((SqlSelectAsOneNumberValueActionDetails) details);
         }
@@ -60,6 +79,15 @@ public class ActionRestConverter {
         dto.setDbConnectionId(details.getDbConnectionId());
         dto.setSelect(details.getSelect());
         dto.setResultTemplate(details.getResultTemplate());
+        dto.setType(details.getType().name());
+        return dto;
+    }
+
+    public SqlSelectAsExcelFileActionDTO mapToDto(SqlSelectInExcelFileActionDetails details) {
+        SqlSelectAsExcelFileActionDTO dto = new SqlSelectAsExcelFileActionDTO();
+        dto.setDbConnectionId(details.getDbConnectionId());
+        dto.setSelect(details.getSelect());
+        dto.setFileNameTemplate(details.getFileNameTemplate());
         dto.setType(details.getType().name());
         return dto;
     }

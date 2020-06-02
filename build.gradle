@@ -1,0 +1,148 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+apply from: '../version.gradle'
+apply from: './jacoco.gradle'
+
+
+ext {
+	lombokVersion = '1.18.10'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+bootRun {
+	systemProperties = System.properties
+	classpath += fileTree(dir: "${System.properties.getProperty('user.home')}/.support-terminal/libs", include: '*.jar')
+}
+
+bootJar{
+	manifest {
+		attributes ('Main-Class':'org.springframework.boot.loader.PropertiesLauncher',
+				    'Loader-Path':'${HOME}/.support-terminal/libs,libs,./libs,BOOT-INF/lib',
+		            'Start-Class':'io.github.support.terminal.PlatformApplication'
+		)
+	}
+
+}
+
+springBoot{
+	buildInfo()
+}
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+dependencies {
+
+	compile('org.springframework.boot:spring-boot-starter-web')
+
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.10'
+
+	compile("org.springframework.boot:spring-boot-starter-actuator")
+
+	compile "org.beryx:text-io:${textIoVersion}"
+
+	compile("org.springframework.security:spring-security-jwt:${springSecurityJwtVersion}")
+	compile("io.jsonwebtoken:jjwt:${jjwtJwtVersion}")
+
+	annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+	compileOnly("org.projectlombok:lombok:${lombokVersion}")
+
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-security')
+
+	compile("org.springframework:spring-jdbc")
+
+	compile "org.apache.poi:poi:${apachePoiVersion}"
+	compile "org.apache.commons:commons-collections4:${apacheCommonsCollectionVersion}"
+
+	compile "org.dizitart:nitrite:3.0.0"
+
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '2.0.1.RELEASE'
+
+	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+	compile group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0'
+	compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0'
+
+	compile group: 'org.apache.commons', name: 'commons-text', version: '1.3'
+
+	compileOnly("org.projectlombok:lombok")
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+
+task npmInstall(type:Exec) {
+	workingDir 'ui'
+	executable = 'npm'
+	args = ['install']
+	doLast{
+		print 'npm install'
+	}
+}
+
+
+task npmBuild(type:Exec) {
+	workingDir 'ui'
+	executable = 'npm'
+	args = ['run', 'build']
+	doLast{
+		print 'ui completed'
+	}
+}
+
+task npmRelease(type:Exec) {
+	workingDir 'ui'
+	executable = 'npm'
+	args = ['run', 'release']
+	doLast{
+		print 'ui completed'
+	}
+}
+
+task cleanOldDistr(type:Exec) {
+	executable = 'rm'
+	args = ['-Rf','src/main/resources/static']
+	doLast{
+		print 'ui cleaned'
+	}
+}
+
+task copyUiDist() {
+	doLast{
+		copy {
+			from 'ui/dist/ui/'
+			into 'src/main/resources/static'
+		}
+		print 'ui copied'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+

@@ -53,8 +53,9 @@ export class BotCommandFormComponent implements OnDestroy, OnChanges {
 
   initForm() {
     this.botCommandForm = this.fb.group({
+      id: [''],
       name: ['', Validators.required],
-      enabled: ['', Validators.required],
+      enabled: [''],
       cmd: ['', Validators.required],
       botIds: [null, Validators.compose([Validators.minLength(1), Validators.required])],
       action: this.fb.group({
@@ -65,7 +66,6 @@ export class BotCommandFormComponent implements OnDestroy, OnChanges {
 
   onSubmit(): void {
     this.botCommandModel = this.botCommandForm.value;
-    this.botCommandModel.action = this.botCommandForm.controls.action.value;
     this.onSubmitEvent.emit(this.botCommandModel);
   }
 
@@ -74,11 +74,6 @@ export class BotCommandFormComponent implements OnDestroy, OnChanges {
       if (this.initial != null) {
 
         this.botCommandModel = this.initial;
-
-        const id = this.botCommandForm.controls.id as FormArray;
-        if (id == null) {
-          this.botCommandForm.addControl('id', this.fb.control({}));
-        }
         this.botCommandForm.controls.id.setValue(this.botCommandModel.id);
         this.botCommandForm.controls.name.setValue(this.botCommandModel.name);
         this.botCommandForm.controls.enabled.setValue(this.botCommandModel.enabled);

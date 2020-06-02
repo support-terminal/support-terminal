@@ -61,10 +61,10 @@
                     [actionModel]='botCommandModel.action'>
   </app-sql-select-as-text-bot-command-form >
 
-  <app-sql-select-as-text-bot-command-form  *ngIf="botCommandForm.controls['action'].value.type == 'SQL_SELECT_IN_EXCEL_FILE'"
+  <app-sql-in-excel-file-bot-command  *ngIf="botCommandForm.controls['action'].value.type == 'SQL_SELECT_IN_EXCEL_FILE'"
                              [actionForm]="botCommandForm.controls['action']"
                              [actionModel]='botCommandModel.action'>
-  </app-sql-select-as-text-bot-command-form >
+  </app-sql-in-excel-file-bot-command >
 
   <div fxLayout fxFlexAlign='center' style='margin: 20px;' fxLayoutGap='10px'>
     <button type='submit' mat-raised-button color='primary'

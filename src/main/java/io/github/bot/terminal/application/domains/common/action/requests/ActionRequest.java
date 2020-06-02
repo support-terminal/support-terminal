@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
         visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SqlSelectAsTextActionRequest.class, name = ActionType.Constants.SQL_SELECT_AS_TEXT),
+        @JsonSubTypes.Type(value = SqlSelectAsExcelFileActionRequest.class, name = ActionType.Constants.SQL_SELECT_IN_EXCEL_FILE),
         @JsonSubTypes.Type(value = SqlSelectAsOneNumberValueActionRequest.class, name = ActionType.Constants.SQL_SELECT_AS_ONE_NUMBER)
 })
 public class ActionRequest {

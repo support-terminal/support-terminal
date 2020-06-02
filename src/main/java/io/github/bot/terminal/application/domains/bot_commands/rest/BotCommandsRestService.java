@@ -51,7 +51,7 @@ public class BotCommandsRestService {
     }
 
     public List<BotCommandTypeDTO> types() {
-        return Stream.of(ActionType.SQL_SELECT_AS_TEXT)
+        return Stream.of(ActionType.SQL_SELECT_AS_TEXT, ActionType.SQL_SELECT_IN_EXCEL_FILE)
                 .map(t -> new BotCommandTypeDTO().setLabel(t.getLabel()).setType(t.name()))
                 .collect(Collectors.toList());
     }

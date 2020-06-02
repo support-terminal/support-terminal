@@ -26,6 +26,6 @@ public class BotCommandRequest {
     @NotEmpty
     private Collection<String> botIds;
 
-    private boolean enabled;
+    private boolean enabled = true;
 
 }

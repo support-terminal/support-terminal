@@ -1,6 +1,6 @@
 <div id='actionFormDiv' fxLayout='column' *ngIf='actionForm' [formGroup]='actionForm'>
   <mat-form-field>
-    <mat-select placeholder='База данных'
+    <mat-select placeholder='Data base connection'
                 id='dbConnectionId' name='dbConnectionId'
                 formControlName='dbConnectionId'>
       <mat-option *ngFor='let bd of dataBases' [value]='bd.id'>
@@ -28,7 +28,7 @@
   </mat-form-field>
 
   <mat-form-field fxFlex>
-    <input matInput placeholder='Шаблон имени файла'
+    <input matInput placeholder='File name'
            id='fileNameTemplate' name='fileNameTemplate'
            formControlName='fileNameTemplate'/>
     <mat-error *ngIf="(actionForm.controls['fileNameTemplate'].dirty || actionForm.controls['fileNameTemplate'].touched)
