@@ -1,7 +1,6 @@
 package io.github.bot.terminal.application.domains.bot_commands.rest.dto;
 
 
-
 import io.github.bot.terminal.application.domains.common.action.dto.ActionDTO;
 import lombok.Data;
 import lombok.experimental.Accessors;

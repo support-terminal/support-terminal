@@ -49,8 +49,8 @@ public class TokenProvider {
 
     public String createToken(Authentication authentication, Boolean rememberMe) {
         String authorities = authentication.getAuthorities().stream()
-            .map(authority -> authority.getAuthority())
-            .collect(Collectors.joining(","));
+                .map(authority -> authority.getAuthority())
+                .collect(Collectors.joining(","));
         long now = (new Date()).getTime();
         Date validity;
         if (rememberMe) {
@@ -59,24 +59,24 @@ public class TokenProvider {
             validity = new Date(now + this.tokenValidityInSeconds);
         }
         return Jwts.builder()
-            .setSubject(authentication.getName())
-            .claim(AUTHORITIES_KEY, authorities)
-            .signWith(SignatureAlgorithm.HS512, secretKey)
-            .setExpiration(validity)
-            .compact();
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .setExpiration(validity)
+                .compact();
     }
 
-    public Authentication getAuthentication(String token){
+    public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser()
-            .setSigningKey(secretKey)
-            .parseClaimsJws(token)
-            .getBody();
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
         Collection<? extends GrantedAuthority> authorities =
-            Arrays.asList(claims.get(AUTHORITIES_KEY).toString().split(",")).stream()
-                .map(authority -> new SimpleGrantedAuthority(authority))
-                .collect(Collectors.toList());
+                Arrays.asList(claims.get(AUTHORITIES_KEY).toString().split(",")).stream()
+                        .map(authority -> new SimpleGrantedAuthority(authority))
+                        .collect(Collectors.toList());
         User principal = new User(claims.getSubject(), "",
-            authorities);
+                authorities);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(principal, "", authorities);
         usernamePasswordAuthenticationToken.setDetails(claims);
         return usernamePasswordAuthenticationToken;

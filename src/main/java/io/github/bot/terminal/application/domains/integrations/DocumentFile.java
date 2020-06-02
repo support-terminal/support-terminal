@@ -8,7 +8,8 @@ public class DocumentFile {
     private String filename;
     private byte[] payload;
 
-    public DocumentFile() {}
+    public DocumentFile() {
+    }
 
     public String getFilename() {
         return filename;

@@ -24,7 +24,7 @@ public class ExcelManagerService {
     public DocumentFile createExcelDocumentFile(String fileName, List<Map<String, Object>> rows) throws IOException {
 
         HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
-        if (rows.size() == 0){
+        if (rows.size() == 0) {
             return new DocumentFile(fileName, new ByteArrayOutputStream());
         }
 
@@ -41,7 +41,7 @@ public class ExcelManagerService {
             HSSFRow headRow = sheet.createRow(0);
             headRow.setRowStyle(getBoldStyle(hssfWorkbook));
 
-            for (int i = 0; i < keysColumnsList.size() ; i++) {
+            for (int i = 0; i < keysColumnsList.size(); i++) {
                 cell = headRow.createCell(i);
                 cell.setCellValue(keysColumnsList.get(i));
                 cell.setCellStyle(boldStyle);
@@ -57,14 +57,14 @@ public class ExcelManagerService {
                     HSSFCell rowCell = row.createCell(j[0]);
                     if (value instanceof Timestamp) {
                         rowCell.setCellValue(value.toString());
-                    }else if(value instanceof java.util.UUID ) {
+                    } else if (value instanceof java.util.UUID) {
                         rowCell.setCellValue(value.toString());
-                    }else if(value instanceof Integer ) {
-                        rowCell.setCellValue((Integer)value);
-                    }else if(value instanceof Double ) {
-                        rowCell.setCellValue((Double)value);
-                    }else if(value instanceof Long ) {
-                        rowCell.setCellValue((Long)value);
+                    } else if (value instanceof Integer) {
+                        rowCell.setCellValue((Integer) value);
+                    } else if (value instanceof Double) {
+                        rowCell.setCellValue((Double) value);
+                    } else if (value instanceof Long) {
+                        rowCell.setCellValue((Long) value);
                     } else {
                         rowCell.setCellValue(value.toString());
                     }
@@ -73,8 +73,8 @@ public class ExcelManagerService {
                 });
             }
 
-            for (int i = 0; i < keysColumnsList.size() ; i++) {
-                    sheet.autoSizeColumn(i);
+            for (int i = 0; i < keysColumnsList.size(); i++) {
+                sheet.autoSizeColumn(i);
             }
         }
 

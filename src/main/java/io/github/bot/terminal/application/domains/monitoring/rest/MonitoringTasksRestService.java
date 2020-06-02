@@ -1,6 +1,5 @@
 package io.github.bot.terminal.application.domains.monitoring.rest;
 
-import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandTypeDTO;
 import io.github.bot.terminal.application.domains.common.action.values.ActionType;
 import io.github.bot.terminal.application.domains.common.conditions.dto.ConditionTypeDTO;
 import io.github.bot.terminal.application.domains.common.conditions.values.ConditionType;
@@ -78,7 +77,7 @@ public class MonitoringTasksRestService {
 
     public List<ConditionTypeDTO> conditionTypes() {
         return Stream.of(ConditionType.values())
-            .map(t -> new ConditionTypeDTO().setLabel(t.getLabel()).setType(t.name()))
-            .collect(Collectors.toList());
+                .map(t -> new ConditionTypeDTO().setLabel(t.getLabel()).setType(t.name()))
+                .collect(Collectors.toList());
     }
 }

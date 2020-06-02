@@ -40,8 +40,8 @@ public class NotificationApiFactory {
     }
 
     private NotificationApiDetails getById(String id) {
-       return repository.findById(id)
-                .orElseThrow(() ->new IllegalArgumentException("Notfication API not found: id="+id));
+        return repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Notfication API not found: id=" + id));
     }
 
     private NotificationApi<?> build(NotificationApiDetails details) {

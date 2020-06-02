@@ -53,7 +53,7 @@ public class BotCommandsRestController {
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public BotCommandDTO edit(@PathVariable String id,
-                              @RequestBody @Valid BotCommandRequest request){
+                              @RequestBody @Valid BotCommandRequest request) {
         return service.edit(id, request);
     }
 

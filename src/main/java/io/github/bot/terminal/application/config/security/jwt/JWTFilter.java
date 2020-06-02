@@ -32,7 +32,7 @@ public class JWTFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         try {
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             String jwt = resolveToken(httpServletRequest);
@@ -49,7 +49,7 @@ public class JWTFilter extends GenericFilterBean {
         }
     }
 
-    private String resolveToken(HttpServletRequest request){
+    private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(JWTConfigurer.AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             String jwt = bearerToken.substring(7, bearerToken.length());

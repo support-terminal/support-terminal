@@ -1,7 +1,6 @@
 package io.github.bot.terminal.application.domains.monitoring.rest;
 
 
-import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandTypeDTO;
 import io.github.bot.terminal.application.domains.common.conditions.dto.ConditionTypeDTO;
 import io.github.bot.terminal.application.domains.common.cron.dto.CronFrequencyDTO;
 import io.github.bot.terminal.application.domains.monitoring.rest.dto.MonitoringTaskDTO;

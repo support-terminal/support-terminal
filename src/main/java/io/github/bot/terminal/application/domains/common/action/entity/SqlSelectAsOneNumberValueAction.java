@@ -35,7 +35,7 @@ public class SqlSelectAsOneNumberValueAction implements Action {
         }
     }
 
-    public class ActionResultImpl implements ActionResult<Double>{
+    public class ActionResultImpl implements ActionResult<Double> {
 
         private final Double result;
 

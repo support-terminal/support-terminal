@@ -26,18 +26,18 @@ public class MonitoringTask implements Runnable {
             return;
         }
         ActionResult<Double> result = (ActionResult<Double>) action.execute();
-        for(Condition c :conditions){
+        for (Condition c : conditions) {
             //todo проверки сами реализуют логику примениму они к такому типу данных или нет
             //если не применимы то скипают - но нужна хотя бы одна проверка не на число - типа статус HTTP запроса
-            if(c.check(result.getResult())){
-               continue;
+            if (c.check(result.getResult())) {
+                continue;
             }
-           checkNotPassed();
+            checkNotPassed();
         }
     }
 
-    private void checkNotPassed(){
-        for(Notify notify : notifyList){
+    private void checkNotPassed() {
+        for (Notify notify : notifyList) {
             notify.execute();
         }
     }

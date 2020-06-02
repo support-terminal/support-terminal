@@ -50,7 +50,7 @@ public class ApplicationContextConfiguration {
     private String PROXY_PASSWORD;
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

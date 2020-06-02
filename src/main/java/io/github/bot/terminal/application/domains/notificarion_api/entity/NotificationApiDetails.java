@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import org.dizitart.no2.objects.Id;
 
 @Data
-@EqualsAndHashCode(of={"id"})
+@EqualsAndHashCode(of = {"id"})
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "type",

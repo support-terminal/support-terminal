@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 public class ConditionsFactory {
 
 
-
     public Condition build(ConditionDetails details) {
         return new Condition()
                 .setConditionType(details.getConditionType())

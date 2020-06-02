@@ -23,7 +23,7 @@ public class DbConnectionsRestController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public DbConnectionDTO add(@RequestBody @Valid DbConnectionRequest dbConnectionRequest){
+    public DbConnectionDTO add(@RequestBody @Valid DbConnectionRequest dbConnectionRequest) {
         return dbConnectionsApiService.add(dbConnectionRequest);
     }
 
@@ -63,7 +63,7 @@ public class DbConnectionsRestController {
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public DbConnectionDTO edit(@PathVariable String id,
-                                  @RequestBody @Valid DbConnectionRequest request) {
+                                @RequestBody @Valid DbConnectionRequest request) {
         return dbConnectionsApiService.edit(id, request);
     }
 

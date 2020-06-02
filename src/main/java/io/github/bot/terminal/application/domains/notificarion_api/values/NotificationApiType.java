@@ -10,9 +10,11 @@ public enum NotificationApiType {
     NotificationApiType(String label) {
         this.label = label;
     }
+
     public String getLabel() {
         return label;
     }
+
     public interface Constants {
         String TELEGRAM_BOT = "TELEGRAM_BOT";
         String SLACK_BOT = "SLACK_BOT";

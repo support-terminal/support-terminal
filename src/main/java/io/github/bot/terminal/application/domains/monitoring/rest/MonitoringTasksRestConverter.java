@@ -25,7 +25,7 @@ public class MonitoringTasksRestConverter {
     MonitoringTaskDetails mapToDetails(MonitoringTaskRequest request) {
         MonitoringTaskDetails details = new MonitoringTaskDetails();
         details.setName(request.getName());
-        details.setState( MonitoringTaskState.resolve(request.isEnabled()));
+        details.setState(MonitoringTaskState.resolve(request.isEnabled()));
         details.setActionDetails(actionRestConverter.mapToDetails(request.getAction()));
         details.setCron(request.getCron());
         details.setConditions(request.getConditions().stream()

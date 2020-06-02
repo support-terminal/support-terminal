@@ -21,7 +21,7 @@ public class OracleDbConnection extends DbConnection<OracleDbConnectionDetails> 
 
     @Override
     public String getUrl() {
-        return "jdbc:oracle:thin:@"+details.getHost()+":"+details.getPort()+"/"+details.getSid();
+        return "jdbc:oracle:thin:@" + details.getHost() + ":" + details.getPort() + "/" + details.getSid();
     }
 
     @Override

@@ -15,7 +15,7 @@ public class ApplicationEvent {
     private Level level;
     private Date date;
 
-    public static enum Level{
+    public static enum Level {
         INFO,
         ERROR
     }

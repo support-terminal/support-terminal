@@ -31,7 +31,7 @@ public class UserJWTController {
     public ResponseEntity<?> authorize(@Valid @RequestBody LoginVM loginVM, HttpServletResponse response) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
-            new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
+                new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
 
         try {
             Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
@@ -41,7 +41,7 @@ public class UserJWTController {
             response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
             return ResponseEntity.ok(new JWTToken(jwt));
         } catch (AuthenticationException exception) {
-            return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",exception.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(Collections.singletonMap("AuthenticationException", exception.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
         }
     }
 }

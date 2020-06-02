@@ -9,7 +9,8 @@ import lombok.experimental.Accessors;
 public class Condition {
     private ConditionType conditionType;
     private Double expectedValue;
-    public boolean check(Double value){
+
+    public boolean check(Double value) {
         return conditionType.check(value, expectedValue);
     }
 }

@@ -6,6 +6,7 @@ import io.github.bot.terminal.application.domains.notificarion_api.entity.Notifi
 public interface ActionResult<T> {
 
     void notify(NotificationApi api);
+
     T getResult();
 
 }

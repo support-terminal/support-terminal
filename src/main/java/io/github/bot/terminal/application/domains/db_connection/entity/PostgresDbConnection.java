@@ -22,7 +22,7 @@ public class PostgresDbConnection extends DbConnection<PostgresDbConnectionDetai
 
     @Override
     public String getUrl() {
-        return "jdbc:postgresql://"+details.getHost()+":"+details.getPort()+"/"+details.getDbName();
+        return "jdbc:postgresql://" + details.getHost() + ":" + details.getPort() + "/" + details.getDbName();
     }
 
     @Override

@@ -51,11 +51,11 @@ public class PlatformApplication {
 
         String confiFilePath = DEFAULT_CONFIGURATION_FILE_PATH + File.separator + "config.properties";
 
-        Properties prop =new Properties();
+        Properties prop = new Properties();
         prop.load(new FileInputStream(confiFilePath));
         prop.setProperty("admin-login", newCredentials.login);
         prop.setProperty("admin-password", newCredentials.login);
-        prop.store(new FileOutputStream(confiFilePath),null);
+        prop.store(new FileOutputStream(confiFilePath), null);
 
         System.out.println("Password was changed successful");
         System.exit(0);

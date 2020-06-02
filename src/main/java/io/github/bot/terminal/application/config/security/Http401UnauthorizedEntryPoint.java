@@ -18,7 +18,7 @@ import java.io.IOException;
 public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2)
-        throws IOException,
+            throws IOException,
             ServletException {
         log.debug("Pre-authenticated entry point called. Rejecting access");
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied");

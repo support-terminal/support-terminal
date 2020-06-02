@@ -34,7 +34,7 @@ public class MonitoringTasksWorker {
         executorService.execute(this::refresh);
     }
 
-    private void refresh(){
+    private void refresh() {
         cleanFutureList();
         List<MonitoringTask> monitoringTasks = monitoringTasksFactory.getAll();
         for (MonitoringTask task : monitoringTasks) {

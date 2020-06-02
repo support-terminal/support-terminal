@@ -28,11 +28,11 @@ public class TelegramApiClient {
     private static final String TELEGRAM_URL = "https://api.telegram.org";
 
 
-    public UpdateResponse getUpdates(String token, UpdateRequest updateRequest){
+    public UpdateResponse getUpdates(String token, UpdateRequest updateRequest) {
         HttpEntity<UpdateRequest> request = new HttpEntity<>(updateRequest);
         try {
             ResponseEntity<UpdateResponse> responseEntity
-                    = restTemplate.exchange( TELEGRAM_URL + "/bot{token}/getUpdates", HttpMethod.POST, request, UpdateResponse.class, token);
+                    = restTemplate.exchange(TELEGRAM_URL + "/bot{token}/getUpdates", HttpMethod.POST, request, UpdateResponse.class, token);
             return responseEntity.getBody();
         } catch (HttpStatusCodeException ex) {
             log.error("Error telegram getUpdates", ex);
@@ -41,11 +41,11 @@ public class TelegramApiClient {
     }
 
 
-    public SendMessageResponse sendMessage(String token, SendMessageRequest sendMessageRequest){
+    public SendMessageResponse sendMessage(String token, SendMessageRequest sendMessageRequest) {
         HttpEntity<SendMessageRequest> request = new HttpEntity<>(sendMessageRequest);
         try {
             ResponseEntity<SendMessageResponse> responseEntity
-                    = restTemplate.exchange( TELEGRAM_URL + "/bot{token}/sendMessage", HttpMethod.POST, request, SendMessageResponse.class, token);
+                    = restTemplate.exchange(TELEGRAM_URL + "/bot{token}/sendMessage", HttpMethod.POST, request, SendMessageResponse.class, token);
             return responseEntity.getBody();
         } catch (HttpStatusCodeException ex) {
             log.error("Error telegram sendMessage", ex);
@@ -71,7 +71,7 @@ public class TelegramApiClient {
         HttpEntity request = new HttpEntity<>(parts, httpHeaders);
         try {
             ResponseEntity<SendMessageResponse> responseEntity
-                    = restTemplate.exchange( TELEGRAM_URL + "/bot{token}/sendDocument", HttpMethod.POST, request, SendMessageResponse.class, token);
+                    = restTemplate.exchange(TELEGRAM_URL + "/bot{token}/sendDocument", HttpMethod.POST, request, SendMessageResponse.class, token);
             return responseEntity.getBody();
         } catch (HttpStatusCodeException ex) {
             log.error("Error telegram sendDocument", ex);

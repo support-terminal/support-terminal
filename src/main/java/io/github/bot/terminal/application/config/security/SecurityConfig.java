@@ -55,12 +55,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .disable();
 
-          http.authorizeRequests()
-              .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-              .and().authorizeRequests().antMatchers("/api/websocket/**").permitAll()
-              .and().authorizeRequests().antMatchers("/api/authenticate").permitAll()
-              .and().authorizeRequests().antMatchers("/api/**").authenticated()
-              .and().authorizeRequests().antMatchers("/**").permitAll();
+        http.authorizeRequests()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authorizeRequests().antMatchers("/api/websocket/**").permitAll()
+                .and().authorizeRequests().antMatchers("/api/authenticate").permitAll()
+                .and().authorizeRequests().antMatchers("/api/**").authenticated()
+                .and().authorizeRequests().antMatchers("/**").permitAll();
 
         http.apply(securityConfigurerAdapter());
     }

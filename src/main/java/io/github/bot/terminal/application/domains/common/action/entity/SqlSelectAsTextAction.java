@@ -59,7 +59,7 @@ public class SqlSelectAsTextAction implements Action {
         return sub.replace(resultTemplate);
     }
 
-    public class ActionResultImpl implements ActionResult<String>{
+    public class ActionResultImpl implements ActionResult<String> {
 
         private final String result;
 

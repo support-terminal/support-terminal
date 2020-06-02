@@ -13,14 +13,16 @@ public final class TelegramNotificationApi implements NotificationApi<TelegramNo
     private final TelegramNotificationApiDetails details;
     private final NotificationApiRepository repository;
     private final TelegramApiClient telegramApiClient;
-   public TelegramNotificationApi(TelegramNotificationApiDetails details,
-                                  NotificationApiRepository repository,
-                                  TelegramApiClient telegramApiClient) {
+
+    public TelegramNotificationApi(TelegramNotificationApiDetails details,
+                                   NotificationApiRepository repository,
+                                   TelegramApiClient telegramApiClient) {
         this.details = details;
         this.repository = repository;
         this.telegramApiClient = telegramApiClient;
 
-   }
+    }
+
     public TelegramNotificationApiDetails getDetails() {
         return details;
     }

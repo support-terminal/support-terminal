@@ -14,7 +14,7 @@ public class NitriteDataBaseConfiguration {
 
 
     @Bean(destroyMethod = "close")
-    public Nitrite getNitrite(){
+    public Nitrite getNitrite() {
         Nitrite db = Nitrite.builder()
                 .compressed()
                 .filePath(STORAGE_PATH)

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @Accessors(chain = true)
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 public class SqlSelectInExcelFileActionDetails extends ActionDetails {
 
     public SqlSelectInExcelFileActionDetails() {

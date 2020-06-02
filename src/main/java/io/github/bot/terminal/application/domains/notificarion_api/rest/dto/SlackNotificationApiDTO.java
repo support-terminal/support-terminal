@@ -9,10 +9,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class SlackNotificationApiDTO extends NotificationApiDTO {
 
-   public SlackNotificationApiDTO() {
-      super(NotificationApiType.Constants.SLACK_BOT);
-   }
+    public SlackNotificationApiDTO() {
+        super(NotificationApiType.Constants.SLACK_BOT);
+    }
 
-   private String token;
-   private String chanel;
+    private String token;
+    private String chanel;
 }
