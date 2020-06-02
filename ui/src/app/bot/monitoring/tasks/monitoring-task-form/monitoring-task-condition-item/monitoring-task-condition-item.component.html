@@ -1,0 +1,33 @@
+<mat-card class='mat-elevation-z4' [formGroup]='conditionForm'>
+  <mat-form-field>
+    <mat-select placeholder='Condition Type'
+                id='type' name='type'
+                formControlName='type'
+                required>
+      <mat-option *ngFor='let c of conditionsTypes' [value]='c.type'>
+        {{ c.label }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="(conditionForm.controls['type'].dirty || conditionForm.controls['type'].touched)
+                       && conditionForm.controls['type'].errors && conditionForm.controls['type'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+  <mat-card-content>
+    <div fxFlex='60%'>
+      <input matInput placeholder='Expected value'
+             id='expectedValue' name='expectedValue'
+             formControlName='expectedValue'
+             required/>
+      <mat-error *ngIf="(conditionForm.controls['expectedValue'].dirty || conditionForm.controls['expectedValue'].touched)
+                       && conditionForm.controls['expectedValue'].errors && conditionForm.controls['expectedValue'].errors.required">
+        Required value
+      </mat-error>
+    </div>
+  </mat-card-content>
+  <mat-card-actions fxLayoutAlign='end'>
+    <button type='submit' mat-button color='warn' (click)='submitRemoveMe()'>
+      Remove condition
+    </button>
+  </mat-card-actions>
+</mat-card>

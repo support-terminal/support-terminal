@@ -1,0 +1,95 @@
+<form [formGroup]='botTaskForm' (ngSubmit)='onSubmit()' fxLayout='column'>
+
+  <mat-slide-toggle *ngIf="botTaskForm.controls['id'].value"
+    id='enabled' name='enabled'
+    formControlName="enabled"
+                    color="primary">Enabled</mat-slide-toggle>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Task name'
+           id='name' name='name'
+           formControlName='name'/>
+    <mat-error *ngIf="(botTaskForm.controls['name'].dirty || botTaskForm.controls['name'].touched)
+                       && botTaskForm.controls['name'].errors && botTaskForm.controls['name'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder='Frequency'
+                id='cron' name='cron'
+                formControlName='cron'>
+      <mat-option *ngFor='let c of cronFrequencies' [value]='c.cron'>
+        {{ c.label }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="(botTaskForm.controls['cron'].dirty || botTaskForm.controls['cron'].touched)
+                    && botTaskForm.controls['cron'].errors && botTaskForm.controls['cron'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field [formGroup]="botTaskForm.controls['action']">
+    <mat-select placeholder='Action'
+                id='type' name='type'
+                formControlName='type'>
+      <mat-option *ngFor="let t of actionTypes" [value]="t.type">
+        {{ t.label }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="(botTaskForm.controls['action'].controls['type'].dirty || botTaskForm.controls['action'].controls['type'].touched)
+                       && botTaskForm.controls['action'].controls['type'].errors && botTaskForm.controls['action'].controls['type'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <app-sql-select-as-one-number-task-form *ngIf="botTaskForm.controls['action'].value.type == 'SQL_SELECT_AS_ONE_NUMBER'"
+                                           [actionForm]="botTaskForm.controls['action']"
+                                           [actionModel]='botTaskModel.action'>
+  </app-sql-select-as-one-number-task-form >
+
+
+  <fieldset>
+    <legend>Check conditions</legend>
+    <div>
+      <button mat-raised-button color='primary' type='button' [matMenuTriggerFor]='conditionsTypesMenu'>
+        Add condition
+      </button>
+      <mat-menu #conditionsTypesMenu='matMenu'>
+        <button type='button' *ngFor='let conditionType of conditionsTypes'
+                (click)='addCondition(conditionType)'
+                mat-menu-item>{{conditionType.label}}
+        </button>
+      </mat-menu>
+    </div>
+    <br/>
+    <app-monitoring-task-condition-item
+      *ngFor="let conditionForm of this.botTaskForm.controls.conditions.controls; let i = index"
+               (removeMeEvent)='dropCondition(i)' [conditionForm]='conditionForm'>
+    </app-monitoring-task-condition-item>
+  </fieldset>
+
+  <br/>
+  <fieldset>
+    <legend>Alerting</legend>
+    <div>
+      <button type='button' mat-raised-button color='primary' (click)='addNotify()'>
+        Add notification
+      </button>
+    </div>
+    <br/>
+    <app-monitoring-task-notify-item
+      *ngFor="let notify of botTaskForm.controls.notifyList.controls; let i = index" [notifyForm]='notify'
+                  (removeMeEvent)='dropNotify(i)'>
+    </app-monitoring-task-notify-item>
+  </fieldset>
+
+  <div fxLayout fxFlexAlign='center' style='margin: 20px;' fxLayoutGap='10px'>
+    <button type='submit' mat-raised-button color='primary'
+    >{{submitButtonText}}</button>
+    <ng-content select='.ng-content-bottom-buttons'></ng-content>
+  </div>
+
+</form>
+
+

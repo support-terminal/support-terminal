@@ -1,0 +1,25 @@
+<div style="margin: 60px;">
+  <div fxLayout fxLayoutAlign='start center'>
+    <h2 fxFlex='100%' mat-dialog-title>Edit: {{bot.label}} </h2>
+  </div>
+  <mat-dialog-content *ngIf='bot'>
+
+    <mat-slide-toggle
+      color='primary'
+      (change)='changeCommandState($event)'
+      [checked]="bot.state == 'ENABLED'">
+      <span *ngIf="bot.state == 'ENABLED'">Enabled</span>
+      <span *ngIf="bot.state != 'ENABLED'">Disabled</span>
+    </mat-slide-toggle>
+
+    <app-notification-api-form (onSubmitEvent)='edit($event)'
+                               [initial]='bot'
+                               submitButtonText='Save'>
+
+      <div class='ng-content-bottom-buttons'>
+        <button type='button' mat-button color='warn' (click)='delete()'>Delete</button>
+      </div>
+
+    </app-notification-api-form>
+  </mat-dialog-content>
+</div>

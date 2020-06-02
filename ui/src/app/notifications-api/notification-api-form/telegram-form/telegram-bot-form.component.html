@@ -1,0 +1,24 @@
+<div fxLayout='column'>
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Name from @BotFather'
+           id='botFatherName' name='botFatherName'
+           [(ngModel)]='bot.botFatherName'
+           required
+           #botFatherName='ngModel'/>
+    <mat-error *ngIf='botFatherName.errors && (botFatherName.dirty || botFatherName.touched) && botFatherName.errors.required'>
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Token from @BotFather'
+           id='token' name='token'
+           [(ngModel)]='bot.token'
+           required
+           #token='ngModel'/>
+    <mat-error *ngIf='token.errors && (token.dirty || token.touched) && token.errors.required'>
+      Required value
+    </mat-error>
+  </mat-form-field>
+</div>

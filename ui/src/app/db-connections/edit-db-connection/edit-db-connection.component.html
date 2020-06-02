@@ -1,0 +1,15 @@
+<div style="margin: 60px;">
+  <div fxLayout fxLayoutAlign='start center'>
+    <h2 fxFlex='100%' mat-dialog-title>Edit: {{dbConnection.name}} </h2>
+  </div>
+  <mat-dialog-content *ngIf='dbConnection'>
+    <app-db-connection-form (onSubmitEvent)='editDbConnection($event)'
+                            [initial]='dbConnection'
+                            submitButtonText='Save'>
+      <div class='ng-content-bottom-buttons'>
+        <button type='button' mat-button color='warn' (click)='deleteDb()'>Delete</button>
+      </div>
+
+    </app-db-connection-form>
+  </mat-dialog-content>
+</div>

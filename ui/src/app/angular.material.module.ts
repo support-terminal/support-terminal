@@ -17,10 +17,10 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
-import {FlexLayoutModule} from "@angular/flex-layout";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatCodemirrorModule} from "ngx-mat-codemirror";
-import {MatExpansionModule} from "@angular/material/expansion";
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatCodemirrorModule} from 'ngx-mat-codemirror';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 const modules = [
   MatCodemirrorModule,

@@ -1,0 +1,35 @@
+<mat-card class='mat-elevation-z4' [formGroup]='notifyForm' >
+    <mat-card-content>
+         <mat-form-field>
+            <mat-select placeholder='Notification API'
+                        id='notificationApiId' name='notificationApiId'
+                        formControlName='notificationApiId'
+                        required>
+                <mat-option *ngFor='let bot of notificationApis' [value]='bot.id'>
+                    {{ bot.label }}
+                </mat-option>
+            </mat-select>
+          <mat-error *ngIf="(notifyForm.controls['notificationApiId'].dirty || notifyForm.controls['notificationApiId'].touched)
+                       && notifyForm.controls['notificationApiId'].errors && notifyForm.controls['notificationApiId'].errors.required">
+            Required value
+          </mat-error>
+        </mat-form-field>
+
+        <div>
+            <input matInput placeholder='Notification message'
+                   id='messageTemplate' name='messageTemplate'
+                   formControlName='messageTemplate'
+                   required/>
+          <mat-error *ngIf="(notifyForm.controls['messageTemplate'].dirty || notifyForm.controls['messageTemplate'].touched)
+                       && notifyForm.controls['messageTemplate'].errors && notifyForm.controls['messageTemplate'].errors.required">
+            Required value
+          </mat-error>
+        </div>
+
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign='end'>
+        <button type='submit' mat-button color='warn' (click)='submitRemoveMe()'>
+            Remove notification
+        </button>
+    </mat-card-actions>
+</mat-card>

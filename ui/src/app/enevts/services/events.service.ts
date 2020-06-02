@@ -1,11 +1,11 @@
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
-import ApplicationEvent from "../models/ApplicationEvent";
-import {BehaviorSubject} from "rxjs";
+import ApplicationEvent from '../models/ApplicationEvent';
+import {BehaviorSubject} from 'rxjs';
 
-import {Config} from "../../config";
-import {Inject} from "@angular/core";
+import {Config} from '../../config';
+import {Inject} from '@angular/core';
 
 
 export class EventsService {
@@ -21,7 +21,7 @@ export class EventsService {
       this.stompClient = Stomp.over(socket);
       this.stompClient.debug = null
       this.stompClient.connect({}, (frame) => {
-        this.stompClient.subscribe("/topic/ui/events", (message) => {
+        this.stompClient.subscribe('/topic/ui/events', (message) => {
           this.applicationEvents.push(JSON.parse(message.body));
           if(this.applicationEvents.length > this.MAX_COUNT_ENETS){
             this.applicationEvents = this.lastN(this.applicationEvents, this.MAX_COUNT_ENETS);

@@ -1,21 +1,14 @@
 import {AfterViewChecked, Component, ElementRef, ViewChild} from '@angular/core';
-import {Config} from "./config";
 
 
 @Component({
-  selector: 'main-menu',
+  selector: 'app-main-menu',
   styleUrls: ['./main.component.scss'],
-  templateUrl: './main.component.html',
-  providers:[Config]
+  templateUrl: './main.component.html'
 })
-export class MainComponent implements AfterViewChecked{
+export class MainComponent implements AfterViewChecked {
 
   @ViewChild('autoScrollMe') private autoScrollContainer: ElementRef;
-
-  constructor(private config : Config){
-    console.info(config)
-  }
-
 
   ngAfterViewChecked() {
     this.scrollToBottom();
@@ -24,7 +17,8 @@ export class MainComponent implements AfterViewChecked{
   scrollToBottom(): void {
     try {
       this.autoScrollContainer.nativeElement.scrollTop = this.autoScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }
+    } catch (err) {
+    }
   }
 
 }

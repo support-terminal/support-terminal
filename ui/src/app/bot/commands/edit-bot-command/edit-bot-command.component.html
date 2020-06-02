@@ -1,0 +1,17 @@
+<div style="margin: 60px;">
+  <div fxLayout fxLayoutAlign='start center'>
+    <h2 fxFlex='100%' mat-dialog-title>Edit: {{command.name}} </h2>
+  </div>
+  <mat-dialog-content *ngIf='command'>
+
+    <app-bot-command-form (onSubmitEvent)='edit($event)'
+                          [initial]='command'
+                          submitButtonText='Save'>
+
+      <div class='ng-content-bottom-buttons'>
+        <button type='button' mat-button color='warn' (click)='delete()'>Delete</button>
+      </div>
+
+    </app-bot-command-form>
+  </mat-dialog-content>
+</div>

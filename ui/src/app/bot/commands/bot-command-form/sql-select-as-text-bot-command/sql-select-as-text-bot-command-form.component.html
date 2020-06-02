@@ -1,0 +1,42 @@
+<div id='actionFormDiv' fxLayout='column' *ngIf='actionForm' [formGroup]='actionForm'>
+
+  <mat-form-field>
+    <mat-select placeholder='Data base connection'
+                id='dbConnectionId' name='dbConnectionId'
+                formControlName='dbConnectionId'>
+      <mat-option *ngFor='let bd of dataBases' [value]='bd.id'>
+        {{ bd.name }}
+      </mat-option>
+    </mat-select>
+
+    <mat-error *ngIf="(actionForm.controls['dbConnectionId'].dirty || actionForm.controls['dbConnectionId'].touched)
+                       && actionForm.controls['dbConnectionId'].errors && actionForm.controls['dbConnectionId'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-codemirror formControlName='select'
+                    id='select' name='select'
+                    required
+                    [options]="{
+          theme: 'idea',
+          mode: 'text/x-sql'
+        }" placeholder='Sql select'></mat-codemirror>
+    <mat-error *ngIf="(actionForm.controls['select'].dirty || actionForm.controls['select'].touched)
+                     && actionForm.controls['select'].errors && actionForm.controls['select'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Result template'
+           id='resultTemplate' name='resultTemplate'
+           formControlName='resultTemplate'/>
+    <mat-error *ngIf="(actionForm.controls['resultTemplate'].dirty || actionForm.controls['resultTemplate'].touched)
+                       && actionForm.controls['resultTemplate'].errors && actionForm.controls['resultTemplate'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+</div>

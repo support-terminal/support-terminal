@@ -1,0 +1,23 @@
+<div fxLayout='column'>
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Token xoxb**'
+           id='token' name='token'
+           [(ngModel)]='bot.token'
+           required
+           #token='ngModel'/>
+    <mat-error *ngIf='token.errors && (token.dirty || token.touched) && token.errors.required'>
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Slack chanel'
+           id='chanel' name='chanel'
+           [(ngModel)]='bot.chanel'
+           required
+           #channel='ngModel'/>
+    <mat-error *ngIf='channel.errors && (channel.dirty || channel.touched) && channel.errors.required'>
+      Required value
+    </mat-error>
+  </mat-form-field>
+</div>

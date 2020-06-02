@@ -1,0 +1,13 @@
+<div style="margin: 60px;">
+  <div fxLayout fxLayoutGap="20px" fxLayoutAlign='start center'>
+    <h2 fxFlex='100%' mat-dialog-title>New notification API</h2>
+  </div>
+  <mat-dialog-content>
+    <app-notification-api-form (onSubmitEvent)='addBot($event)'
+                               submitButtonText='Add'>
+    </app-notification-api-form>
+  </mat-dialog-content>
+</div>
+
+
+

@@ -1,11 +1,11 @@
 import {Component, OnDestroy} from '@angular/core';
-import ApplicationEvent from "./models/ApplicationEvent";
-import {EventsService} from "./services/events.service";
-import {Subscription} from "rxjs";
+import ApplicationEvent from './models/ApplicationEvent';
+import {EventsService} from './services/events.service';
+import {Subscription} from 'rxjs';
 
 
 @Component({
-  selector: 'events-console',
+  selector: 'app-events-console',
   styleUrls: ['./events-console.component.scss'],
   templateUrl: './events-console.component.html'
 })

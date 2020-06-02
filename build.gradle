@@ -13,6 +13,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 apply from: '../version.gradle'
+apply from: './jacoco.gradle'
 
 
 ext {

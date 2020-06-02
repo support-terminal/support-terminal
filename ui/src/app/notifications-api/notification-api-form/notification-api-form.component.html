@@ -1,0 +1,42 @@
+<form (ngSubmit)='onSubmit()' #botForm='ngForm' fxLayout='column'>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Label'
+           id='label' name='label'
+           [(ngModel)]='bot.label'
+           required
+           #label='ngModel'/>
+    <mat-error *ngIf='label.errors && (label.dirty || label.touched) && label.errors.required'>
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder='Type'
+                id='type' name='type'
+                [(ngModel)]='bot.type'
+                required #type='ngModel'>
+      <mat-option *ngFor='let t of botTypes' [value]='t.type'>
+        {{ t.label }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf='type.errors && (type.dirty || type.touched) && type.errors.required'>Required value
+    </mat-error>
+  </mat-form-field>
+
+  <app-telegram-bot-form *ngIf="bot.type === 'TELEGRAM_BOT'"
+                             [bot]='bot'></app-telegram-bot-form>
+
+  <app-slack-bot-form *ngIf="bot.type === 'SLACK_BOT'"
+                               [bot]='bot'></app-slack-bot-form>
+
+  <div fxLayout fxFlexAlign='center' style='margin: 20px;' fxLayoutGap='10px'>
+    <button type='submit' mat-raised-button color='primary'
+              [disabled]='!botForm.form.valid'>{{submitButtonText}}</button>
+    <ng-content select='.ng-content-bottom-buttons'></ng-content>
+
+  </div>
+
+</form>
+
+
