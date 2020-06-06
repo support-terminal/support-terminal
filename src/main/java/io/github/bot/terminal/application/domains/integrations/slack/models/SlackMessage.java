@@ -11,15 +11,15 @@ import lombok.experimental.Accessors;
 public class SlackMessage {
 
     @JsonProperty("type")
-    private String type;
+    public String type;
 
     @JsonProperty("user")
-    private String user;
+    public String user;
 
     @JsonProperty("text")
-    private String text;
+    public String text;
 
     @JsonProperty("ts")
-    private Double ts;
+    public Double ts;
 
 }

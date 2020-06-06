@@ -50,12 +50,4 @@ export class EditNotificationApiComponent {
       });
   }
 
-  changeCommandState(changeEvent: any) {
-    if (changeEvent.checked) {
-      this.bot.state = 'ENABLED';
-    } else {
-      this.bot.state = 'DISABLED';
-    }
-  }
-
 }

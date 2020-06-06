@@ -21,7 +21,7 @@ public class BotCommand {
         return cmd;
     }
 
-    public void process(NotificationApi<?> notificationApi) {
+    public void process(NotificationApi notificationApi) {
         if (!isEnabled) {
             return;
         }

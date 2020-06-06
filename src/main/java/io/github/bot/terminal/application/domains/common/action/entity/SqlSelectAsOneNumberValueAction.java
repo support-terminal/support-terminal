@@ -45,7 +45,7 @@ public class SqlSelectAsOneNumberValueAction implements Action {
 
         @Override
         public void notify(NotificationApi notificationApi) {
-            notificationApi.sendMessage(new Message().setText(result.toString()));
+            notificationApi.sendMessage(new Message(result.toString()));
         }
 
         @Override

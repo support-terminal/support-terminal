@@ -15,6 +15,6 @@ public class Notify {
     private final String messageTemplate;
 
     public void execute() {
-        notificationApi.sendMessage(new Message().setText(messageTemplate));
+        notificationApi.sendMessage(new Message(messageTemplate));
     }
 }

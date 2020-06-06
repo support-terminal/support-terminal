@@ -4,14 +4,6 @@
   </div>
   <mat-dialog-content *ngIf='bot'>
 
-    <mat-slide-toggle
-      color='primary'
-      (change)='changeCommandState($event)'
-      [checked]="bot.state == 'ENABLED'">
-      <span *ngIf="bot.state == 'ENABLED'">Enabled</span>
-      <span *ngIf="bot.state != 'ENABLED'">Disabled</span>
-    </mat-slide-toggle>
-
     <app-notification-api-form (onSubmitEvent)='edit($event)'
                                [initial]='bot'
                                submitButtonText='Save'>

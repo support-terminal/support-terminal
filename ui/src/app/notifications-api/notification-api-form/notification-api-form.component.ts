@@ -37,4 +37,9 @@ export class NotificationApiFormComponent implements OnChanges {
     }
   }
 
+
+  changeCommandState(changeEvent: any) {
+    this.bot.enabled = changeEvent.checked
+  }
+
 }

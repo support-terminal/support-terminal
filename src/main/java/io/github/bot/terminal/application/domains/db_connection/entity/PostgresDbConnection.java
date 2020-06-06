@@ -15,7 +15,9 @@ public class PostgresDbConnection extends DbConnection<PostgresDbConnectionDetai
         this.repository = repository;
 
     }
-
+    public String getId() {
+        return details.getId();
+    }
     public PostgresDbConnectionDetails getDetails() {
         return details;
     }
@@ -35,7 +37,6 @@ public class PostgresDbConnection extends DbConnection<PostgresDbConnectionDetai
         return "SELECT 1";
     }
 
-    @Override
     public void delete() {
         repository.deleteById(details.id);
     }

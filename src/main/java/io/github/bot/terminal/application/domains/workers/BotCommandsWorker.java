@@ -32,20 +32,20 @@ class BotCommandsWorker {
     @Scheduled(fixedDelay = 7_000)
     public void scheduler() throws InterruptedException {
         List<Callable<Object>> callables = new ArrayList<>();
-        for (NotificationApi<?> notificationApi : notificationApiFactory.getAll()) {
+        for (NotificationApi notificationApi : notificationApiFactory.getAll()) {
             callables.add(Executors.callable(() -> handle(notificationApi)));
         }
         executorService.invokeAll(callables);
     }
 
-    private void handle(NotificationApi<?> notificationApi) {
+    private void handle(NotificationApi notificationApi) {
         Set<Cmd> lastCommands = notificationApi.getLastMessages()
                 .stream().map(m -> new Cmd(m.getText()))
                 .filter(c -> !Cmd.EMPTY.equals(c.getCmd()))
                 .collect(Collectors.toSet());
 
         Map<Cmd, List<BotCommand>> cmdMap
-                = botCommandsFactory.byNotificationApiId(notificationApi.getDetails().getId())
+                = botCommandsFactory.byNotificationApiId(notificationApi.getId())
                 .stream()
                 .collect(Collectors.groupingBy(BotCommand::getCmd));
 

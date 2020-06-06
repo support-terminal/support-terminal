@@ -11,6 +11,6 @@ import java.util.Collection;
 @ToString
 @Accessors(chain = true)
 public class GetChannelsResponse {
-    private Boolean ok;
-    private Collection<Channel> channels;
+    public Boolean ok;
+    public Collection<Channel> channels;
 }

@@ -15,6 +15,9 @@ public class MySqlDbConnection extends DbConnection<MySqlDbConnectionDetails> {
         this.repository = repository;
 
     }
+    public String getId() {
+        return details.getId();
+    }
 
     public MySqlDbConnectionDetails getDetails() {
         return details;
@@ -35,7 +38,6 @@ public class MySqlDbConnection extends DbConnection<MySqlDbConnectionDetails> {
         return "SELECT 1";
     }
 
-    @Override
     public void delete() {
         repository.deleteById(details.id);
     }

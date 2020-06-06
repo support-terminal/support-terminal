@@ -69,7 +69,7 @@ public class SqlSelectAsTextAction implements Action {
 
         @Override
         public void notify(NotificationApi notificationApi) {
-            notificationApi.sendMessage(new Message().setText(result));
+            notificationApi.sendMessage(new Message(result));
         }
 
         @Override

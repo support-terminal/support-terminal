@@ -3,6 +3,7 @@ package io.github.bot.terminal.application.domains.db_connection.rest;
 
 import io.github.bot.terminal.application.domains.db_connection.entity.DbConnection;
 import io.github.bot.terminal.application.domains.db_connection.factory.DbConnectionsFactory;
+import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.CheckDbConnectionDTO;
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionDTO;
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionTypeDTO;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class DbConnectionsRestService {
 
+    private final DbConnectionRepository repository;
     private final DbConnectionsFactory factory;
     private final DbConnectionsRestConverter converter;
 
@@ -52,7 +54,7 @@ class DbConnectionsRestService {
     public void delete(String id) {
         DbConnection dbConnection
                 = factory.byId(id);
-        dbConnection.delete();
+        repository.deleteById(dbConnection.getId());
     }
 
     public List<DbConnectionTypeDTO> types() {

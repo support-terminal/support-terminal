@@ -1,15 +1,16 @@
 package io.github.bot.terminal.application.domains.db_connection.entity;
 
-import io.github.bot.terminal.application.domains.common.Persistable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 import java.util.Optional;
 
-public abstract class DbConnection<D extends DbConnectionDetails> implements Persistable {
+public abstract class DbConnection<D extends DbConnectionDetails> {
 
     public abstract D getDetails();
+
+    public abstract String getId();
 
     public abstract String getUrl();
 

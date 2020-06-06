@@ -14,6 +14,9 @@ public class OracleDbConnection extends DbConnection<OracleDbConnectionDetails> 
         this.details = details;
         this.repository = repository;
     }
+    public String getId() {
+        return details.getId();
+    }
 
     public OracleDbConnectionDetails getDetails() {
         return details;
@@ -34,7 +37,6 @@ public class OracleDbConnection extends DbConnection<OracleDbConnectionDetails> 
         return "SELECT 1 FROM DUAL";
     }
 
-    @Override
     public void delete() {
         repository.deleteById(details.id);
     }

@@ -15,7 +15,7 @@ public class NotifyFactory {
     private final NotificationApiFactory notificationApiFactory;
 
     public Notify build(NotifyDetails details) {
-        NotificationApi<?> notificationApi = notificationApiFactory.byId(details.getNotificationApiId());
+        NotificationApi notificationApi = notificationApiFactory.byId(details.getNotificationApiId());
         return new Notify(notificationApi, details.getMessageTemplate());
     }
 

@@ -11,12 +11,12 @@ import lombok.experimental.Accessors;
 public class SendMessageRequest {
 
     @JsonProperty("channel")
-    private String channel;
+    public String channel;
 
     @JsonProperty("text")
-    private String text;
+    public String text;
 
     @JsonProperty("mrkdwn")
-    private Boolean mrkdwn = true;
+    public Boolean mrkdwn = true;
 
 }

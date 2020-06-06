@@ -1,5 +1,12 @@
 <form (ngSubmit)='onSubmit()' #botForm='ngForm' fxLayout='column'>
 
+  <mat-slide-toggle
+  color='primary'
+  id='enabled' name='enabled'
+    [(ngModel)]='bot.enabled'
+    [checked]="bot.enabled == true">Enabled
+  </mat-slide-toggle>
+
   <mat-form-field fxFlex>
     <input matInput placeholder='Label'
            id='label' name='label'
