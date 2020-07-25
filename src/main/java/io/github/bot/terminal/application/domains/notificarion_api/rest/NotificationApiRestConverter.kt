@@ -10,11 +10,9 @@ import io.github.bot.terminal.application.domains.notificarion_api.rest.requests
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.SlackNotificationApiRequest
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.TelegramNotificationApiRequest
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
-import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 
 @Service
-@RequiredArgsConstructor
 class NotificationApiRestConverter {
 
     fun mapToDetails(request: NotificationApiRequest): NotificationApiDetails {

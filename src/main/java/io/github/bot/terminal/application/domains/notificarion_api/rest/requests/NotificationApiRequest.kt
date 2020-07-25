@@ -3,12 +3,8 @@ package io.github.bot.terminal.application.domains.notificarion_api.rest.request
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
-import lombok.Data
-import lombok.experimental.Accessors
 import javax.validation.constraints.NotBlank
 
-@Data
-@Accessors(chain = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
 @JsonSubTypes(
         JsonSubTypes.Type(value = SlackNotificationApiRequest::class,
@@ -16,7 +12,7 @@ import javax.validation.constraints.NotBlank
         JsonSubTypes.Type(value = TelegramNotificationApiRequest::class,
                 name = NotificationApiType.Constants.TELEGRAM_BOT)
 )
-interface NotificationApiRequest{
+interface NotificationApiRequest {
     val type: String
     val enabled: Boolean
 }

@@ -5,11 +5,9 @@ import io.github.bot.terminal.application.domains.integrations.telegram.Telegram
 import io.github.bot.terminal.application.domains.notificarion_api.entity.*
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
-import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 
 @Service
-@RequiredArgsConstructor
 class NotificationApiFactory(
         private val repository: NotificationApiRepository,
         private val slackApiClient: SlackApiClient,

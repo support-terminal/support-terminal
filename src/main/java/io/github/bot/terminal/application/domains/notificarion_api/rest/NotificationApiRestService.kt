@@ -6,12 +6,10 @@ import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.Noti
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiTypeDTO
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
-import lombok.extern.slf4j.Slf4j
 import org.springframework.stereotype.Service
 import java.util.*
 import java.util.stream.Collectors
 
-@Slf4j
 @Service
 class NotificationApiRestService(
         private val repository: NotificationApiRepository,

@@ -1,0 +1,8 @@
+package io.github.bot.terminal.application.domains.integrations.slack.responses
+
+import io.github.bot.terminal.application.domains.integrations.slack.models.File
+
+class FileUploadResponse {
+    private val ok: Boolean? = null
+    private val file: File? = null
+}

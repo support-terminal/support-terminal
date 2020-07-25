@@ -15,21 +15,21 @@ import java.util.*
 )
 open class NotificationApiDetails (
         @Id
-        open val id: String,
-        open var label: String,
-        open var enabled: Boolean,
-        open val type: NotificationApiType
+        val id: String,
+        var label: String,
+        var enabled: Boolean,
+        val type: NotificationApiType
 ) {
         open fun merge(update: NotificationApiDetails){
-                this.label = update.label
-                this.enabled = update.enabled
+                label = update.label
+                enabled = update.enabled
         }
 }
 
-data class SlackNotificationApiDetails(
-        override val id: String = UUID.randomUUID().toString(),
-        override var label: String,
-        override var enabled: Boolean,
+class SlackNotificationApiDetails(
+        id: String = UUID.randomUUID().toString(),
+        label: String,
+        enabled: Boolean,
         var token: String,
         var chanel: String,
         var oldest: Double = Date().toInstant().epochSecond.toDouble()
@@ -37,24 +37,24 @@ data class SlackNotificationApiDetails(
         override fun merge(detailsUpdate: NotificationApiDetails) {
                 if(detailsUpdate is SlackNotificationApiDetails){
                         super.merge(detailsUpdate)
-                        this.token = detailsUpdate.token
-                        this.chanel = detailsUpdate.chanel
+                        token = detailsUpdate.token
+                        chanel = detailsUpdate.chanel
                 }
         }
 }
 
-data class TelegramNotificationApiDetails(
-        override var id: String = UUID.randomUUID().toString(),
-        override var label: String,
-        override var enabled: Boolean,
+class TelegramNotificationApiDetails(
+        id: String = UUID.randomUUID().toString(),
+        label: String,
+        enabled: Boolean,
         var botFatherName: String,
         var token: String
 ) : NotificationApiDetails(id, label, enabled, NotificationApiType.TELEGRAM_BOT) {
         override fun merge(detailsUpdate: NotificationApiDetails) {
                 if(detailsUpdate is TelegramNotificationApiDetails){
                         super.merge(detailsUpdate)
-                        this.token = detailsUpdate.token
-                        this.botFatherName = detailsUpdate.botFatherName
+                        token = detailsUpdate.token
+                        botFatherName = detailsUpdate.botFatherName
                 }
         }
 }
