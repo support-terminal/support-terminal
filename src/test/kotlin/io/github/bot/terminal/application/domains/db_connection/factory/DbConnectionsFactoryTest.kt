@@ -1,447 +1,373 @@
-package io.github.bot.terminal.application.domains.db_connection.factory;
+/*
+package io.github.bot.terminal.application.domains.db_connection.factory
 
-import io.github.bot.terminal.application.domains.db_connection.entity.*;
-import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
-import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import io.github.bot.terminal.application.domains.db_connection.entity.*
+import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.*
+import org.mockito.junit.jupiter.MockitoExtension
+import java.util.*
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
-
-@ExtendWith(MockitoExtension.class)
-class DbConnectionsFactoryTest {
-
+@ExtendWith(MockitoExtension::class)
+internal class DbConnectionsFactoryTest {
     @Mock
-    private DbConnectionRepository repository;
-
-    private DbConnectionsFactory factory;
-
-    @Captor
-    ArgumentCaptor<PostgresDbConnectionDetails> postgresCaptor;
+    private val repository: DbConnectionRepository? = null
+    private var factory: DbConnectionsFactory? = null
 
     @Captor
-    ArgumentCaptor<MySqlDbConnectionDetails> mysqlCaptor;
+    var postgresCaptor: ArgumentCaptor<PostgresDbConnectionDetails>? = null
 
     @Captor
-    ArgumentCaptor<OracleDbConnectionDetails> oracleCaptor;
+    var mysqlCaptor: ArgumentCaptor<MySqlDbConnectionDetails>? = null
 
-
-    public String dbConnectionid = UUID.randomUUID().toString();
-    public String name = UUID.randomUUID().toString();
-    public String host = UUID.randomUUID().toString();
-    public int port = 1233;
-    public String user = UUID.randomUUID().toString();
-    public String password = UUID.randomUUID().toString();
-    public String dbName = UUID.randomUUID().toString();
-    public String sid = UUID.randomUUID().toString();
-
-    public String dbConnectionid2 = UUID.randomUUID().toString();
-    public String name2 = UUID.randomUUID().toString();
-    public String host2 = UUID.randomUUID().toString();
-    public int port2 = 1234;
-    public String user2 = UUID.randomUUID().toString();
-    public String password2 = UUID.randomUUID().toString();
-    public String dbName2 = UUID.randomUUID().toString();
-    public String sid2 = UUID.randomUUID().toString();
+    @Captor
+    var oracleCaptor: ArgumentCaptor<OracleDbConnectionDetails>? = null
+    var dbConnectionid = UUID.randomUUID().toString()
+    var name = UUID.randomUUID().toString()
+    var host = UUID.randomUUID().toString()
+    var port = 1233
+    var user = UUID.randomUUID().toString()
+    var password = UUID.randomUUID().toString()
+    var dbName = UUID.randomUUID().toString()
+    var sid = UUID.randomUUID().toString()
+    var dbConnectionid2 = UUID.randomUUID().toString()
+    var name2 = UUID.randomUUID().toString()
+    var host2 = UUID.randomUUID().toString()
+    var port2 = 1234
+    var user2 = UUID.randomUUID().toString()
+    var password2 = UUID.randomUUID().toString()
+    var dbName2 = UUID.randomUUID().toString()
+    var sid2 = UUID.randomUUID().toString()
 
     @BeforeEach
-    void init() {
-        factory = new DbConnectionsFactory(repository);
-    }
-
-
-    @Test
-    void createPostgresDbConnection() {
-
-        PostgresDbConnectionDetails details = new PostgresDbConnectionDetails();
-        details.setType(DbConnectionType.POSTGRES);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        PostgresDbConnection connection = (PostgresDbConnection) factory.createNew(details);
-
-        assertNotNull(connection.getDetails().getId());
-        assertEquals(name, connection.getDetails().getName());
-        assertEquals(host, connection.getDetails().getHost());
-        assertEquals(port, connection.getDetails().getPort());
-        assertEquals(user, connection.getDetails().getUser());
-        assertEquals(password, connection.getDetails().getPassword());
-        assertEquals(DbConnectionType.POSTGRES, connection.getDetails().getType());
-
-        verify(repository, times(1)).add(postgresCaptor.capture());
-        PostgresDbConnectionDetails passedDetails = postgresCaptor.getValue();
-        assertNotNull(passedDetails.getId());
-        assertEquals(name, passedDetails.getName());
-        assertEquals(host, passedDetails.getHost());
-        assertEquals(port, passedDetails.getPort());
-        assertEquals(user, passedDetails.getUser());
-        assertEquals(password, passedDetails.getPassword());
-        assertEquals(DbConnectionType.POSTGRES, passedDetails.getType());
+    fun init() {
+        factory = DbConnectionsFactory(repository!!)
     }
 
     @Test
-    void createMySqlDbConnection() {
-
-        MySqlDbConnectionDetails details = new MySqlDbConnectionDetails();
-        details.setType(DbConnectionType.MYSQL);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        MySqlDbConnection connection = (MySqlDbConnection) factory.createNew(details);
-
-        assertNotNull(connection.getDetails().getId());
-        assertEquals(name, connection.getDetails().getName());
-        assertEquals(host, connection.getDetails().getHost());
-        assertEquals(port, connection.getDetails().getPort());
-        assertEquals(user, connection.getDetails().getUser());
-        assertEquals(password, connection.getDetails().getPassword());
-        assertEquals(DbConnectionType.MYSQL, connection.getDetails().getType());
-
-        verify(repository, times(1)).add(mysqlCaptor.capture());
-        MySqlDbConnectionDetails passedDetails = mysqlCaptor.getValue();
-        assertNotNull(passedDetails.getId());
-        assertEquals(name, passedDetails.getName());
-        assertEquals(host, passedDetails.getHost());
-        assertEquals(port, passedDetails.getPort());
-        assertEquals(user, passedDetails.getUser());
-        assertEquals(password, passedDetails.getPassword());
-        assertEquals(DbConnectionType.MYSQL, passedDetails.getType());
+    fun createPostgresDbConnection() {
+        val details = PostgresDbConnectionDetails()
+        details.type = DbConnectionType.POSTGRES
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.dbName = dbName
+        val connection = factory!!.createNew(details) as PostgresDbConnection
+        Assertions.assertNotNull(connection.details.id)
+        Assertions.assertEquals(name, connection.details.name)
+        Assertions.assertEquals(host, connection.details.host)
+        Assertions.assertEquals(port, connection.details.port)
+        Assertions.assertEquals(user, connection.details.user)
+        Assertions.assertEquals(password, connection.details.password)
+        Assertions.assertEquals(DbConnectionType.POSTGRES, connection.details.type)
+        Mockito.verify(repository, Mockito.times(1))!!.add(postgresCaptor!!.capture())
+        val passedDetails = postgresCaptor!!.value
+        Assertions.assertNotNull(passedDetails.id)
+        Assertions.assertEquals(name, passedDetails.name)
+        Assertions.assertEquals(host, passedDetails.host)
+        Assertions.assertEquals(port, passedDetails.port)
+        Assertions.assertEquals(user, passedDetails.user)
+        Assertions.assertEquals(password, passedDetails.password)
+        Assertions.assertEquals(DbConnectionType.POSTGRES, passedDetails.type)
     }
 
     @Test
-    void createOracleDbConnection() {
-
-        OracleDbConnectionDetails details = new OracleDbConnectionDetails();
-        details.setType(DbConnectionType.ORACLE);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setSid(dbName);
-
-        OracleDbConnection connection = (OracleDbConnection) factory.createNew(details);
-
-        assertNotNull(connection.getDetails().getId());
-        assertEquals(name, connection.getDetails().getName());
-        assertEquals(host, connection.getDetails().getHost());
-        assertEquals(port, connection.getDetails().getPort());
-        assertEquals(user, connection.getDetails().getUser());
-        assertEquals(password, connection.getDetails().getPassword());
-        assertEquals(DbConnectionType.ORACLE, connection.getDetails().getType());
-
-        verify(repository, times(1)).add(oracleCaptor.capture());
-        OracleDbConnectionDetails passedDetails = oracleCaptor.getValue();
-        assertNotNull(passedDetails.getId());
-        assertEquals(name, passedDetails.getName());
-        assertEquals(host, passedDetails.getHost());
-        assertEquals(port, passedDetails.getPort());
-        assertEquals(user, passedDetails.getUser());
-        assertEquals(password, passedDetails.getPassword());
-        assertEquals(DbConnectionType.ORACLE, passedDetails.getType());
+    fun createMySqlDbConnection() {
+        val details = MySqlDbConnectionDetails()
+        details.type = DbConnectionType.MYSQL
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.dbName = dbName
+        val connection = factory!!.createNew(details) as MySqlDbConnection
+        Assertions.assertNotNull(connection.details.id)
+        Assertions.assertEquals(name, connection.details.name)
+        Assertions.assertEquals(host, connection.details.host)
+        Assertions.assertEquals(port, connection.details.port)
+        Assertions.assertEquals(user, connection.details.user)
+        Assertions.assertEquals(password, connection.details.password)
+        Assertions.assertEquals(DbConnectionType.MYSQL, connection.details.type)
+        Mockito.verify(repository, Mockito.times(1))!!.add(mysqlCaptor!!.capture())
+        val passedDetails = mysqlCaptor!!.value
+        Assertions.assertNotNull(passedDetails.id)
+        Assertions.assertEquals(name, passedDetails.name)
+        Assertions.assertEquals(host, passedDetails.host)
+        Assertions.assertEquals(port, passedDetails.port)
+        Assertions.assertEquals(user, passedDetails.user)
+        Assertions.assertEquals(password, passedDetails.password)
+        Assertions.assertEquals(DbConnectionType.MYSQL, passedDetails.type)
     }
 
     @Test
-    void mergeOracleDbConnection() {
-
-        OracleDbConnectionDetails details = new OracleDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.ORACLE);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setSid(sid);
-
-        when(repository.findById(eq(dbConnectionid))).thenReturn(Optional.of(details));
-
-        OracleDbConnectionDetails detailsUpdate = new OracleDbConnectionDetails();
-        detailsUpdate.setId(dbConnectionid);
-        detailsUpdate.setType(DbConnectionType.ORACLE);
-        detailsUpdate.setName(name2);
-        detailsUpdate.setHost(host2);
-        detailsUpdate.setPort(port2);
-        detailsUpdate.setUser(user2);
-        detailsUpdate.setPassword(password2);
-        detailsUpdate.setSid(sid2);
-
-        OracleDbConnection connection = (OracleDbConnection) factory.merge(dbConnectionid, detailsUpdate);
-        assertEquals(dbConnectionid, connection.getDetails().getId());
-        assertEquals(name2, connection.getDetails().getName());
-        assertEquals(host2, connection.getDetails().getHost());
-        assertEquals(port2, connection.getDetails().getPort());
-        assertEquals(user2, connection.getDetails().getUser());
-        assertEquals(password2, connection.getDetails().getPassword());
-        assertEquals(sid2, connection.getDetails().getSid());
-        assertEquals(DbConnectionType.ORACLE, connection.getDetails().getType());
-
-        verify(repository, times(1)).update(oracleCaptor.capture());
-        OracleDbConnectionDetails passedDetails = oracleCaptor.getValue();
-        assertEquals(dbConnectionid, passedDetails.getId());
-        assertEquals(name2, passedDetails.getName());
-        assertEquals(host2, passedDetails.getHost());
-        assertEquals(port2, passedDetails.getPort());
-        assertEquals(user2, passedDetails.getUser());
-        assertEquals(password2, passedDetails.getPassword());
-        assertEquals(sid2, passedDetails.getSid());
-        assertEquals(DbConnectionType.ORACLE, passedDetails.getType());
-
+    fun createOracleDbConnection() {
+        val details = OracleDbConnectionDetails()
+        details.type = DbConnectionType.ORACLE
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.sid = dbName
+        val connection = factory!!.createNew(details) as OracleDbConnection
+        Assertions.assertNotNull(connection.details.id)
+        Assertions.assertEquals(name, connection.details.name)
+        Assertions.assertEquals(host, connection.details.host)
+        Assertions.assertEquals(port, connection.details.port)
+        Assertions.assertEquals(user, connection.details.user)
+        Assertions.assertEquals(password, connection.details.password)
+        Assertions.assertEquals(DbConnectionType.ORACLE, connection.details.type)
+        Mockito.verify(repository, Mockito.times(1))!!.add(oracleCaptor!!.capture())
+        val passedDetails = oracleCaptor!!.value
+        Assertions.assertNotNull(passedDetails.id)
+        Assertions.assertEquals(name, passedDetails.name)
+        Assertions.assertEquals(host, passedDetails.host)
+        Assertions.assertEquals(port, passedDetails.port)
+        Assertions.assertEquals(user, passedDetails.user)
+        Assertions.assertEquals(password, passedDetails.password)
+        Assertions.assertEquals(DbConnectionType.ORACLE, passedDetails.type)
     }
 
     @Test
-    void mergeMySqlDbConnection() {
-
-        MySqlDbConnectionDetails details = new MySqlDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.MYSQL);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        when(repository.findById(eq(dbConnectionid))).thenReturn(Optional.of(details));
-
-        MySqlDbConnectionDetails detailsUpdate = new MySqlDbConnectionDetails();
-        detailsUpdate.setId(dbConnectionid);
-        detailsUpdate.setType(DbConnectionType.MYSQL);
-        detailsUpdate.setName(name2);
-        detailsUpdate.setHost(host2);
-        detailsUpdate.setPort(port2);
-        detailsUpdate.setUser(user2);
-        detailsUpdate.setPassword(password2);
-        detailsUpdate.setDbName(dbName2);
-
-        MySqlDbConnection connection = (MySqlDbConnection) factory.merge(dbConnectionid, detailsUpdate);
-        assertEquals(dbConnectionid, connection.getDetails().getId());
-        assertEquals(name2, connection.getDetails().getName());
-        assertEquals(host2, connection.getDetails().getHost());
-        assertEquals(port2, connection.getDetails().getPort());
-        assertEquals(user2, connection.getDetails().getUser());
-        assertEquals(password2, connection.getDetails().getPassword());
-        assertEquals(dbName2, connection.getDetails().getDbName());
-        assertEquals(DbConnectionType.MYSQL, connection.getDetails().getType());
-
-        verify(repository, times(1)).update(mysqlCaptor.capture());
-        MySqlDbConnectionDetails passedDetails = mysqlCaptor.getValue();
-        assertEquals(dbConnectionid, passedDetails.getId());
-        assertEquals(name2, passedDetails.getName());
-        assertEquals(host2, passedDetails.getHost());
-        assertEquals(port2, passedDetails.getPort());
-        assertEquals(user2, passedDetails.getUser());
-        assertEquals(password2, passedDetails.getPassword());
-        assertEquals(dbName2, passedDetails.getDbName());
-        assertEquals(DbConnectionType.MYSQL, passedDetails.getType());
-
+    fun mergeOracleDbConnection() {
+        val details = OracleDbConnectionDetails()
+        details.setId(dbConnectionid)
+        details.type = DbConnectionType.ORACLE
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.sid = sid
+        Mockito.`when`(repository!!.findById(ArgumentMatchers.eq(dbConnectionid))).thenReturn(Optional.of(details))
+        val detailsUpdate = OracleDbConnectionDetails()
+        detailsUpdate.setId(dbConnectionid)
+        detailsUpdate.type = DbConnectionType.ORACLE
+        detailsUpdate.name = name2
+        detailsUpdate.host = host2
+        detailsUpdate.port = port2
+        detailsUpdate.user = user2
+        detailsUpdate.password = password2
+        detailsUpdate.sid = sid2
+        val connection = factory!!.merge(dbConnectionid, detailsUpdate) as OracleDbConnection
+        Assertions.assertEquals(dbConnectionid, connection.details.id)
+        Assertions.assertEquals(name2, connection.details.name)
+        Assertions.assertEquals(host2, connection.details.host)
+        Assertions.assertEquals(port2, connection.details.port)
+        Assertions.assertEquals(user2, connection.details.user)
+        Assertions.assertEquals(password2, connection.details.password)
+        Assertions.assertEquals(sid2, connection.details.sid)
+        Assertions.assertEquals(DbConnectionType.ORACLE, connection.details.type)
+        Mockito.verify(repository, Mockito.times(1))!!.update(oracleCaptor!!.capture())
+        val passedDetails = oracleCaptor!!.value
+        Assertions.assertEquals(dbConnectionid, passedDetails.id)
+        Assertions.assertEquals(name2, passedDetails.name)
+        Assertions.assertEquals(host2, passedDetails.host)
+        Assertions.assertEquals(port2, passedDetails.port)
+        Assertions.assertEquals(user2, passedDetails.user)
+        Assertions.assertEquals(password2, passedDetails.password)
+        Assertions.assertEquals(sid2, passedDetails.sid)
+        Assertions.assertEquals(DbConnectionType.ORACLE, passedDetails.type)
     }
 
     @Test
-    void mergePostgresDbConnection() {
-
-        PostgresDbConnectionDetails details = new PostgresDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.POSTGRES);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        when(repository.findById(eq(dbConnectionid))).thenReturn(Optional.of(details));
-
-        PostgresDbConnectionDetails detailsUpdate = new PostgresDbConnectionDetails();
-        detailsUpdate.setId(dbConnectionid);
-        detailsUpdate.setType(DbConnectionType.POSTGRES);
-        detailsUpdate.setName(name2);
-        detailsUpdate.setHost(host2);
-        detailsUpdate.setPort(port2);
-        detailsUpdate.setUser(user2);
-        detailsUpdate.setPassword(password2);
-        detailsUpdate.setDbName(dbName2);
-
-        PostgresDbConnection connection = (PostgresDbConnection) factory.merge(dbConnectionid, detailsUpdate);
-        assertEquals(dbConnectionid, connection.getDetails().getId());
-        assertEquals(name2, connection.getDetails().getName());
-        assertEquals(host2, connection.getDetails().getHost());
-        assertEquals(port2, connection.getDetails().getPort());
-        assertEquals(user2, connection.getDetails().getUser());
-        assertEquals(password2, connection.getDetails().getPassword());
-        assertEquals(dbName2, connection.getDetails().getDbName());
-        assertEquals(DbConnectionType.POSTGRES, connection.getDetails().getType());
-
-        verify(repository, times(1)).update(postgresCaptor.capture());
-        PostgresDbConnectionDetails passedDetails = postgresCaptor.getValue();
-        assertEquals(dbConnectionid, passedDetails.getId());
-        assertEquals(name2, passedDetails.getName());
-        assertEquals(host2, passedDetails.getHost());
-        assertEquals(port2, passedDetails.getPort());
-        assertEquals(user2, passedDetails.getUser());
-        assertEquals(password2, passedDetails.getPassword());
-        assertEquals(dbName2, passedDetails.getDbName());
-        assertEquals(DbConnectionType.POSTGRES, passedDetails.getType());
-
+    fun mergeMySqlDbConnection() {
+        val details = MySqlDbConnectionDetails()
+        details.setId(dbConnectionid)
+        details.type = DbConnectionType.MYSQL
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.dbName = dbName
+        Mockito.`when`(repository!!.findById(ArgumentMatchers.eq(dbConnectionid))).thenReturn(Optional.of(details))
+        val detailsUpdate = MySqlDbConnectionDetails()
+        detailsUpdate.setId(dbConnectionid)
+        detailsUpdate.type = DbConnectionType.MYSQL
+        detailsUpdate.name = name2
+        detailsUpdate.host = host2
+        detailsUpdate.port = port2
+        detailsUpdate.user = user2
+        detailsUpdate.password = password2
+        detailsUpdate.dbName = dbName2
+        val connection = factory!!.merge(dbConnectionid, detailsUpdate) as MySqlDbConnection
+        Assertions.assertEquals(dbConnectionid, connection.details.id)
+        Assertions.assertEquals(name2, connection.details.name)
+        Assertions.assertEquals(host2, connection.details.host)
+        Assertions.assertEquals(port2, connection.details.port)
+        Assertions.assertEquals(user2, connection.details.user)
+        Assertions.assertEquals(password2, connection.details.password)
+        Assertions.assertEquals(dbName2, connection.details.dbName)
+        Assertions.assertEquals(DbConnectionType.MYSQL, connection.details.type)
+        Mockito.verify(repository, Mockito.times(1))!!.update(mysqlCaptor!!.capture())
+        val passedDetails = mysqlCaptor!!.value
+        Assertions.assertEquals(dbConnectionid, passedDetails.id)
+        Assertions.assertEquals(name2, passedDetails.name)
+        Assertions.assertEquals(host2, passedDetails.host)
+        Assertions.assertEquals(port2, passedDetails.port)
+        Assertions.assertEquals(user2, passedDetails.user)
+        Assertions.assertEquals(password2, passedDetails.password)
+        Assertions.assertEquals(dbName2, passedDetails.dbName)
+        Assertions.assertEquals(DbConnectionType.MYSQL, passedDetails.type)
     }
-
-
 
     @Test
-    public void getAll() {
-        PostgresDbConnectionDetails details = new PostgresDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.POSTGRES);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-
-        OracleDbConnectionDetails details2 = new OracleDbConnectionDetails();
-        details2.setId(dbConnectionid2);
-        details2.setType(DbConnectionType.ORACLE);
-        details2.setName(name2);
-        details2.setHost(host2);
-        details2.setPort(port2);
-        details2.setUser(user2);
-        details2.setPassword(password2);
-        details2.setSid(sid2);
-
-
-        List<DbConnectionDetails> c = new ArrayList();
-        c.add(details);
-        c.add(details2);
-
-        when(repository.findAll())
-                .thenReturn(c);
-
-        List<DbConnection<?>> list = factory.getAll();
-
-        PostgresDbConnectionDetails byId = (PostgresDbConnectionDetails) list.get(0).getDetails();
-        assertEquals(dbConnectionid, byId.getId());
-        assertEquals(name, byId.getName());
-        assertEquals(host, byId.getHost());
-        assertEquals(port, byId.getPort());
-        assertEquals(user, byId.getUser());
-        assertEquals(password, byId.getPassword());
-        assertEquals(dbName, byId.getDbName());
-        assertEquals(DbConnectionType.POSTGRES, byId.getType());
-
-        OracleDbConnectionDetails byId2 = (OracleDbConnectionDetails) list.get(1).getDetails();
-        assertEquals(dbConnectionid2, byId2.getId());
-        assertEquals(name2, byId2.getName());
-        assertEquals(host2, byId2.getHost());
-        assertEquals(port2, byId2.getPort());
-        assertEquals(user2, byId2.getUser());
-        assertEquals(password2, byId2.getPassword());
-        assertEquals(sid2, byId2.getSid());
-        assertEquals(DbConnectionType.ORACLE, byId2.getType());
-
+    fun mergePostgresDbConnection() {
+        val details = PostgresDbConnectionDetails()
+        details.setId(dbConnectionid)
+        details.type = DbConnectionType.POSTGRES
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.dbName = dbName
+        Mockito.`when`(repository!!.findById(ArgumentMatchers.eq(dbConnectionid))).thenReturn(Optional.of(details))
+        val detailsUpdate = PostgresDbConnectionDetails()
+        detailsUpdate.setId(dbConnectionid)
+        detailsUpdate.type = DbConnectionType.POSTGRES
+        detailsUpdate.name = name2
+        detailsUpdate.host = host2
+        detailsUpdate.port = port2
+        detailsUpdate.user = user2
+        detailsUpdate.password = password2
+        detailsUpdate.dbName = dbName2
+        val connection = factory!!.merge(dbConnectionid, detailsUpdate) as PostgresDbConnection
+        Assertions.assertEquals(dbConnectionid, connection.details.id)
+        Assertions.assertEquals(name2, connection.details.name)
+        Assertions.assertEquals(host2, connection.details.host)
+        Assertions.assertEquals(port2, connection.details.port)
+        Assertions.assertEquals(user2, connection.details.user)
+        Assertions.assertEquals(password2, connection.details.password)
+        Assertions.assertEquals(dbName2, connection.details.dbName)
+        Assertions.assertEquals(DbConnectionType.POSTGRES, connection.details.type)
+        Mockito.verify(repository, Mockito.times(1))!!.update(postgresCaptor!!.capture())
+        val passedDetails = postgresCaptor!!.value
+        Assertions.assertEquals(dbConnectionid, passedDetails.id)
+        Assertions.assertEquals(name2, passedDetails.name)
+        Assertions.assertEquals(host2, passedDetails.host)
+        Assertions.assertEquals(port2, passedDetails.port)
+        Assertions.assertEquals(user2, passedDetails.user)
+        Assertions.assertEquals(password2, passedDetails.password)
+        Assertions.assertEquals(dbName2, passedDetails.dbName)
+        Assertions.assertEquals(DbConnectionType.POSTGRES, passedDetails.type)
     }
 
+    @get:Test
+    val all: Unit
+        get() {
+            val details = PostgresDbConnectionDetails()
+            details.setId(dbConnectionid)
+            details.type = DbConnectionType.POSTGRES
+            details.name = name
+            details.host = host
+            details.port = port
+            details.user = user
+            details.password = password
+            details.dbName = dbName
+            val details2 = OracleDbConnectionDetails()
+            details2.setId(dbConnectionid2)
+            details2.type = DbConnectionType.ORACLE
+            details2.name = name2
+            details2.host = host2
+            details2.port = port2
+            details2.user = user2
+            details2.password = password2
+            details2.sid = sid2
+            val c: MutableList<DbConnectionDetails?> = ArrayList<Any?>()
+            c.add(details)
+            c.add(details2)
+            Mockito.`when`<List<DbConnectionDetails?>>(repository!!.findAll())
+                    .thenReturn(c)
+            val list = factory!!.all
+            val byId = list[0].details as PostgresDbConnectionDetails
+            Assertions.assertEquals(dbConnectionid, byId.id)
+            Assertions.assertEquals(name, byId.name)
+            Assertions.assertEquals(host, byId.host)
+            Assertions.assertEquals(port, byId.port)
+            Assertions.assertEquals(user, byId.user)
+            Assertions.assertEquals(password, byId.password)
+            Assertions.assertEquals(dbName, byId.dbName)
+            Assertions.assertEquals(DbConnectionType.POSTGRES, byId.type)
+            val byId2 = list[1].details as OracleDbConnectionDetails
+            Assertions.assertEquals(dbConnectionid2, byId2.id)
+            Assertions.assertEquals(name2, byId2.name)
+            Assertions.assertEquals(host2, byId2.host)
+            Assertions.assertEquals(port2, byId2.port)
+            Assertions.assertEquals(user2, byId2.user)
+            Assertions.assertEquals(password2, byId2.password)
+            Assertions.assertEquals(sid2, byId2.sid)
+            Assertions.assertEquals(DbConnectionType.ORACLE, byId2.type)
+        }
 
     @Test
-    void byIdDbConnection() {
-
-        PostgresDbConnectionDetails details = new PostgresDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.POSTGRES);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        when(repository.findById(eq(dbConnectionid))).thenReturn(Optional.of(details));
-
-
-        OracleDbConnectionDetails details2 = new OracleDbConnectionDetails();
-        details2.setId(dbConnectionid2);
-        details2.setType(DbConnectionType.ORACLE);
-        details2.setName(name2);
-        details2.setHost(host2);
-        details2.setPort(port2);
-        details2.setUser(user2);
-        details2.setPassword(password2);
-        details2.setSid(sid2);
-
-        when(repository.findById(eq(dbConnectionid2))).thenReturn(Optional.of(details2));
-
-        PostgresDbConnectionDetails byId = (PostgresDbConnectionDetails) factory.byId(dbConnectionid).getDetails();
-        assertEquals(dbConnectionid, byId.getId());
-        assertEquals(name, byId.getName());
-        assertEquals(host, byId.getHost());
-        assertEquals(port, byId.getPort());
-        assertEquals(user, byId.getUser());
-        assertEquals(password, byId.getPassword());
-        assertEquals(dbName, byId.getDbName());
-        assertEquals(DbConnectionType.POSTGRES, byId.getType());
-
-        OracleDbConnectionDetails byId2 = (OracleDbConnectionDetails) factory.byId(dbConnectionid2).getDetails();
-        assertEquals(dbConnectionid2, byId2.getId());
-        assertEquals(name2, byId2.getName());
-        assertEquals(host2, byId2.getHost());
-        assertEquals(port2, byId2.getPort());
-        assertEquals(user2, byId2.getUser());
-        assertEquals(password2, byId2.getPassword());
-        assertEquals(sid2, byId2.getSid());
-        assertEquals(DbConnectionType.ORACLE, byId2.getType());
-
+    fun byIdDbConnection() {
+        val details = PostgresDbConnectionDetails()
+        details.setId(dbConnectionid)
+        details.type = DbConnectionType.POSTGRES
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.dbName = dbName
+        Mockito.`when`(repository!!.findById(ArgumentMatchers.eq(dbConnectionid))).thenReturn(Optional.of(details))
+        val details2 = OracleDbConnectionDetails()
+        details2.setId(dbConnectionid2)
+        details2.type = DbConnectionType.ORACLE
+        details2.name = name2
+        details2.host = host2
+        details2.port = port2
+        details2.user = user2
+        details2.password = password2
+        details2.sid = sid2
+        Mockito.`when`(repository.findById(ArgumentMatchers.eq(dbConnectionid2))).thenReturn(Optional.of(details2))
+        val byId = factory!!.byId(dbConnectionid).details as PostgresDbConnectionDetails
+        Assertions.assertEquals(dbConnectionid, byId.id)
+        Assertions.assertEquals(name, byId.name)
+        Assertions.assertEquals(host, byId.host)
+        Assertions.assertEquals(port, byId.port)
+        Assertions.assertEquals(user, byId.user)
+        Assertions.assertEquals(password, byId.password)
+        Assertions.assertEquals(dbName, byId.dbName)
+        Assertions.assertEquals(DbConnectionType.POSTGRES, byId.type)
+        val byId2 = factory!!.byId(dbConnectionid2).details as OracleDbConnectionDetails
+        Assertions.assertEquals(dbConnectionid2, byId2.id)
+        Assertions.assertEquals(name2, byId2.name)
+        Assertions.assertEquals(host2, byId2.host)
+        Assertions.assertEquals(port2, byId2.port)
+        Assertions.assertEquals(user2, byId2.user)
+        Assertions.assertEquals(password2, byId2.password)
+        Assertions.assertEquals(sid2, byId2.sid)
+        Assertions.assertEquals(DbConnectionType.ORACLE, byId2.type)
     }
-
 
     @Test
-    void byIdNotFound() {
-        when(repository.findById(eq(dbConnectionid))).thenReturn(Optional.empty());
-        assertThrows(IllegalArgumentException.class, () -> {
-            factory.byId(dbConnectionid);
-        });
+    fun byIdNotFound() {
+        Mockito.`when`(repository!!.findById(ArgumentMatchers.eq(dbConnectionid))).thenReturn(Optional.empty())
+        Assertions.assertThrows(IllegalArgumentException::class.java) { factory!!.byId(dbConnectionid) }
     }
-
 
     @Test
-    void createUnknownType() {
-        PostgresDbConnectionDetails details = new PostgresDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(null);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        when(repository.findById(eq(dbConnectionid))).thenReturn(Optional.of(details));
-        assertThrows(IllegalArgumentException.class, () -> {
-            factory.byId(dbConnectionid);
-        });
-
+    fun createUnknownType() {
+        val details = PostgresDbConnectionDetails()
+        details.setId(dbConnectionid)
+        details.type = null
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.dbName = dbName
+        Mockito.`when`(repository!!.findById(ArgumentMatchers.eq(dbConnectionid))).thenReturn(Optional.of(details))
+        Assertions.assertThrows(IllegalArgumentException::class.java) { factory!!.byId(dbConnectionid) }
     }
-
-
-
-}
+}*/

@@ -1,20 +1,15 @@
-package io.github.bot.terminal.application.domains;
+/*
+package io.github.bot.terminal.application.domains
 
-import org.dizitart.no2.Nitrite;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
+import org.dizitart.no2.Nitrite
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 
 @Configuration
-public class TestNitriteDataBaseConfiguration {
-
-    @Bean(destroyMethod = "close")
-    public Nitrite getNitriteInMemory(){
-        return Nitrite.builder()
+class TestNitriteDataBaseConfiguration {
+    @get:Bean(destroyMethod = "close")
+    val nitriteInMemory: Nitrite
+        get() = Nitrite.builder()
                 .compressed()
-                .openOrCreate();
-    }
-
-}
-
-
+                .openOrCreate()
+}*/

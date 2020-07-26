@@ -1,106 +1,90 @@
-package io.github.bot.terminal.application.domains.db_connection.entity;
+/*
+package io.github.bot.terminal.application.domains.db_connection.entity
 
-import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
-import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.jupiter.MockitoExtension
+import java.util.*
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-@ExtendWith(MockitoExtension.class)
-class PostgresDbConnectionTest {
-
-
+@ExtendWith(MockitoExtension::class)
+internal class PostgresDbConnectionTest {
     @Mock
-    private DbConnectionRepository repository;
-
-
-    public String dbConnectionid = UUID.randomUUID().toString();
-    public String name = UUID.randomUUID().toString();
-    public String host = UUID.randomUUID().toString();
-    public int port = 1233;
-    public String user = UUID.randomUUID().toString();
-    public String password = UUID.randomUUID().toString();
-    public String dbName = UUID.randomUUID().toString();
+    private val repository: DbConnectionRepository? = null
+    var dbConnectionid = UUID.randomUUID().toString()
+    var name = UUID.randomUUID().toString()
+    var host = UUID.randomUUID().toString()
+    var port = 1233
+    var user = UUID.randomUUID().toString()
+    var password = UUID.randomUUID().toString()
+    var dbName = UUID.randomUUID().toString()
 
     @Test
-    public void delete() {
-
-        PostgresDbConnectionDetails details = new PostgresDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.POSTGRES);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        DbConnection connection = new PostgresDbConnection(details, repository);
-
-        connection.delete();
-        verify(repository, times(1)).deleteById(eq(dbConnectionid));
-
+    fun delete() {
+        val details = PostgresDbConnectionDetails()
+        details.setId(dbConnectionid)
+        details.type = DbConnectionType.POSTGRES
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.dbName = dbName
+        val connection: DbConnection<*> = PostgresDbConnection(details, repository!!)
+        connection.delete()
+        Mockito.verify(repository, Mockito.times(1))!!.deleteById(ArgumentMatchers.eq(dbConnectionid))
     }
 
-    @Test
-    public void getUrl() {
+    @get:Test
+    val url: Unit
+        get() {
+            val details = PostgresDbConnectionDetails()
+            details.setId(dbConnectionid)
+            details.type = DbConnectionType.POSTGRES
+            details.name = name
+            details.host = host
+            details.port = port
+            details.user = user
+            details.password = password
+            details.dbName = dbName
+            val connection = PostgresDbConnection(details, repository!!)
+            Assertions.assertEquals("jdbc:postgresql://$host:$port/$dbName", connection.url)
+        }
 
-        PostgresDbConnectionDetails details = new PostgresDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.POSTGRES);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
+    @get:Test
+    val className: Unit
+        get() {
+            val details = PostgresDbConnectionDetails()
+            details.setId(dbConnectionid)
+            details.type = DbConnectionType.POSTGRES
+            details.name = name
+            details.host = host
+            details.port = port
+            details.user = user
+            details.password = password
+            details.dbName = dbName
+            val connection = PostgresDbConnection(details, repository!!)
+            Assertions.assertEquals("org.postgresql.Driver", connection.className)
+        }
 
-        PostgresDbConnection connection = new PostgresDbConnection(details, repository);
-        assertEquals("jdbc:postgresql://" + host + ":" + port + "/" + dbName, connection.getUrl());
-
-    }
-
-    @Test
-    public void getClassName() {
-
-        PostgresDbConnectionDetails details = new PostgresDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.POSTGRES);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        PostgresDbConnection connection = new PostgresDbConnection(details, repository);
-        assertEquals("org.postgresql.Driver", connection.getClassName());
-
-    }
-
-    @Test
-    public void getCheckSelect() {
-
-        PostgresDbConnectionDetails details = new PostgresDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.POSTGRES);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        PostgresDbConnection connection = new PostgresDbConnection(details, repository);
-        assertEquals("SELECT 1", connection.getCheckSelect());
-    }
-
-}
+    @get:Test
+    val checkSelect: Unit
+        get() {
+            val details = PostgresDbConnectionDetails()
+            details.setId(dbConnectionid)
+            details.type = DbConnectionType.POSTGRES
+            details.name = name
+            details.host = host
+            details.port = port
+            details.user = user
+            details.password = password
+            details.dbName = dbName
+            val connection = PostgresDbConnection(details, repository!!)
+            Assertions.assertEquals("SELECT 1", connection.checkSelect)
+        }
+}*/

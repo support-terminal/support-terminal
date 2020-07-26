@@ -1,106 +1,90 @@
-package io.github.bot.terminal.application.domains.db_connection.entity;
+/*
+package io.github.bot.terminal.application.domains.db_connection.entity
 
-import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
-import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.jupiter.MockitoExtension
+import java.util.*
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-@ExtendWith(MockitoExtension.class)
-class OracleDbConnectionTest {
-
-
+@ExtendWith(MockitoExtension::class)
+internal class OracleDbConnectionTest {
     @Mock
-    private DbConnectionRepository repository;
-
-
-    public String dbConnectionid = UUID.randomUUID().toString();
-    public String name = UUID.randomUUID().toString();
-    public String host = UUID.randomUUID().toString();
-    public int port = 1233;
-    public String user = UUID.randomUUID().toString();
-    public String password = UUID.randomUUID().toString();
-    public String sid = UUID.randomUUID().toString();
+    private val repository: DbConnectionRepository? = null
+    var dbConnectionid = UUID.randomUUID().toString()
+    var name = UUID.randomUUID().toString()
+    var host = UUID.randomUUID().toString()
+    var port = 1233
+    var user = UUID.randomUUID().toString()
+    var password = UUID.randomUUID().toString()
+    var sid = UUID.randomUUID().toString()
 
     @Test
-    public void delete() {
-
-        OracleDbConnectionDetails details = new OracleDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.ORACLE);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setSid(sid);
-
-        DbConnection connection = new OracleDbConnection(details, repository);
-
-        connection.delete();
-        verify(repository, times(1)).deleteById(eq(dbConnectionid));
-
+    fun delete() {
+        val details = OracleDbConnectionDetails()
+        details.setId(dbConnectionid)
+        details.type = DbConnectionType.ORACLE
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.sid = sid
+        val connection: DbConnection<*> = OracleDbConnection(details, repository!!)
+        connection.delete()
+        Mockito.verify(repository, Mockito.times(1))!!.deleteById(ArgumentMatchers.eq(dbConnectionid))
     }
 
-    @Test
-    public void getUrl() {
+    @get:Test
+    val url: Unit
+        get() {
+            val details = OracleDbConnectionDetails()
+            details.setId(dbConnectionid)
+            details.type = DbConnectionType.ORACLE
+            details.name = name
+            details.host = host
+            details.port = port
+            details.user = user
+            details.password = password
+            details.sid = sid
+            val connection = OracleDbConnection(details, repository!!)
+            Assertions.assertEquals("jdbc:oracle:thin:@$host:$port/$sid", connection.url)
+        }
 
-        OracleDbConnectionDetails details = new OracleDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.ORACLE);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setSid(sid);
+    @get:Test
+    val className: Unit
+        get() {
+            val details = OracleDbConnectionDetails()
+            details.setId(dbConnectionid)
+            details.type = DbConnectionType.ORACLE
+            details.name = name
+            details.host = host
+            details.port = port
+            details.user = user
+            details.password = password
+            details.sid = sid
+            val connection = OracleDbConnection(details, repository!!)
+            Assertions.assertEquals("oracle.jdbc.driver.OracleDriver", connection.className)
+        }
 
-        OracleDbConnection connection = new OracleDbConnection(details, repository);
-        assertEquals("jdbc:oracle:thin:@" + host + ":" + port + "/" + sid, connection.getUrl());
-
-    }
-
-    @Test
-    public void getClassName() {
-
-        OracleDbConnectionDetails details = new OracleDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.ORACLE);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setSid(sid);
-
-        OracleDbConnection connection = new OracleDbConnection(details, repository);
-        assertEquals("oracle.jdbc.driver.OracleDriver", connection.getClassName());
-
-    }
-
-    @Test
-    public void getCheckSelect() {
-
-        OracleDbConnectionDetails details = new OracleDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.ORACLE);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setSid(sid);
-
-        OracleDbConnection connection = new OracleDbConnection(details, repository);
-        assertEquals("SELECT 1 FROM DUAL", connection.getCheckSelect());
-    }
-
-}
+    @get:Test
+    val checkSelect: Unit
+        get() {
+            val details = OracleDbConnectionDetails()
+            details.setId(dbConnectionid)
+            details.type = DbConnectionType.ORACLE
+            details.name = name
+            details.host = host
+            details.port = port
+            details.user = user
+            details.password = password
+            details.sid = sid
+            val connection = OracleDbConnection(details, repository!!)
+            Assertions.assertEquals("SELECT 1 FROM DUAL", connection.checkSelect)
+        }
+}*/

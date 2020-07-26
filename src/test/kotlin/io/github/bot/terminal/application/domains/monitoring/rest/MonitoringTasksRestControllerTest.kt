@@ -1,223 +1,185 @@
-package io.github.bot.terminal.application.domains.monitoring.rest;
+/*
+package io.github.bot.terminal.application.domains.monitoring.rest
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsOneNumberValueActionRequest;
-import io.github.bot.terminal.application.domains.monitoring.MonitoringTasksTestHelper;
-import io.github.bot.terminal.application.domains.monitoring.rest.dto.MonitoringTaskDTO;
-import io.github.bot.terminal.application.domains.monitoring.rest.requests.MonitoringTaskRequest;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsOneNumberValueActionRequest
+import io.github.bot.terminal.application.domains.monitoring.MonitoringTasksTestHelper
+import io.github.bot.terminal.application.domains.monitoring.rest.dto.MonitoringTaskDTO
+import io.github.bot.terminal.application.domains.monitoring.rest.requests.MonitoringTaskRequest
+import org.hamcrest.core.Is
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.*
+import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import java.util.*
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
-@ExtendWith(MockitoExtension.class)
-class MonitoringTasksRestControllerTest extends MonitoringTasksTestHelper {
-
+@ExtendWith(MockitoExtension::class)
+internal class MonitoringTasksRestControllerTest : MonitoringTasksTestHelper() {
     @Mock
-    private MonitoringTasksRestService service;
+    private val service: MonitoringTasksRestService? = null
 
     @InjectMocks
-    private MonitoringTasksRestController controller;
+    private val controller: MonitoringTasksRestController? = null
 
     @Captor
-    ArgumentCaptor<MonitoringTaskRequest> monitoringTaskRequestCaptor;
-
-    private ObjectMapper mapper = new ObjectMapper();
-
-    private MockMvc mockMvc;
+    var monitoringTaskRequestCaptor: ArgumentCaptor<MonitoringTaskRequest>? = null
+    private val mapper = ObjectMapper()
+    private var mockMvc: MockMvc? = null
 
     @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    fun setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
     }
 
     @Test
-    public void addMonitoringSqlSelectAsOneNumberValue() throws Exception {
-
-        MonitoringTaskDTO dto = getMonitoringTaskSqlSelectAsOneNumberValueDto1();
-        when(service.add(any())).thenReturn(dto);
-
-        MonitoringTaskRequest request = getMonitoringTaskRequestSqlAsSelectOneNumber1();
-
-        this.mockMvc.perform(post("/api/monitoring/tasks")
+    @Throws(Exception::class)
+    fun addMonitoringSqlSelectAsOneNumberValue() {
+        val dto = monitoringTaskSqlSelectAsOneNumberValueDto1
+        Mockito.`when`(service!!.add(ArgumentMatchers.any())).thenReturn(dto)
+        val request = monitoringTaskRequestSqlAsSelectOneNumber1
+        mockMvc!!.perform(MockMvcRequestBuilders.post("/api/monitoring/tasks")
                 .content(mapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-
-                .andExpect(jsonPath("$.id", is(id1)))
-                .andExpect(jsonPath("$.name", is(name1)))
-                .andExpect(jsonPath("$.state", is(state1.name())))
-                .andExpect(jsonPath("$.action.type", is(actionType1.name())))
-                .andExpect(jsonPath("$.action.select", is(select1)))
-                .andExpect(jsonPath("$.action.dbConnectionId", is(dbConnectionId1)))
-                .andExpect(jsonPath("$.cron", is(cron1.getCron())))
-                .andExpect(jsonPath("$.conditions[0].type", is(conditionType1.name())))
-                .andExpect(jsonPath("$.conditions[0].expectedValue", is(expectedValue1)))
-                .andExpect(jsonPath("$.notifyList[0].notificationApiId", is(notificationApiId1)))
-                .andExpect(jsonPath("$.notifyList[0].messageTemplate", is(messageTemplate1)));
-
-        verify(service, times(1))
-                .add(monitoringTaskRequestCaptor.capture());
-        MonitoringTaskRequest botReqPassed = monitoringTaskRequestCaptor.getValue();
-        assertEquals(name1, botReqPassed.getName());
-        assertEquals(state1.name(), botReqPassed.getState());
-        assertEquals(cron1.getCron(), botReqPassed.getCron());
-
-        SqlSelectAsOneNumberValueActionRequest actionRequest
-                = (SqlSelectAsOneNumberValueActionRequest) botReqPassed.getAction();
-        assertEquals(actionType1.name(), actionRequest.getType());
-        assertEquals(select1, actionRequest.getSelect());
-        assertEquals(dbConnectionId1, actionRequest.getDbConnectionId());
-
-        assertEquals(conditionType1.name(), botReqPassed.getConditions().get(0).getType());
-        assertEquals(expectedValue1, botReqPassed.getConditions().get(0).getExpectedValue());
-
-        assertEquals(notificationApiId1, botReqPassed.getNotifyList().get(0).getNotificationApiId());
-        assertEquals(messageTemplate1, botReqPassed.getNotifyList().get(0).getMessageTemplate());
-
+                .andExpect(MockMvcResultMatchers.status().isCreated)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.`is`(id1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.`is`(name1)))
+                .andExpect(jsonPath("$.state", `is`(state1.name())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.action.type", Is.`is`(actionType1.name)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.action.select", Is.`is`(select1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.action.dbConnectionId", Is.`is`(dbConnectionId1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cron", Is.`is`(cron1.cron)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.conditions[0].type", Is.`is`(conditionType1.name)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.conditions[0].expectedValue", Is.`is`(expectedValue1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.notifyList[0].notificationApiId", Is.`is`(notificationApiId1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.notifyList[0].messageTemplate", Is.`is`(messageTemplate1)))
+        Mockito.verify(service, Mockito.times(1))
+                .add(monitoringTaskRequestCaptor!!.capture())
+        val botReqPassed = monitoringTaskRequestCaptor!!.value
+        Assertions.assertEquals(name1, botReqPassed.name)
+        assertEquals(state1.name(), botReqPassed.getState())
+        Assertions.assertEquals(cron1.cron, botReqPassed.cron)
+        val actionRequest = botReqPassed.action as SqlSelectAsOneNumberValueActionRequest
+        Assertions.assertEquals(actionType1.name, actionRequest.type)
+        Assertions.assertEquals(select1, actionRequest.select)
+        Assertions.assertEquals(dbConnectionId1, actionRequest.dbConnectionId)
+        Assertions.assertEquals(conditionType1.name, botReqPassed.conditions[0].type)
+        Assertions.assertEquals(expectedValue1, botReqPassed.conditions[0].expectedValue)
+        Assertions.assertEquals(notificationApiId1, botReqPassed.notifyList[0].notificationApiId)
+        Assertions.assertEquals(messageTemplate1, botReqPassed.notifyList[0].messageTemplate)
     }
 
     @Test
-    public void editMonitoringSqlSelectAsOneNumberValue() throws Exception {
-
-        MonitoringTaskDTO dto = getMonitoringTaskSqlSelectAsOneNumberValueDto1();
-        when(service.edit(eq(id1), any())).thenReturn(dto);
-
-        MonitoringTaskRequest request = getMonitoringTaskRequestSqlAsSelectOneNumber1();
-
-        this.mockMvc.perform(put("/api/monitoring/tasks/"+id1)
+    @Throws(Exception::class)
+    fun editMonitoringSqlSelectAsOneNumberValue() {
+        val dto = monitoringTaskSqlSelectAsOneNumberValueDto1
+        Mockito.`when`(service!!.edit(ArgumentMatchers.eq(id1), ArgumentMatchers.any())).thenReturn(dto)
+        val request = monitoringTaskRequestSqlAsSelectOneNumber1
+        mockMvc!!.perform(MockMvcRequestBuilders.put("/api/monitoring/tasks/$id1")
                 .content(mapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-
-                .andExpect(jsonPath("$.id", is(id1)))
-                .andExpect(jsonPath("$.name", is(name1)))
-                .andExpect(jsonPath("$.state", is(state1.name())))
-                .andExpect(jsonPath("$.action.type", is(actionType1.name())))
-                .andExpect(jsonPath("$.action.select", is(select1)))
-                .andExpect(jsonPath("$.action.dbConnectionId", is(dbConnectionId1)))
-                .andExpect(jsonPath("$.cron", is(cron1.getCron())))
-                .andExpect(jsonPath("$.conditions[0].type", is(conditionType1.name())))
-                .andExpect(jsonPath("$.conditions[0].expectedValue", is(expectedValue1)))
-                .andExpect(jsonPath("$.notifyList[0].notificationApiId", is(notificationApiId1)))
-                .andExpect(jsonPath("$.notifyList[0].messageTemplate", is(messageTemplate1)));
-
-        verify(service, times(1))
-                .edit(eq(id1), monitoringTaskRequestCaptor.capture());
-        MonitoringTaskRequest botReqPassed = monitoringTaskRequestCaptor.getValue();
-        assertEquals(name1, botReqPassed.getName());
-        assertEquals(state1.name(), botReqPassed.getState());
-        assertEquals(cron1.getCron(), botReqPassed.getCron());
-
-        SqlSelectAsOneNumberValueActionRequest actionRequest
-                = (SqlSelectAsOneNumberValueActionRequest) botReqPassed.getAction();
-        assertEquals(actionType1.name(), actionRequest.getType());
-        assertEquals(select1, actionRequest.getSelect());
-        assertEquals(dbConnectionId1, actionRequest.getDbConnectionId());
-
-        assertEquals(conditionType1.name(), botReqPassed.getConditions().get(0).getType());
-        assertEquals(expectedValue1, botReqPassed.getConditions().get(0).getExpectedValue());
-
-        assertEquals(notificationApiId1, botReqPassed.getNotifyList().get(0).getNotificationApiId());
-        assertEquals(messageTemplate1, botReqPassed.getNotifyList().get(0).getMessageTemplate());
-
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.`is`(id1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.`is`(name1)))
+                .andExpect(jsonPath("$.state", `is`(state1.name())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.action.type", Is.`is`(actionType1.name)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.action.select", Is.`is`(select1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.action.dbConnectionId", Is.`is`(dbConnectionId1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cron", Is.`is`(cron1.cron)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.conditions[0].type", Is.`is`(conditionType1.name)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.conditions[0].expectedValue", Is.`is`(expectedValue1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.notifyList[0].notificationApiId", Is.`is`(notificationApiId1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.notifyList[0].messageTemplate", Is.`is`(messageTemplate1)))
+        Mockito.verify(service, Mockito.times(1))
+                .edit(ArgumentMatchers.eq(id1), monitoringTaskRequestCaptor!!.capture())
+        val botReqPassed = monitoringTaskRequestCaptor!!.value
+        Assertions.assertEquals(name1, botReqPassed.name)
+        assertEquals(state1.name(), botReqPassed.getState())
+        Assertions.assertEquals(cron1.cron, botReqPassed.cron)
+        val actionRequest = botReqPassed.action as SqlSelectAsOneNumberValueActionRequest
+        Assertions.assertEquals(actionType1.name, actionRequest.type)
+        Assertions.assertEquals(select1, actionRequest.select)
+        Assertions.assertEquals(dbConnectionId1, actionRequest.dbConnectionId)
+        Assertions.assertEquals(conditionType1.name, botReqPassed.conditions[0].type)
+        Assertions.assertEquals(expectedValue1, botReqPassed.conditions[0].expectedValue)
+        Assertions.assertEquals(notificationApiId1, botReqPassed.notifyList[0].notificationApiId)
+        Assertions.assertEquals(messageTemplate1, botReqPassed.notifyList[0].messageTemplate)
     }
+
+    @get:Throws(Exception::class)
+    @get:Test
+    val monitoringSqlSelectAsOneNumberValue: Unit
+        get() {
+            val dto = monitoringTaskSqlSelectAsOneNumberValueDto1
+            Mockito.`when`(service!![ArgumentMatchers.eq(id1)]).thenReturn(dto)
+            mockMvc!!.perform(MockMvcRequestBuilders.get("/api/monitoring/tasks/$id1")
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(MockMvcResultMatchers.status().isOk)
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.`is`(id1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.`is`(name1)))
+                    .andExpect(jsonPath("$.state", `is`(state1.name())))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.action.type", Is.`is`(actionType1.name)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.action.select", Is.`is`(select1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.action.dbConnectionId", Is.`is`(dbConnectionId1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.cron", Is.`is`(cron1.cron)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.conditions[0].type", Is.`is`(conditionType1.name)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.conditions[0].expectedValue", Is.`is`(expectedValue1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.notifyList[0].notificationApiId", Is.`is`(notificationApiId1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.notifyList[0].messageTemplate", Is.`is`(messageTemplate1)))
+            Mockito.verify(service, Mockito.times(1))
+                    .get(ArgumentMatchers.eq(id1))
+        }
 
     @Test
-    public void getMonitoringSqlSelectAsOneNumberValue() throws Exception {
-
-        MonitoringTaskDTO dto = getMonitoringTaskSqlSelectAsOneNumberValueDto1();
-        when(service.get(eq(id1))).thenReturn(dto);
-
-        this.mockMvc.perform(get("/api/monitoring/tasks/"+id1)
+    @Throws(Exception::class)
+    fun deleteMonitoringTask() {
+        mockMvc!!.perform(MockMvcRequestBuilders.delete("/api/monitoring/tasks/$id1")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-
-                .andExpect(jsonPath("$.id", is(id1)))
-                .andExpect(jsonPath("$.name", is(name1)))
-                .andExpect(jsonPath("$.state", is(state1.name())))
-                .andExpect(jsonPath("$.action.type", is(actionType1.name())))
-                .andExpect(jsonPath("$.action.select", is(select1)))
-                .andExpect(jsonPath("$.action.dbConnectionId", is(dbConnectionId1)))
-                .andExpect(jsonPath("$.cron", is(cron1.getCron())))
-                .andExpect(jsonPath("$.conditions[0].type", is(conditionType1.name())))
-                .andExpect(jsonPath("$.conditions[0].expectedValue", is(expectedValue1)))
-                .andExpect(jsonPath("$.notifyList[0].notificationApiId", is(notificationApiId1)))
-                .andExpect(jsonPath("$.notifyList[0].messageTemplate", is(messageTemplate1)));
-
-        verify(service, times(1))
-                .get(eq(id1));
-
-
+                .andExpect(MockMvcResultMatchers.status().isNoContent)
+        Mockito.verify(service, Mockito.times(1))
+                .delete(ArgumentMatchers.eq(id1))
     }
 
-    @Test
-    public void deleteMonitoringTask() throws Exception {
-        this.mockMvc.perform(delete("/api/monitoring/tasks/"+id1)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-
-        verify(service, times(1))
-                .delete(eq(id1));
-    }
-
-    @Test
-    public void getList() throws Exception {
-        MonitoringTaskDTO dto1 = getMonitoringTaskSqlSelectAsOneNumberValueDto1();
-        MonitoringTaskDTO dto2 = getMonitoringTaskSqlSelectAsOneNumberValueDto2();
-
-        List<MonitoringTaskDTO> c = new ArrayList<>();
-        c.add(dto1);
-        c.add(dto2);
-
-        when(service.list()).thenReturn(c);
-
-        this.mockMvc.perform(get("/api/monitoring/tasks")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-
-                .andExpect(jsonPath("$[0].id", is(id1)))
-                .andExpect(jsonPath("$[0].name", is(name1)))
-                .andExpect(jsonPath("$[0].state", is(state1.name())))
-                .andExpect(jsonPath("$[0].action.type", is(actionType1.name())))
-                .andExpect(jsonPath("$[0].action.select", is(select1)))
-                .andExpect(jsonPath("$[0].action.dbConnectionId", is(dbConnectionId1)))
-                .andExpect(jsonPath("$[0].cron", is(cron1.getCron())))
-                .andExpect(jsonPath("$[0].conditions[0].type", is(conditionType1.name())))
-                .andExpect(jsonPath("$[0].conditions[0].expectedValue", is(expectedValue1)))
-                .andExpect(jsonPath("$[0].notifyList[0].notificationApiId", is(notificationApiId1)))
-                .andExpect(jsonPath("$[0].notifyList[0].messageTemplate", is(messageTemplate1)))
-
-                .andExpect(jsonPath("$[1].id", is(id2)))
-                .andExpect(jsonPath("$[1].name", is(name2)))
-                .andExpect(jsonPath("$[1].state", is(state2.name())))
-                .andExpect(jsonPath("$[1].action.type", is(actionType2.name())))
-                .andExpect(jsonPath("$[1].action.select", is(select2)))
-                .andExpect(jsonPath("$[1].action.dbConnectionId", is(dbConnectionId2)))
-                .andExpect(jsonPath("$[1].cron", is(cron2.getCron())))
-                .andExpect(jsonPath("$[1].conditions[0].type", is(conditionType2.name())))
-                .andExpect(jsonPath("$[1].conditions[0].expectedValue", is(expectedValue2)))
-                .andExpect(jsonPath("$[1].notifyList[0].notificationApiId", is(notificationApiId2)))
-                .andExpect(jsonPath("$[1].notifyList[0].messageTemplate", is(messageTemplate2)));
-
-    }
-}
+    @get:Throws(Exception::class)
+    @get:Test
+    val list: Unit
+        get() {
+            val dto1 = monitoringTaskSqlSelectAsOneNumberValueDto1
+            val dto2 = monitoringTaskSqlSelectAsOneNumberValueDto2
+            val c: MutableList<MonitoringTaskDTO?> = ArrayList()
+            c.add(dto1)
+            c.add(dto2)
+            Mockito.`when`<List<MonitoringTaskDTO?>>(service!!.list()).thenReturn(c)
+            mockMvc!!.perform(MockMvcRequestBuilders.get("/api/monitoring/tasks")
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(MockMvcResultMatchers.status().isOk)
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Is.`is`(id1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Is.`is`(name1)))
+                    .andExpect(jsonPath("$[0].state", `is`(state1.name())))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].action.type", Is.`is`(actionType1.name)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].action.select", Is.`is`(select1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].action.dbConnectionId", Is.`is`(dbConnectionId1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].cron", Is.`is`(cron1.cron)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].conditions[0].type", Is.`is`(conditionType1.name)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].conditions[0].expectedValue", Is.`is`(expectedValue1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].notifyList[0].notificationApiId", Is.`is`(notificationApiId1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].notifyList[0].messageTemplate", Is.`is`(messageTemplate1)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Is.`is`(id2)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Is.`is`(name2)))
+                    .andExpect(jsonPath("$[1].state", `is`(state2.name())))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].action.type", Is.`is`(actionType2.name)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].action.select", Is.`is`(select2)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].action.dbConnectionId", Is.`is`(dbConnectionId2)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].cron", Is.`is`(cron2.cron)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].conditions[0].type", Is.`is`(conditionType2.name)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].conditions[0].expectedValue", Is.`is`(expectedValue2)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].notifyList[0].notificationApiId", Is.`is`(notificationApiId2)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].notifyList[0].messageTemplate", Is.`is`(messageTemplate2)))
+        }
+}*/

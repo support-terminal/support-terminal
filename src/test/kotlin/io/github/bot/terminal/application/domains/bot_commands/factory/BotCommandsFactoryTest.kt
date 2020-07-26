@@ -1,55 +1,48 @@
-package io.github.bot.terminal.application.domains.bot_commands.factory;
+/*
+package io.github.bot.terminal.application.domains.bot_commands.factory
 
-import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails;
-import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository;
-import io.github.bot.terminal.application.domains.bot_commands.values.BotCommandState;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails
+import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository
+import io.github.bot.terminal.application.domains.bot_commands.values.BotCommandState
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
+import java.util.*
 
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-
-@ExtendWith(MockitoExtension.class)
-class BotCommandsFactoryTest {
-
+@ExtendWith(MockitoExtension::class)
+internal class BotCommandsFactoryTest {
     @Mock
-    private BotCommandRepository repository;
-
-    private BotCommandsFactory factory;
+    private val repository: BotCommandRepository? = null
+    private val factory: BotCommandsFactory? = null
 
     @Captor
-    ArgumentCaptor<BotCommandDetails> botCommandDetailsCaptor;
-
-    private String select = UUID.randomUUID().toString();
-    private String dbConnectionId = UUID.randomUUID().toString();
-    private String resultTemplate = UUID.randomUUID().toString();
-    private String id = UUID.randomUUID().toString();
-    private String name = UUID.randomUUID().toString();
-    private String cmd = UUID.randomUUID().toString();
-    private List<String> botIds = Collections.singletonList(UUID.randomUUID().toString());
-    private BotCommandState state = BotCommandState.ENABLED;
-
-
-    private String select2 = UUID.randomUUID().toString();
-    private String dbConnectionId2 = UUID.randomUUID().toString();
-    private String resultTemplate2 = UUID.randomUUID().toString();
-    private String id2 = UUID.randomUUID().toString();
-    private String name2 = UUID.randomUUID().toString();
-    private String cmd2 = UUID.randomUUID().toString();
-    private List<String> botIds2 = Collections.singletonList(UUID.randomUUID().toString());
-    private BotCommandState state2 = BotCommandState.DISABLED;
-
+    var botCommandDetailsCaptor: ArgumentCaptor<BotCommandDetails>? = null
+    private val select = UUID.randomUUID().toString()
+    private val dbConnectionId = UUID.randomUUID().toString()
+    private val resultTemplate = UUID.randomUUID().toString()
+    private val id = UUID.randomUUID().toString()
+    private val name = UUID.randomUUID().toString()
+    private val cmd = UUID.randomUUID().toString()
+    private val botIds = listOf(UUID.randomUUID().toString())
+    private val state: BotCommandState = BotCommandState.ENABLED
+    private val select2 = UUID.randomUUID().toString()
+    private val dbConnectionId2 = UUID.randomUUID().toString()
+    private val resultTemplate2 = UUID.randomUUID().toString()
+    private val id2 = UUID.randomUUID().toString()
+    private val name2 = UUID.randomUUID().toString()
+    private val cmd2 = UUID.randomUUID().toString()
+    private val botIds2 = listOf(UUID.randomUUID().toString())
+    private val state2: BotCommandState = BotCommandState.DISABLED */
 /*
     @BeforeEach
     void init() {
         factory = new BotCommandsFactory(repository);
     }
-*/
+*//*
 
+    */
 /*
 
     @Test
@@ -274,16 +267,15 @@ class BotCommandsFactoryTest {
 
     }
 
-*/
+*//*
 
-
- /*   @Test
+    */
+/*   @Test
     void byIdNotFound() {
         when(repository.findById(eq(id))).thenReturn(Optional.empty());
         assertThrows(IllegalArgumentException.class, () -> {
             factory.byId(id);
         });
-    }*/
+    }*//*
 
-
-}
+}*/

@@ -1,104 +1,90 @@
-package io.github.bot.terminal.application.domains.db_connection.entity;
+/*
+package io.github.bot.terminal.application.domains.db_connection.entity
 
-import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository;
-import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository
+import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.jupiter.MockitoExtension
+import java.util.*
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-@ExtendWith(MockitoExtension.class)
-class MySqlDbConnectionTest {
-
+@ExtendWith(MockitoExtension::class)
+internal class MySqlDbConnectionTest {
     @Mock
-    private DbConnectionRepository repository;
-
-    public String dbConnectionid = UUID.randomUUID().toString();
-    public String name = UUID.randomUUID().toString();
-    public String host = UUID.randomUUID().toString();
-    public int port = 1233;
-    public String user = UUID.randomUUID().toString();
-    public String password = UUID.randomUUID().toString();
-    public String dbName = UUID.randomUUID().toString();
-
-    @Test
-    public void delete() {
-
-        MySqlDbConnectionDetails details = new MySqlDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.MYSQL);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        DbConnection connection = new MySqlDbConnection(details, repository);
-
-        connection.delete();
-        verify(repository, times(1)).deleteById(eq(dbConnectionid));
-
-    }
+    private val repository: DbConnectionRepository? = null
+    var dbConnectionid = UUID.randomUUID().toString()
+    var name = UUID.randomUUID().toString()
+    var host = UUID.randomUUID().toString()
+    var port = 1233
+    var user = UUID.randomUUID().toString()
+    var password = UUID.randomUUID().toString()
+    var dbName = UUID.randomUUID().toString()
 
     @Test
-    public void getUrl() {
-
-        MySqlDbConnectionDetails details = new MySqlDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.MYSQL);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        MySqlDbConnection connection = new MySqlDbConnection(details, repository);
-        assertEquals("jdbc:mysql://" + host + ":" + port + "/" + dbName, connection.getUrl());
-
+    fun delete() {
+        val details = MySqlDbConnectionDetails()
+        details.setId(dbConnectionid)
+        details.type = DbConnectionType.MYSQL
+        details.name = name
+        details.host = host
+        details.port = port
+        details.user = user
+        details.password = password
+        details.dbName = dbName
+        val connection: DbConnection<*> = MySqlDbConnection(details, repository!!)
+        connection.delete()
+        Mockito.verify(repository, Mockito.times(1))!!.deleteById(ArgumentMatchers.eq(dbConnectionid))
     }
 
-    @Test
-    public void getClassName() {
+    @get:Test
+    val url: Unit
+        get() {
+            val details = MySqlDbConnectionDetails()
+            details.setId(dbConnectionid)
+            details.type = DbConnectionType.MYSQL
+            details.name = name
+            details.host = host
+            details.port = port
+            details.user = user
+            details.password = password
+            details.dbName = dbName
+            val connection = MySqlDbConnection(details, repository!!)
+            Assertions.assertEquals("jdbc:mysql://$host:$port/$dbName", connection.url)
+        }
 
-        MySqlDbConnectionDetails details = new MySqlDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.MYSQL);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
+    @get:Test
+    val className: Unit
+        get() {
+            val details = MySqlDbConnectionDetails()
+            details.setId(dbConnectionid)
+            details.type = DbConnectionType.MYSQL
+            details.name = name
+            details.host = host
+            details.port = port
+            details.user = user
+            details.password = password
+            details.dbName = dbName
+            val connection = MySqlDbConnection(details, repository!!)
+            Assertions.assertEquals("com.mysql.jdbc.Driver", connection.className)
+        }
 
-        MySqlDbConnection connection = new MySqlDbConnection(details, repository);
-        assertEquals("com.mysql.jdbc.Driver", connection.getClassName());
-
-    }
-
-    @Test
-    public void getCheckSelect() {
-
-        MySqlDbConnectionDetails details = new MySqlDbConnectionDetails();
-        details.setId(dbConnectionid);
-        details.setType(DbConnectionType.MYSQL);
-        details.setName(name);
-        details.setHost(host);
-        details.setPort(port);
-        details.setUser(user);
-        details.setPassword(password);
-        details.setDbName(dbName);
-
-        MySqlDbConnection connection = new MySqlDbConnection(details, repository);
-        assertEquals("SELECT 1", connection.getCheckSelect());
-    }
-
-}
+    @get:Test
+    val checkSelect: Unit
+        get() {
+            val details = MySqlDbConnectionDetails()
+            details.setId(dbConnectionid)
+            details.type = DbConnectionType.MYSQL
+            details.name = name
+            details.host = host
+            details.port = port
+            details.user = user
+            details.password = password
+            details.dbName = dbName
+            val connection = MySqlDbConnection(details, repository!!)
+            Assertions.assertEquals("SELECT 1", connection.checkSelect)
+        }
+}*/
