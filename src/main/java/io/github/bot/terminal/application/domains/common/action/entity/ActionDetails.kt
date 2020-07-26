@@ -29,4 +29,4 @@ data class SqlSelectInExcelFileActionDetails(
         var select: String,
         var dbConnectionId: String,
         var fileNameTemplate: String
-) : ActionDetails(ActionType.SQL_SELECT_AS_ONE_NUMBER)
+) : ActionDetails(ActionType.SQL_SELECT_IN_EXCEL_FILE)

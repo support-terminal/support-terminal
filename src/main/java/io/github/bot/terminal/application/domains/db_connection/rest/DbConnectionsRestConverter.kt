@@ -69,7 +69,7 @@ class DbConnectionsRestConverter {
     }
 
     fun mapToDto(details: MySqlDbConnectionDetails) = MySqlDbConnectionDTO(
-            id = details.name,
+            id = details.id,
             name = details.name,
             host = details.host,
             port = details.port,
@@ -79,7 +79,7 @@ class DbConnectionsRestConverter {
     )
 
     fun mapToDto(details: PostgresDbConnectionDetails) = PostgresDbConnectionDTO(
-            id = details.name,
+            id = details.id,
             name = details.name,
             host = details.host,
             port = details.port,
@@ -89,7 +89,7 @@ class DbConnectionsRestConverter {
     )
 
     fun mapToDto(details: OracleDbConnectionDetails) = OracleDbConnectionDTO(
-            id = details.name,
+            id = details.id,
             name = details.name,
             host = details.host,
             port = details.port,
