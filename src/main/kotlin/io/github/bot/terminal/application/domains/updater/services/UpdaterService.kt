@@ -36,7 +36,7 @@ class UpdaterService(
         createPathWithParentsOrClear(UPDATE_FILE_PATH)
         val actualAppVersionInfo = restTemplate.exchange(ACTUAL_APP_VERSION_URL, HttpMethod.GET, HttpEntity.EMPTY, ReleaseInfo::class.java).body
         val actualUpdaterAppVersionInfo = restTemplate.exchange(ACTUAL_UPDATER_VERSION_URL, HttpMethod.GET, HttpEntity.EMPTY, ReleaseInfo::class.java).body
-        UpdaterService.log.info("Start download update files")
+        log.info("Start download update files")
         eventsService.notifyInfo("Start download update files")
 
         //Скачиваем файлы в папку обнолений
