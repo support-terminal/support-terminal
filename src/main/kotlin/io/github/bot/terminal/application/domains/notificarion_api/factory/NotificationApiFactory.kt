@@ -4,7 +4,6 @@ import io.github.bot.terminal.application.domains.integrations.slack.SlackApiCli
 import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient
 import io.github.bot.terminal.application.domains.notificarion_api.entity.*
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository
-import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
 import org.springframework.stereotype.Service
 
 @Service
@@ -14,27 +13,44 @@ class NotificationApiFactory(
         private val telegramApiClient: TelegramApiClient
 ) {
 
-    fun byId(id: String): NotificationApi {
+    fun createNew(details: NotificationApiDetails): NotificationApi {
+        val notificationApi = build(details)
+        repository.add(details)
+        return notificationApi
+    }
+    
+    fun update(id: String, detailsUpdate: NotificationApiDetails): NotificationApi {
         val details = getById(id)
-        return build(details)
+        details.merge(detailsUpdate)
+        val notificationApi = build(details)
+        repository.update(details)
+        return notificationApi
     }
 
-    fun getAll() = repository.findAll().map { build(it) }.toList()
-
-    private fun getById(id: String?) = repository.findById(id)
-            ?: throw IllegalArgumentException("Notification API not found: id=$id")
-
     private fun build(details: NotificationApiDetails): NotificationApi {
-        if (NotificationApiType.SLACK_BOT == details.type) {
-            return build(details as SlackNotificationApiDetails)
-        } else if (NotificationApiType.TELEGRAM_BOT == details.type) {
-            return build(details as TelegramNotificationApiDetails)
+        if (details is SlackNotificationApiDetails) {
+            return SlackNotificationApi(details, repository, slackApiClient)
+        } else if (details is TelegramNotificationApiDetails) {
+            return TelegramNotificationApi(details, repository, telegramApiClient)
         }
         throw IllegalArgumentException("Unknown notification api type")
     }
 
-    private fun build(details: TelegramNotificationApiDetails) = TelegramNotificationApi(details, repository, telegramApiClient)
+    val all: List<NotificationApi> = repository.findAll()
+            .map { details: NotificationApiDetails -> build(details) }
+            .toList()
+    
+    fun byId(id: String): NotificationApi {
+        return build(getById(id))
+    }  
+    
+    private fun getById(id: String): NotificationApiDetails 
+            = repository.findById(id) ?: throw IllegalArgumentException("NotificationApi not found by id=${id}")
 
-    private fun build(details: SlackNotificationApiDetails) = SlackNotificationApi(details, repository, slackApiClient)
+    fun delete(id: String) {
+        repository.findById(id)?.let {
+            repository.deleteById(id)
+        }
+    }
 
 }

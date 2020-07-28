@@ -1,58 +1,48 @@
-/*
 package io.github.bot.terminal.application.domains.notificarion_api.rest
 
+import com.nhaarman.mockitokotlin2.*
 import io.github.bot.terminal.application.domains.integrations.slack.SlackApiClient
 import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient
-import io.github.bot.terminal.application.domains.notificarion_api.entity.*
+import io.github.bot.terminal.application.domains.notificarion_api.NotificationApiTestData
+import io.github.bot.terminal.application.domains.notificarion_api.NotificationsApiDataSet
+import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApiDetails
 import io.github.bot.terminal.application.domains.notificarion_api.factory.NotificationApiFactory
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository
+import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.TelegramNotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.SlackNotificationApiRequest
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.TelegramNotificationApiRequest
-import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiState
-import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.*
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
+import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
-import java.util.*
+import java.util.function.Consumer
 
 @ExtendWith(MockitoExtension::class)
 internal class NotificationApiRestServiceTest {
-    @Mock
-    private val notificationApiFactory: NotificationApiFactory? = null
 
     @Mock
-    private val repository: NotificationApiRepository? = null
+    private lateinit var notificationApiFactory: NotificationApiFactory
 
     @Mock
-    private val telegramApiClient: TelegramApiClient? = null
+    private lateinit var repository: NotificationApiRepository
 
     @Mock
-    private val slackApiClient: SlackApiClient? = null
+    private lateinit var telegramApiClient: TelegramApiClient
+
+    @Mock
+    private lateinit var slackApiClient: SlackApiClient
+
+    @Captor
+    private lateinit var detailsCaptor: ArgumentCaptor<NotificationApiDetails>
+
     private val converter = Mockito.spy(NotificationApiRestConverter())
-    private var restService: NotificationApiRestService? = null
 
-    @Captor
-    var slackDetailsCaptor: ArgumentCaptor<SlackNotificationApiDetails>? = null
-
-    @Captor
-    var telegramDetailsCaptor: ArgumentCaptor<TelegramNotificationApiDetails>? = null
-    private val id = "id"
-    private val label = "label"
-    private val state: NotificationApiState = NotificationApiState.ENABLED
-    private val chanel = "chanel-name"
-    private val botFatherName = "botFatherName-name"
-    private val token = "token"
-    private val id2 = "id2"
-    private val label2 = "label"
-    private val state2: NotificationApiState = NotificationApiState.DISABLED
-    private val chanel2 = "chanel-name2"
-    private val botFatherName2 = "botFatherName-name2"
-    private val token2 = "token2"
+    private lateinit var restService: NotificationApiRestService
 
     @BeforeEach
     fun inti() {
@@ -61,102 +51,77 @@ internal class NotificationApiRestServiceTest {
 
     @Test
     fun addUnknownNotificationApi() {
-        val request = SlackNotificationApiRequest()
-        request.setLabel(label)
-        request.setType("SomeType")
-        request.setToken(token)
-        request.setChanel(chanel)
-        request.setState(state.name())
-        Assertions.assertThrows(IllegalArgumentException::class.java
-        ) { restService!!.add(request) }
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            restService.add(NotificationsApiDataSet.Wrong.WRONG_1.request)
+        }
     }
 
     @Test
-    fun mapFromUnknownNotificationApiType() {
-        val details = SlackNotificationApiDetails()
-        details.setId(id)
-        details.label = label
-        details.setType(null)
-        details.setState(state)
-        details.chanel = chanel
-        details.token = token
-        val api: NotificationApi = SlackNotificationApi(details, repository!!, slackApiClient!!)
-        Mockito.`when`(notificationApiFactory.createNew(ArgumentMatchers.any()))
-                .thenReturn(api)
-        val request = SlackNotificationApiRequest()
-        request.setLabel(label)
-        request.setToken(token)
-        request.setChanel(chanel)
-        request.setState(state.name())
-        Assertions.assertThrows(IllegalArgumentException::class.java
-        ) { restService!!.add(request) }
+    fun `add new slack notificationApi`() {
+        addNewNotificationApi(NotificationsApiDataSet.Slack.SLACK_1)
     }
 
     @Test
-    fun addNewSlackNotificationApi() {
-        val details = SlackNotificationApiDetails()
-        details.setId(id)
-        details.label = label
-        details.setType(NotificationApiType.SLACK_BOT)
-        details.setState(state)
-        details.chanel = chanel
-        details.token = token
-        val api: NotificationApi = SlackNotificationApi(details, repository!!, slackApiClient!!)
-        Mockito.`when`(notificationApiFactory.createNew(ArgumentMatchers.any()))
-                .thenReturn(api)
-        val request = SlackNotificationApiRequest()
-        request.setLabel(label)
-        request.setToken(token)
-        request.setChanel(chanel)
-        request.setState(state.name())
-        val apiDTO = restService!!.add(request) as SlackNotificationApiDTO
-        Assertions.assertEquals(id, apiDTO.id)
-        Assertions.assertEquals(label, apiDTO.label)
-        assertEquals(state.name(), apiDTO.getState())
-        Assertions.assertEquals(token, apiDTO.token)
-        Assertions.assertEquals(chanel, apiDTO.chanel)
-        Assertions.assertEquals(NotificationApiType.SLACK_BOT.name, apiDTO.type)
-        Mockito.verify(notificationApiFactory, Mockito.times(1)).createNew(slackDetailsCaptor!!.capture())
-        val convertedDetails = slackDetailsCaptor!!.value
-        Assertions.assertEquals(label, convertedDetails.label)
-        assertEquals(state, convertedDetails.getState())
-        Assertions.assertEquals(token, convertedDetails.token)
-        Assertions.assertEquals(chanel, convertedDetails.chanel)
-        Assertions.assertEquals(NotificationApiType.SLACK_BOT, convertedDetails.type)
+    fun `add new telegram notificationApi`() {
+        addNewNotificationApi(NotificationsApiDataSet.Telegram.TELEGRAM_1)
+    }
+
+    private fun addNewNotificationApi(data: NotificationApiTestData) {
+        whenever(notificationApiFactory.createNew(any()))
+                .thenReturn(data.api)
+
+        val dto = restService.add(data.request)
+        Assertions.assertEquals(data.dto, dto)
+
+        verify(notificationApiFactory, times(1)).createNew(capture(detailsCaptor))
+        Assertions.assertEquals(data.details, detailsCaptor.value)
     }
 
     @Test
-    fun editSlackNotificationApi() {
-        val details = SlackNotificationApiDetails()
-        details.setId(id)
-        details.label = label2
-        details.setType(NotificationApiType.SLACK_BOT)
-        details.setState(state2)
-        details.chanel = chanel2
-        details.token = token2
-        val api: NotificationApi = SlackNotificationApi(details, repository!!, slackApiClient!!)
-        Mockito.`when`(notificationApiFactory.merge(ArgumentMatchers.anyString(), ArgumentMatchers.any()))
-                .thenReturn(api)
-        val request = SlackNotificationApiRequest()
-        request.setLabel(label2)
-        request.setToken(token2)
-        request.setChanel(chanel2)
-        request.setState(state2.name())
-        val apiDTO = restService!!.edit(id, request) as SlackNotificationApiDTO
-        Assertions.assertEquals(id, apiDTO.id)
-        Assertions.assertEquals(label2, apiDTO.label)
-        assertEquals(state2.name(), apiDTO.getState())
-        Assertions.assertEquals(token2, apiDTO.token)
-        Assertions.assertEquals(chanel2, apiDTO.chanel)
-        Assertions.assertEquals(NotificationApiType.SLACK_BOT.name, apiDTO.type)
-        Mockito.verify(notificationApiFactory, Mockito.times(1)).merge(ArgumentMatchers.eq(id), slackDetailsCaptor!!.capture())
-        val convertedDetails = slackDetailsCaptor!!.value
-        Assertions.assertEquals(label2, convertedDetails.label)
-        assertEquals(state2, convertedDetails.getState())
-        Assertions.assertEquals(token2, convertedDetails.token)
-        Assertions.assertEquals(chanel2, convertedDetails.chanel)
-        Assertions.assertEquals(NotificationApiType.SLACK_BOT, convertedDetails.type)
+    fun `edit slack notificationApi`() {
+        editNotificationApi(NotificationsApiDataSet.Slack.SLACK_1,
+                NotificationsApiDataSet.Slack.SLACK_2){
+            val dto =  it as SlackNotificationApiDTO
+            val data = NotificationsApiDataSet.Slack.SLACK_1
+            val update = NotificationsApiDataSet.Slack.SLACK_2
+            Assertions.assertEquals(dto.id, data.id)
+            Assertions.assertEquals(dto.label, update.label)
+            Assertions.assertEquals(dto.enabled, data.enabled)
+            Assertions.assertEquals(dto.token, data.token)
+            Assertions.assertEquals(dto.chanel, data.chanel)
+        }
     }
+
+    @Test
+    fun `edit telegram notificationApi`() {
+        editNotificationApi(NotificationsApiDataSet.Telegram.TELEGRAM_1,
+                NotificationsApiDataSet.Telegram.TELEGRAM_2){
+            val dto =  it as TelegramNotificationApiDTO
+            val data = NotificationsApiDataSet.Telegram.TELEGRAM_1
+            val update = NotificationsApiDataSet.Telegram.TELEGRAM_1
+            Assertions.assertEquals(dto.id, data.id)
+            Assertions.assertEquals(dto.label, update.label)
+            Assertions.assertEquals(dto.enabled, update.enabled)
+            Assertions.assertEquals(dto.token, update.token)
+            Assertions.assertEquals(dto.botFatherName, update.botFatherName)
+        }
+    }
+
+    private fun editNotificationApi(data: NotificationApiTestData, update: NotificationApiTestData, consumer: (NotificationApiDTO) -> Unit) {
+        whenever(notificationApiFactory.update(any(), any()))
+                .thenReturn(update.api)
+        val dto = restService.edit(data.id, update.request)
+        consumer(dto)
+        data.details.merge(update.details)
+        verify(notificationApiFactory, times(1)).update(eq(data.id), capture(detailsCaptor))
+        Assertions.assertEquals(data.details, detailsCaptor.value)
+    }
+
+
+
+    /*
+
+
 
     @get:Test
     val slackNotificationApi: Unit
@@ -180,38 +145,6 @@ internal class NotificationApiRestServiceTest {
             Assertions.assertEquals(NotificationApiType.SLACK_BOT.name, apiDTO.type)
         }
 
-    @Test
-    fun addNewTelegramNotificationApi() {
-        val details = TelegramNotificationApiDetails()
-        details.setId(id)
-        details.label = label
-        details.setType(NotificationApiType.TELEGRAM_BOT)
-        details.setState(state)
-        details.botFatherName = botFatherName
-        details.token = token
-        val api: NotificationApi = TelegramNotificationApi(details, repository!!, telegramApiClient!!)
-        Mockito.`when`(notificationApiFactory.createNew(ArgumentMatchers.any()))
-                .thenReturn(api)
-        val request = TelegramNotificationApiRequest()
-        request.setLabel(label)
-        request.setToken(token)
-        request.setBotFatherName(botFatherName)
-        request.setState(state.name())
-        val apiDTO = restService!!.add(request) as TelegramNotificationApiDTO
-        Assertions.assertEquals(id, apiDTO.id)
-        Assertions.assertEquals(label, apiDTO.label)
-        assertEquals(state.name(), apiDTO.getState())
-        Assertions.assertEquals(token, apiDTO.token)
-        Assertions.assertEquals(botFatherName, apiDTO.botFatherName)
-        Assertions.assertEquals(NotificationApiType.TELEGRAM_BOT.name, apiDTO.type)
-        Mockito.verify(notificationApiFactory, Mockito.times(1)).createNew(telegramDetailsCaptor!!.capture())
-        val convertedDetails = telegramDetailsCaptor!!.value
-        Assertions.assertEquals(label, convertedDetails.label)
-        assertEquals(state, convertedDetails.getState())
-        Assertions.assertEquals(token, convertedDetails.token)
-        Assertions.assertEquals(botFatherName, convertedDetails.botFatherName)
-        Assertions.assertEquals(NotificationApiType.TELEGRAM_BOT, convertedDetails.type)
-    }
 
     @Test
     fun editTelegramNotificationApi() {
@@ -327,5 +260,6 @@ internal class NotificationApiRestServiceTest {
             Assertions.assertEquals(NotificationApiType.TELEGRAM_BOT.label, types[0].label)
             Assertions.assertEquals(NotificationApiType.SLACK_BOT.name, types[1].type)
             Assertions.assertEquals(NotificationApiType.SLACK_BOT.label, types[1].label)
-        }
-}*/
+        }*/
+}
+

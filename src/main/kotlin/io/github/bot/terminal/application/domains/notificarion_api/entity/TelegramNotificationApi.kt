@@ -4,7 +4,7 @@ import io.github.bot.terminal.application.domains.integrations.DocumentFile
 import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository
 
-class TelegramNotificationApi(private val details: TelegramNotificationApiDetails,
+class TelegramNotificationApi(override val details: TelegramNotificationApiDetails,
                               private val repository: NotificationApiRepository,
                               private val telegramApiClient: TelegramApiClient) : NotificationApi {
     override val id: String = details.id

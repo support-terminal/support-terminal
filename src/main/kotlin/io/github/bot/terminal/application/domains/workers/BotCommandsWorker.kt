@@ -22,7 +22,7 @@ class BotCommandsWorker(
     @Scheduled(fixedDelay = 7000)
     fun scheduler() {
         val callables: MutableList<Callable<Any>> = ArrayList()
-        for (notificationApi in notificationApiFactory.getAll()) {
+        for (notificationApi in notificationApiFactory.all) {
             callables.add(
                     Executors.callable { handle(notificationApi) }
             )

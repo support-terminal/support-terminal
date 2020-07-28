@@ -7,7 +7,7 @@ import io.github.bot.terminal.application.domains.integrations.slack.requests.Se
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository
 import java.io.IOException
 
-class SlackNotificationApi(private val details: SlackNotificationApiDetails,
+class SlackNotificationApi(override val details: SlackNotificationApiDetails,
                            private val repository: NotificationApiRepository,
                            private val slackApiClient: SlackApiClient) : NotificationApi {
 
