@@ -13,7 +13,6 @@ import io.github.bot.terminal.application.domains.notificarion_api.rest.requests
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.SlackNotificationApiRequest
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.TelegramNotificationApiRequest
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
-import org.mockito.Mock
 import java.util.*
 
 
@@ -48,8 +47,9 @@ object NotificationsApiDataSet {
     }
 
     enum class Slack(override val id: String, val label: String, val token: String, val chanel: String, var enabled: Boolean = true) : NotificationApiTestData {
-        SLACK_1("00001", UUID.randomUUID().toString(), "token1", "chanel1"),
-        SLACK_2("00002", UUID.randomUUID().toString(), "token2", "chanel2");
+        SLACK_1("00001", "S_label1", "token1", "chanel1"),
+        SLACK_2("00002", "S_label2", "token2", "chanel2"),
+        SLACK_1_UPDATE("00001", "S_label2", "token2", "chanel2");
 
         override val dto = SlackNotificationApiDTO(
                 id = id,
@@ -79,8 +79,9 @@ object NotificationsApiDataSet {
     }
 
     enum class Telegram(override val id: String, val label: String, val token: String, val botFatherName: String, var enabled: Boolean = true) : NotificationApiTestData {
-        TELEGRAM_1("00001", UUID.randomUUID().toString(), "token1", "botFatherName1"),
-        TELEGRAM_2("00002", UUID.randomUUID().toString(), "token2", "botFatherName2");
+        TELEGRAM_1("00001", "T_label1", "token1", "botFatherName1"),
+        TELEGRAM_2("00002", "T_label2", "token2", "botFatherName2"),
+        TELEGRAM_1_UPDATE("00001", "T_label2", "token2", "botFatherName2");
 
         override val dto = TelegramNotificationApiDTO(
                 id = id,

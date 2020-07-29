@@ -44,7 +44,7 @@ class NotificationApiFactory(
         return build(getById(id))
     }  
     
-    private fun getById(id: String): NotificationApiDetails 
+    fun getById(id: String): NotificationApiDetails
             = repository.findById(id) ?: throw IllegalArgumentException("NotificationApi not found by id=${id}")
 
     fun delete(id: String) {
