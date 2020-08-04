@@ -33,7 +33,7 @@ class NotificationApiRestService(
     }
 
     fun list(): List<NotificationApiDTO> {
-        return factory.all
+        return factory.all()
                 .map { converter.mapToDto(it.details) }
                 .toList()
     }

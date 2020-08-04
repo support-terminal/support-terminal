@@ -31,7 +31,7 @@ class SlackNotificationApi(override val details: SlackNotificationApiDetails,
                         .map { it.ts }
                         .firstOrNull()
                         ?.let {
-                            details.oldest = it + 1.0
+                            details.oldest = (it + 1).toLong()
                         }
                 repository.update(details)
 
@@ -60,6 +60,8 @@ class SlackNotificationApi(override val details: SlackNotificationApiDetails,
         }
     }
 
+
+
     private val chanel: Channel?
         get() {
             val channelsResponse = slackApiClient.getСhannels(details.token)
@@ -70,4 +72,25 @@ class SlackNotificationApi(override val details: SlackNotificationApiDetails,
             }
         }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as SlackNotificationApi
+
+        if (details != other.details) return false
+        if (repository != other.repository) return false
+        if (slackApiClient != other.slackApiClient) return false
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = details.hashCode()
+        result = 31 * result + repository.hashCode()
+        result = 31 * result + slackApiClient.hashCode()
+        result = 31 * result + id.hashCode()
+        return result
+    }
 }

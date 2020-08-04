@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
 import org.dizitart.no2.objects.Id
+import java.math.BigDecimal
 import java.util.*
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
@@ -32,7 +33,7 @@ data class SlackNotificationApiDetails(
         override var enabled: Boolean,
         var token: String,
         var chanel: String,
-        var oldest: Double = Date().toInstant().epochSecond.toDouble()
+        var oldest: Long = Date().toInstant().epochSecond
 ) : NotificationApiDetails(id, label, enabled, NotificationApiType.SLACK_BOT) {
     override fun merge(detailsUpdate: NotificationApiDetails) {
         if (detailsUpdate is SlackNotificationApiDetails) {

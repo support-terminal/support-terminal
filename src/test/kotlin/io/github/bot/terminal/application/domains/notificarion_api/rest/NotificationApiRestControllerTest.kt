@@ -64,18 +64,18 @@ class NotificationApiRestControllerTest {
     }
 
     private fun addNotificationApi(api: NotificationApiTestData) {
-        whenever(notificationApiRestService.add(any())).thenReturn(api.dto)
+        whenever(notificationApiRestService.add(any())).thenReturn(api.dto())
         mockMvc.post(API_PATH) {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = mapper.writeValueAsString(api.request)
+            content = mapper.writeValueAsString(api.request())
         }.andExpect {
             status { isCreated }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(mapper.writeValueAsString(api.dto)) }
+            content { json(mapper.writeValueAsString(api.dto())) }
         }
         verify(notificationApiRestService, times(1)).add(capture(requestArgumentCaptor))
-        assertEquals(api.request, requestArgumentCaptor.value)
+        assertEquals(api.request(), requestArgumentCaptor.value)
     }
 
     @Test
@@ -89,18 +89,18 @@ class NotificationApiRestControllerTest {
     }
 
     private fun editNotificationApi(api: NotificationApiTestData, update: NotificationApiTestData) {
-        whenever(notificationApiRestService.edit(any(), any())).thenReturn(update.dto)
-        mockMvc.put("${API_PATH}/${api.id}") {
+        whenever(notificationApiRestService.edit(any(), any())).thenReturn(update.dto())
+        mockMvc.put("${API_PATH}/${api.id()}") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = mapper.writeValueAsString(update.request)
+            content = mapper.writeValueAsString(update.request())
         }.andExpect {
             status { isOk }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(mapper.writeValueAsString(update.dto)) }
+            content { json(mapper.writeValueAsString(update.dto())) }
         }
-        verify(notificationApiRestService, times(1)).edit(eq(api.id), capture(requestArgumentCaptor))
-        assertEquals(update.request, requestArgumentCaptor.value)
+        verify(notificationApiRestService, times(1)).edit(eq(api.id()), capture(requestArgumentCaptor))
+        assertEquals(update.request(), requestArgumentCaptor.value)
     }
 
     @Test
@@ -114,26 +114,26 @@ class NotificationApiRestControllerTest {
     }
 
     private fun getNotificationApi(api: NotificationApiTestData) {
-        whenever(notificationApiRestService.get(eq(api.id)))
-                .thenReturn(api.dto)
-        mockMvc.get("${API_PATH}/${api.id}") {
+        whenever(notificationApiRestService.get(eq(api.id())))
+                .thenReturn(api.dto())
+        mockMvc.get("${API_PATH}/${api.id()}") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(mapper.writeValueAsString(api.dto)) }
+            content { json(mapper.writeValueAsString(api.dto())) }
         }
-        verify(notificationApiRestService, times(1)).get(eq(api.id))
+        verify(notificationApiRestService, times(1)).get(eq(api.id()))
     }
 
     @Test
     fun `get list notificationApis`() {
         val listApis = listOf(
-                NotificationsApiDataSet.Slack.SLACK_1.dto,
-                NotificationsApiDataSet.Slack.SLACK_2.dto,
-                NotificationsApiDataSet.Telegram.TELEGRAM_1.dto,
-                NotificationsApiDataSet.Telegram.TELEGRAM_2.dto
+                NotificationsApiDataSet.Slack.SLACK_1.dto(),
+                NotificationsApiDataSet.Slack.SLACK_2.dto(),
+                NotificationsApiDataSet.Telegram.TELEGRAM_1.dto(),
+                NotificationsApiDataSet.Telegram.TELEGRAM_2.dto()
         )
         whenever(notificationApiRestService.list()).thenReturn(listApis)
 

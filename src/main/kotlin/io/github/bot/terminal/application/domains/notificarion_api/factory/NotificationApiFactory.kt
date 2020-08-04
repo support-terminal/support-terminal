@@ -36,7 +36,7 @@ class NotificationApiFactory(
         throw IllegalArgumentException("Unknown notification api type")
     }
 
-    val all: List<NotificationApi> = repository.findAll()
+    fun all(): List<NotificationApi> = repository.findAll()
             .map { details: NotificationApiDetails -> build(details) }
             .toList()
     

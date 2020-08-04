@@ -20,11 +20,11 @@ val slackTypeDto = NotificationApiTypeDTO(NotificationApiType.SLACK_BOT.label, N
 
 
 interface NotificationApiTestData {
-    val dto: NotificationApiDTO
-    val request: NotificationApiRequest
-    val details: NotificationApiDetails
-    val api: NotificationApi
-    val id: String
+    fun dto(): NotificationApiDTO
+    fun request(): NotificationApiRequest
+    fun details(): NotificationApiDetails
+    fun api(): NotificationApi
+    fun id(): String
 }
 
 object NotificationsApiDataSet {
@@ -46,12 +46,14 @@ object NotificationsApiDataSet {
 
     }
 
-    enum class Slack(override val id: String, val label: String, val token: String, val chanel: String, var enabled: Boolean = true) : NotificationApiTestData {
-        SLACK_1("00001", "S_label1", "token1", "chanel1"),
-        SLACK_2("00002", "S_label2", "token2", "chanel2"),
-        SLACK_1_UPDATE("00001", "S_label2", "token2", "chanel2");
+    enum class Slack(val id: String, val label: String, val token: String, val chanel: String, var enabled: Boolean = true) : NotificationApiTestData {
+        SLACK_1("S0001", "S_label1", "token1", "chanel1"),
+        SLACK_2("S0002", "S_label2", "token2", "chanel2", false),
+        SLACK_1_UPDATE("S0001", "S_label2", "token2", "chanel2", false);
 
-        override val dto = SlackNotificationApiDTO(
+        override fun id() = id
+
+        override fun dto() = SlackNotificationApiDTO(
                 id = id,
                 label = label,
                 enabled = enabled,
@@ -59,7 +61,7 @@ object NotificationsApiDataSet {
                 chanel = chanel
         )
 
-        override val details = SlackNotificationApiDetails(
+        override fun details() = SlackNotificationApiDetails(
                 id = id,
                 label = label,
                 enabled = enabled,
@@ -67,9 +69,9 @@ object NotificationsApiDataSet {
                 chanel = chanel
         )
 
-        override val api = SlackNotificationApi(details, repository, slackApiClient)
+        override fun api() = SlackNotificationApi(details(), repository, slackApiClient)
 
-        override val request = SlackNotificationApiRequest(
+        override fun request() = SlackNotificationApiRequest(
                 label = label,
                 enabled = enabled,
                 token = token,
@@ -78,12 +80,14 @@ object NotificationsApiDataSet {
 
     }
 
-    enum class Telegram(override val id: String, val label: String, val token: String, val botFatherName: String, var enabled: Boolean = true) : NotificationApiTestData {
-        TELEGRAM_1("00001", "T_label1", "token1", "botFatherName1"),
-        TELEGRAM_2("00002", "T_label2", "token2", "botFatherName2"),
-        TELEGRAM_1_UPDATE("00001", "T_label2", "token2", "botFatherName2");
+    enum class Telegram(val id: String, val label: String, val token: String, val botFatherName: String, var enabled: Boolean = true) : NotificationApiTestData {
+        TELEGRAM_1("T0001", "T_label1", "token1", "botFatherName1"),
+        TELEGRAM_2("T0002", "T_label2", "token2", "botFatherName2"),
+        TELEGRAM_1_UPDATE("T0001", "T_label2", "token2", "botFatherName2");
 
-        override val dto = TelegramNotificationApiDTO(
+        override fun id() = id
+
+        override fun dto() = TelegramNotificationApiDTO(
                 id = id,
                 label = label,
                 enabled = enabled,
@@ -91,7 +95,7 @@ object NotificationsApiDataSet {
                 botFatherName = botFatherName
         )
 
-        override val details = TelegramNotificationApiDetails(
+        override fun details() = TelegramNotificationApiDetails(
                 id = id,
                 label = label,
                 enabled = enabled,
@@ -99,9 +103,9 @@ object NotificationsApiDataSet {
                 botFatherName = botFatherName
         )
 
-        override val api = TelegramNotificationApi(details, repository, telegramApiClient)
+        override fun api() = TelegramNotificationApi(details(), repository, telegramApiClient)
 
-        override val request = TelegramNotificationApiRequest(
+        override fun request() = TelegramNotificationApiRequest(
                 label = label,
                 enabled = enabled,
                 token = token,
@@ -109,6 +113,5 @@ object NotificationsApiDataSet {
         )
 
     }
-
 
 }

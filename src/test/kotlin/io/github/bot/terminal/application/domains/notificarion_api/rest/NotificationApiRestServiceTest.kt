@@ -24,8 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 @ExtendWith(MockitoExtension::class)
 internal class NotificationApiRestServiceTest {
 
-    @Mock
-    private lateinit var notificationApiFactory: NotificationApiFactory
+    private val notificationApiFactory: NotificationApiFactory = mock()
 
     @Captor
     private lateinit var detailsCaptor: ArgumentCaptor<NotificationApiDetails>
@@ -36,6 +35,7 @@ internal class NotificationApiRestServiceTest {
 
     @BeforeEach
     fun inti() {
+        reset(notificationApiFactory)
         restService = NotificationApiRestService(notificationApiFactory, converter)
     }
 
@@ -96,9 +96,9 @@ internal class NotificationApiRestServiceTest {
                                       compareDto: (NotificationApiDTO) -> Unit,
                                       compareDetails: (NotificationApiDetails) -> Unit) {
         whenever(notificationApiFactory.createNew(any()))
-                .thenReturn(data.api)
+                .thenReturn(data.api())
 
-        val dto = restService.add(data.request)
+        val dto = restService.add(data.request())
         compareDto(dto)
 
         verify(notificationApiFactory, times(1)).createNew(capture(detailsCaptor))
@@ -120,7 +120,7 @@ internal class NotificationApiRestServiceTest {
                 },
                 {
                     val details = it as SlackNotificationApiDetails
-                    val updateDetails = NotificationsApiDataSet.Slack.SLACK_1_UPDATE.details
+                    val updateDetails = NotificationsApiDataSet.Slack.SLACK_1_UPDATE.details()
                     Assertions.assertEquals(updateDetails.label, details.label)
                     Assertions.assertEquals(updateDetails.enabled, details.enabled)
                     Assertions.assertEquals(updateDetails.token, details.token)
@@ -143,7 +143,7 @@ internal class NotificationApiRestServiceTest {
                     Assertions.assertEquals(dto.botFatherName, update.botFatherName)
                 }, {
             val details = it as TelegramNotificationApiDetails
-            val updateDetails = NotificationsApiDataSet.Telegram.TELEGRAM_1_UPDATE.details
+            val updateDetails = NotificationsApiDataSet.Telegram.TELEGRAM_1_UPDATE.details()
             Assertions.assertEquals(updateDetails.label, details.label)
             Assertions.assertEquals(updateDetails.enabled, details.enabled)
             Assertions.assertEquals(updateDetails.token, details.token)
@@ -155,10 +155,10 @@ internal class NotificationApiRestServiceTest {
                                     compareDto: (NotificationApiDTO) -> Unit,
                                     compareDetails: (NotificationApiDetails) -> Unit) {
         whenever(notificationApiFactory.update(any(), any()))
-                .thenReturn(update.api)
-        val dto = restService.edit(data.id, update.request)
+                .thenReturn(update.api())
+        val dto = restService.edit(data.id(), update.request())
         compareDto(dto)
-        verify(notificationApiFactory, times(1)).update(eq(data.id), capture(detailsCaptor))
+        verify(notificationApiFactory, times(1)).update(eq(data.id()), capture(detailsCaptor))
         compareDetails(detailsCaptor.value)
     }
 
@@ -181,14 +181,14 @@ internal class NotificationApiRestServiceTest {
     @Test
     fun `get all notificationApi`() {
         val apiList = listOf(
-                NotificationsApiDataSet.Slack.SLACK_1.api,
-                NotificationsApiDataSet.Telegram.TELEGRAM_1.api
+                NotificationsApiDataSet.Slack.SLACK_1.api(),
+                NotificationsApiDataSet.Telegram.TELEGRAM_1.api()
         )
-        whenever(notificationApiFactory.all).thenReturn(apiList)
+        whenever(notificationApiFactory.all()).thenReturn(apiList)
 
         val dtoList = listOf(
-                NotificationsApiDataSet.Slack.SLACK_1.dto,
-                NotificationsApiDataSet.Telegram.TELEGRAM_1.dto
+                NotificationsApiDataSet.Slack.SLACK_1.dto(),
+                NotificationsApiDataSet.Telegram.TELEGRAM_1.dto()
         )
         val resultList = restService.list()
         Assertions.assertEquals(dtoList, resultList)
@@ -205,9 +205,9 @@ internal class NotificationApiRestServiceTest {
     }
 
     fun getNotificationApi(data: NotificationApiTestData) {
-        whenever(notificationApiFactory.byId(eq(data.id))).thenReturn(data.api)
-        val result = restService.get(data.id)
-        Assertions.assertEquals(data.dto, result)
+        whenever(notificationApiFactory.byId(eq(data.id()))).thenReturn(data.api())
+        val result = restService.get(data.id())
+        Assertions.assertEquals(data.dto(), result)
     }
 
 }

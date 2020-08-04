@@ -18,7 +18,7 @@ class NotificationApiRepository(
         return db.find(ObjectFilters.eq("id", id)).firstOrDefault()
     }
 
-    fun findAll(): MutableList<NotificationApiDetails> {
+    fun findAll(): List<NotificationApiDetails> {
         return db.find().toList()
     }
 

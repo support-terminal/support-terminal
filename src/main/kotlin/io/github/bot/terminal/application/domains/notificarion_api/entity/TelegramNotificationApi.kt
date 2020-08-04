@@ -15,4 +15,33 @@ class TelegramNotificationApi(override val details: TelegramNotificationApiDetai
     override fun sendMessage(message: Message) {}
     override fun sendDocument(file: DocumentFile) {}
 
+
+
+
+
+
+
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TelegramNotificationApi
+
+        if (details != other.details) return false
+        if (repository != other.repository) return false
+        if (telegramApiClient != other.telegramApiClient) return false
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = details.hashCode()
+        result = 31 * result + repository.hashCode()
+        result = 31 * result + telegramApiClient.hashCode()
+        result = 31 * result + id.hashCode()
+        return result
+    }
+
 }
