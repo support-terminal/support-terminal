@@ -20,7 +20,7 @@ interface DbConnectionRequest {
     val password: String
 }
 
-class MySqlDbConnectionRequest (
+data class MySqlDbConnectionRequest (
         override val type: String = DbConnectionType.Constants.MYSQL,
         override val name: String,
         override val host: String,
@@ -30,7 +30,7 @@ class MySqlDbConnectionRequest (
         val dbName: String
 ): DbConnectionRequest
 
-class OracleDbConnectionRequest (
+data class OracleDbConnectionRequest (
         override val type: String = DbConnectionType.Constants.ORACLE,
         override val name: String,
         override val host: String,
@@ -40,7 +40,7 @@ class OracleDbConnectionRequest (
         val sid: String
 ): DbConnectionRequest
 
-class PostgresDbConnectionRequest (
+data class PostgresDbConnectionRequest (
         override val type: String = DbConnectionType.Constants.POSTGRES,
         override val name: String,
         override val host: String,

@@ -1,28 +1,181 @@
-/*
 package io.github.bot.terminal.application.domains.db_connection.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.github.bot.terminal.application.domains.db_connection.rest.dto.*
-import io.github.bot.terminal.application.domains.db_connection.rest.requests.MySqlDbConnectionRequest
-import io.github.bot.terminal.application.domains.db_connection.rest.requests.OracleDbConnectionRequest
-import io.github.bot.terminal.application.domains.db_connection.rest.requests.PostgresDbConnectionRequest
-import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType
-import org.hamcrest.core.Is
+import com.nhaarman.mockitokotlin2.*
+import io.github.bot.terminal.application.domains.db_connection.DbConnectionTestData
+import io.github.bot.terminal.application.domains.db_connection.DbConnectionsDataSet
+import io.github.bot.terminal.application.domains.db_connection.rest.requests.DbConnectionRequest
+import io.github.bot.terminal.application.domains.db_connection.someDbConnectionTypes
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.*
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
+import org.mockito.InjectMocks
+import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 internal class DbConnectionsRestControllerTest {
+
+    @Mock
+    private lateinit var restService: DbConnectionsRestService
+
+    @InjectMocks
+    private lateinit var controller: DbConnectionsRestController
+
+    @Captor
+    private lateinit var requestArgumentCaptor: ArgumentCaptor<DbConnectionRequest>
+
+    private val mapper = ObjectMapper()
+    private val API_PATH = "/api/db-connections"
+    private lateinit var mockMvc: MockMvc
+
+    @BeforeEach
+    fun setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
+    }
+
+    @Test
+    fun `available db types`() {
+        whenever(restService.types()).thenReturn(someDbConnectionTypes)
+        mockMvc.get("${API_PATH}/types") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(mapper.writeValueAsString(someDbConnectionTypes)) }
+        }
+    }
+
+    @Test
+    fun `add postgres db connection`() {
+        addDbConnection(DbConnectionsDataSet.Postgres.POSTGRES_1)
+    }
+
+    @Test
+    fun `add mysql db connection`() {
+        addDbConnection(DbConnectionsDataSet.MySql.MY_SQL_1)
+    }
+
+    @Test
+    fun `add oracle db connection`() {
+        addDbConnection(DbConnectionsDataSet.Orcale.ORACLE_1)
+    }
+
+    private fun addDbConnection(data: DbConnectionTestData) {
+        whenever(restService.add(any())).thenReturn(data.dto())
+        mockMvc.post(API_PATH) {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = mapper.writeValueAsString(data.request())
+        }.andExpect {
+            status { isCreated }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(mapper.writeValueAsString(data.dto())) }
+        }
+        verify(restService, times(1)).add(capture(requestArgumentCaptor))
+        Assertions.assertEquals(data.request(), requestArgumentCaptor.value)
+    }
+
+
+}
+
+
+/*
+
+    @Test
+    fun `edit slack notificationApi`() {
+        editNotificationApi(NotificationsApiDataSet.Slack.SLACK_1, NotificationsApiDataSet.Slack.SLACK_2)
+    }
+
+    @Test
+    fun `edit telegram notificationApi`() {
+        editNotificationApi(NotificationsApiDataSet.Telegram.TELEGRAM_1, NotificationsApiDataSet.Telegram.TELEGRAM_2)
+    }
+
+    private fun editNotificationApi(api: NotificationApiTestData, update: NotificationApiTestData) {
+        whenever(notificationApiRestService.edit(any(), any())).thenReturn(update.dto())
+        mockMvc.put("${API_PATH}/${api.id()}") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = mapper.writeValueAsString(update.request())
+        }.andExpect {
+            status { isOk }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(mapper.writeValueAsString(update.dto())) }
+        }
+        verify(notificationApiRestService, times(1)).edit(eq(api.id()), capture(requestArgumentCaptor))
+        Assertions.assertEquals(update.request(), requestArgumentCaptor.value)
+    }
+
+    @Test
+    fun `get slack notificationApi`() {
+        getNotificationApi(NotificationsApiDataSet.Slack.SLACK_1)
+    }
+
+    @Test
+    fun `get telegram notificationApi`() {
+        getNotificationApi(NotificationsApiDataSet.Telegram.TELEGRAM_1)
+    }
+
+    private fun getNotificationApi(api: NotificationApiTestData) {
+        whenever(notificationApiRestService.get(eq(api.id())))
+                .thenReturn(api.dto())
+        mockMvc.get("${API_PATH}/${api.id()}") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(mapper.writeValueAsString(api.dto())) }
+        }
+        verify(notificationApiRestService, times(1)).get(eq(api.id()))
+    }
+
+    @Test
+    fun `get list notificationApis`() {
+        val listApis = listOf(
+                NotificationsApiDataSet.Slack.SLACK_1.dto(),
+                NotificationsApiDataSet.Slack.SLACK_2.dto(),
+                NotificationsApiDataSet.Telegram.TELEGRAM_1.dto(),
+                NotificationsApiDataSet.Telegram.TELEGRAM_2.dto()
+        )
+        whenever(notificationApiRestService.list()).thenReturn(listApis)
+
+        mockMvc.get("${API_PATH}") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(mapper.writeValueAsString(listApis)) }
+        }
+        verify(notificationApiRestService, times(1)).list()
+    }
+
+    @Test
+    fun `delete notificationApi`() {
+        mockMvc.delete("${API_PATH}/${NotificationsApiDataSet.Slack.SLACK_1.id}") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isNoContent }
+        }
+        verify(notificationApiRestService, times(1))
+                .delete(eq(NotificationsApiDataSet.Slack.SLACK_1.id))
+    }
+
+
+    /*
+
     @Mock
     private val service: DbConnectionsRestService? = null
 
@@ -503,5 +656,4 @@ internal class DbConnectionsRestControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isNoContent)
         Mockito.verify(service, Mockito.times(1))
                 .delete(ArgumentMatchers.eq(dbConnectionid))
-    }
-}*/
+    }*/
