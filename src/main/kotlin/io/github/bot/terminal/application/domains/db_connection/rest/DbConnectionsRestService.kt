@@ -2,7 +2,6 @@ package io.github.bot.terminal.application.domains.db_connection.rest
 
 import io.github.bot.terminal.application.domains.db_connection.entity.DbConnection
 import io.github.bot.terminal.application.domains.db_connection.factory.DbConnectionsFactory
-import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.CheckDbConnectionDTO
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionDTO
 import io.github.bot.terminal.application.domains.db_connection.rest.dto.DbConnectionTypeDTO
@@ -14,7 +13,6 @@ import java.util.stream.Collectors
 
 @Service
 class DbConnectionsRestService (
-    private val repository: DbConnectionRepository,
     private val factory: DbConnectionsFactory,
     private val converter: DbConnectionsRestConverter
 ){
@@ -27,7 +25,7 @@ class DbConnectionsRestService (
     }
 
     fun edit(id: String, request: DbConnectionRequest): DbConnectionDTO {
-        val dbConnection = factory.merge(id, converter.mapToDetails(request))
+        val dbConnection = factory.update(id, converter.mapToDetails(request))
         return converter.mapToDto(dbConnection.details)
     }
 
@@ -37,15 +35,14 @@ class DbConnectionsRestService (
     }
 
     fun list(): List<DbConnectionDTO> {
-        return factory.all
+        return factory.all()
                 .stream()
                 .map { c: DbConnection<*> -> converter.mapToDto(c.details) }
                 .collect(Collectors.toList())
     }
 
     fun delete(id: String) {
-        val dbConnection = factory.byId(id)
-        repository.deleteById(dbConnection.id)
+        factory.delete(id)
     }
 
     fun types(): List<DbConnectionTypeDTO> {

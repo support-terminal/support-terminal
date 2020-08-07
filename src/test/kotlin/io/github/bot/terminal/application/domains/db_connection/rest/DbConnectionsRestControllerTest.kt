@@ -65,7 +65,7 @@ internal class DbConnectionsRestControllerTest {
 
     @Test
     fun `add oracle db connection`() {
-        addDbConnection(DbConnectionsDataSet.Orcale.ORACLE_1)
+        addDbConnection(DbConnectionsDataSet.Oracle.ORACLE_1)
     }
 
     private fun addDbConnection(data: DbConnectionTestData) {
@@ -90,7 +90,7 @@ internal class DbConnectionsRestControllerTest {
 
     @Test
     fun `edit oracle db connection`() {
-        editDbConnection(DbConnectionsDataSet.Orcale.ORACLE_1, DbConnectionsDataSet.Orcale.ORACLE_2)
+        editDbConnection(DbConnectionsDataSet.Oracle.ORACLE_1, DbConnectionsDataSet.Oracle.ORACLE_2)
     }
 
     @Test
@@ -125,7 +125,7 @@ internal class DbConnectionsRestControllerTest {
 
     @Test
     fun `get oracle db connection`() {
-        getDbConnection(DbConnectionsDataSet.Orcale.ORACLE_1)
+        getDbConnection(DbConnectionsDataSet.Oracle.ORACLE_1)
     }
 
     private fun getDbConnection(data: DbConnectionTestData) {
@@ -146,7 +146,7 @@ internal class DbConnectionsRestControllerTest {
     @Test
     fun `get list db connections`() {
         val listApis = listOf(
-                DbConnectionsDataSet.Orcale.ORACLE_1.dto(),
+                DbConnectionsDataSet.Oracle.ORACLE_1.dto(),
                 DbConnectionsDataSet.MySql.MY_SQL_1.dto(),
                 DbConnectionsDataSet.Postgres.POSTGRES_1.dto()
         )
@@ -165,14 +165,14 @@ internal class DbConnectionsRestControllerTest {
 
     @Test
     fun `delete db connection`() {
-        mockMvc.delete("${API_PATH}/${DbConnectionsDataSet.Orcale.ORACLE_1.id()}") {
+        mockMvc.delete("${API_PATH}/${DbConnectionsDataSet.Oracle.ORACLE_1.id()}") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isNoContent }
         }
         verify(restService, times(1))
-                .delete(eq(DbConnectionsDataSet.Orcale.ORACLE_1.id()))
+                .delete(eq(DbConnectionsDataSet.Oracle.ORACLE_1.id()))
     }
 
 }

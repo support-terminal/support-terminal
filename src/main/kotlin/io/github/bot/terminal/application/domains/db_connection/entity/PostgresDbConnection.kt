@@ -20,4 +20,22 @@ class PostgresDbConnection(override val details: PostgresDbConnectionDetails,
         repository.deleteById(details.id)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as PostgresDbConnection
+
+        if (details != other.details) return false
+        if (repository != other.repository) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = details.hashCode()
+        result = 31 * result + repository.hashCode()
+        return result
+    }
+
 }

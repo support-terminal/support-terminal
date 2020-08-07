@@ -3,7 +3,7 @@ package io.github.bot.terminal.application.domains.db_connection.entity
 import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository
 
 class MySqlDbConnection(override val details: MySqlDbConnectionDetails,
-                        private val repository: DbConnectionRepository) : DbConnection<MySqlDbConnectionDetails>() {
+                             private val repository: DbConnectionRepository) : DbConnection<MySqlDbConnectionDetails>() {
     override val id: String
         get() = details.id
 
@@ -18,6 +18,24 @@ class MySqlDbConnection(override val details: MySqlDbConnectionDetails,
 
     fun delete() {
         repository.deleteById(details.id)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as MySqlDbConnection
+
+        if (details != other.details) return false
+        if (repository != other.repository) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = details.hashCode()
+        result = 31 * result + repository.hashCode()
+        return result
     }
 
 }

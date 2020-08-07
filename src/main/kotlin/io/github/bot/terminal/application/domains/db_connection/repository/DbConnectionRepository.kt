@@ -19,8 +19,8 @@ class DbConnectionRepository(
         db.update(dbConnection)
     }
 
-    fun findById(id: String): Optional<DbConnectionDetails> {
-        return Optional.ofNullable(db.find(ObjectFilters.eq("id", id)).firstOrDefault())
+    fun findById(id: String): DbConnectionDetails? {
+        return db.find(ObjectFilters.eq("id", id)).firstOrNull()
     }
 
     fun findAll(): List<DbConnectionDetails> {

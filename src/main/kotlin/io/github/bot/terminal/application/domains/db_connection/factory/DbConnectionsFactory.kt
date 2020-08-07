@@ -3,58 +3,50 @@ package io.github.bot.terminal.application.domains.db_connection.factory
 import io.github.bot.terminal.application.domains.db_connection.entity.*
 import io.github.bot.terminal.application.domains.db_connection.repository.DbConnectionRepository
 import org.springframework.stereotype.Service
-import java.util.stream.Collectors
 
 @Service
 class DbConnectionsFactory (
         private val repository: DbConnectionRepository
 ){
     fun createNew(details: DbConnectionDetails): DbConnection<*> {
+        val dbConnection = build(details)
         repository.add(details)
-        return build(details)
+        return dbConnection;
     }
 
-    fun byId(id: String): DbConnection<*> {
-        val details = getById(id)
-        return build(details)
-    }
-
-    fun merge(id: String, detailsUpdate: DbConnectionDetails): DbConnection<*> {
+    fun update(id: String, detailsUpdate: DbConnectionDetails): DbConnection<*> {
         val details = getById(id)
         details.merge(detailsUpdate)
+        val dbConnection = build(details)
         repository.update(details)
-        return build(details)
-    }
-
-    private fun getById(id: String): DbConnectionDetails {
-        return repository.findById(id)
-                .orElseThrow { IllegalArgumentException("Notification API not found: id=$id") }
+        return dbConnection
     }
 
     fun build(details: DbConnectionDetails): DbConnection<*> {
-        if (details is MySqlDbConnectionDetails) {
-            return createDetails(details)
-        } else if (details is PostgresDbConnectionDetails) {
-            return createDetails(details)
+        if (details is PostgresDbConnectionDetails) {
+            return PostgresDbConnection(details, repository)
+        } else if (details is MySqlDbConnectionDetails) {
+            return MySqlDbConnection(details, repository)
         } else if (details is OracleDbConnectionDetails) {
-            return createDetails(details)
+            return OracleDbConnection(details, repository)
         }
-        throw IllegalArgumentException("Unknown db connection api type: " + details.type)
+        throw IllegalArgumentException("Unknown db connection type")
     }
 
-    private fun createDetails(details: MySqlDbConnectionDetails): DbConnection<*> {
-        return MySqlDbConnection(details, repository)
+    fun all(): List<DbConnection<*>> = repository.findAll()
+            .map { details: DbConnectionDetails -> build(details) }
+            .toList()
+
+    fun byId(id: String): DbConnection<*> {
+        return build(getById(id))
     }
 
-    private fun createDetails(details: PostgresDbConnectionDetails): DbConnection<PostgresDbConnectionDetails> {
-        return PostgresDbConnection(details, repository)
-    }
+    fun getById(id: String): DbConnectionDetails
+            = repository.findById(id) ?: throw IllegalArgumentException("DbConnection not found by id=${id}")
 
-    private fun createDetails(details: OracleDbConnectionDetails): DbConnection<OracleDbConnectionDetails> {
-        return OracleDbConnection(details, repository)
+    fun delete(id: String) {
+        repository.findById(id)?.let {
+            repository.deleteById(id)
+        }
     }
-
-    val all: List<DbConnection<*>>
-        get() = repository.findAll().stream()
-                .map { details: DbConnectionDetails -> build(details) }.collect(Collectors.toList())
 }

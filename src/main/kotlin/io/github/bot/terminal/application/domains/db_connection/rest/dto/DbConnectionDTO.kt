@@ -13,7 +13,7 @@ abstract class DbConnectionDTO(
         val type: String
 )
 
-class MySqlDbConnectionDTO (
+data class MySqlDbConnectionDTO (
         val id: String,
         val name: String,
         val host: String,
@@ -23,7 +23,7 @@ class MySqlDbConnectionDTO (
         val dbName: String
 ): DbConnectionDTO(DbConnectionType.Constants.MYSQL)
 
-class OracleDbConnectionDTO (
+data class OracleDbConnectionDTO (
         val id: String,
         val name: String,
         val host: String,
@@ -33,7 +33,7 @@ class OracleDbConnectionDTO (
         val sid: String
 ): DbConnectionDTO(DbConnectionType.Constants.ORACLE)
 
-class PostgresDbConnectionDTO (
+data class PostgresDbConnectionDTO (
         val id: String,
         val name: String,
         val host: String,

@@ -87,7 +87,7 @@ object DbConnectionsDataSet {
 
     }
 
-    enum class Orcale(val id: String, val label: String, val host: String, val port: Int, val sid: String, val user: String, val password: String) : DbConnectionTestData{
+    enum class Oracle(val id: String, val label: String, val host: String, val port: Int, val sid: String, val user: String, val password: String) : DbConnectionTestData{
         ORACLE_1("OR_01", "Оракл 1", "localhost", 1521, "xe", "system", "oracle"),
         ORACLE_2("OR_01","Оракл 2", "localhost", 1521, "xe", "system", "oracle"),
         ORACLE_1_UPDATED("OR_01","Оракл 2", "localhost", 1521, "xe", "system", "oracle");
@@ -134,7 +134,7 @@ object DbConnectionsDataSet {
         MY_SQL_1("M_01","MySQL 1", "localhost", 3306, "platform_db_mysql", "platform_user_mysql", "platform_password_mysql"),
         BAD_MY_SQL("M_03","MySQL_BAD", "localhost-bad", 3306, "mysql-database", "user_mysql", "password_mysql"),
         MY_SQL_2("M_02","Моя SQL2", "localhost", 33061, "platform_db_mysql", "platform_user_mysql", "platform_password_mysql"),
-        MY_SQL_1_UPDATED("M_02","Моя SQL2", "localhost", 33061, "platform_db_mysql", "platform_user_mysql", "platform_password_mysql");
+        MY_SQL_1_UPDATED("M_01","Моя SQL2", "localhost", 33061, "platform_db_mysql", "platform_user_mysql", "platform_password_mysql");
 
 
         override fun id() = id
@@ -179,7 +179,7 @@ object DbConnectionsDataSet {
 
 
     enum class Wrong(val id: String, val label: String, val host: String, val port: Int, val dbName: String, val user: String, val password: String) {
-        BAD_REQUEST("M_03","_BAD", "localhost-bad", 3306, "mysql-database", "user_mysql", "password_mysql");
+        WRONG_1("M_03","_BAD", "localhost-bad", 3306, "mysql-database", "user_mysql", "password_mysql");
 
          fun request() = MySqlDbConnectionRequest(
                 name = label,

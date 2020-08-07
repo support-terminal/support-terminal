@@ -19,13 +19,13 @@ import java.util.*
 )
 abstract class DbConnectionDetails(
         @Id
-        val id: String,
-        var name: String,
-        var type: DbConnectionType,
-        var host: String,
-        var port: Int,
-        var user: String,
-        var password: String
+        open val id: String,
+        open var name: String,
+        open var type: DbConnectionType,
+        open var host: String,
+        open var port: Int,
+        open var user: String,
+        open var password: String
 ) {
     open fun merge(update: DbConnectionDetails) {
         name = update.name
@@ -36,13 +36,13 @@ abstract class DbConnectionDetails(
     }
 }
 
-class MySqlDbConnectionDetails(
-        id: String = UUID.randomUUID().toString(),
-        name: String,
-        host: String,
-        port: Int,
-        user: String,
-        password: String,
+data class MySqlDbConnectionDetails(
+        override var id: String = UUID.randomUUID().toString(),
+        override var name: String,
+        override var host: String,
+        override var port: Int,
+        override var user: String,
+        override var password: String,
         var dbName: String
 ) : DbConnectionDetails(id, name, DbConnectionType.MYSQL, host, port, user, password) {
     override fun merge(detailsUpdate: DbConnectionDetails) {
@@ -54,13 +54,13 @@ class MySqlDbConnectionDetails(
 }
 
 
-class OracleDbConnectionDetails(
-        id: String = UUID.randomUUID().toString(),
-        name: String,
-        host: String,
-        port: Int,
-        user: String,
-        password: String,
+data class OracleDbConnectionDetails(
+        override var id: String = UUID.randomUUID().toString(),
+        override var name: String,
+        override var host: String,
+        override var port: Int,
+        override var user: String,
+        override var password: String,
         var sid: String
 ) : DbConnectionDetails(id, name, DbConnectionType.ORACLE, host, port, user, password) {
     override fun merge(detailsUpdate: DbConnectionDetails) {
@@ -71,13 +71,13 @@ class OracleDbConnectionDetails(
     }
 }
 
-class PostgresDbConnectionDetails(
-        id: String = UUID.randomUUID().toString(),
-        name: String,
-        host: String,
-        port: Int,
-        user: String,
-        password: String,
+data class PostgresDbConnectionDetails(
+        override var id: String = UUID.randomUUID().toString(),
+        override var name: String,
+        override var host: String,
+        override var port: Int,
+        override var user: String,
+        override var password: String,
         var dbName: String
 ) : DbConnectionDetails(id, name, DbConnectionType.POSTGRES, host, port, user, password) {
     override fun merge(detailsUpdate: DbConnectionDetails) {

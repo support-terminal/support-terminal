@@ -20,6 +20,7 @@ import org.mockito.Captor
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 internal class NotificationApiRestServiceTest {
@@ -174,8 +175,9 @@ internal class NotificationApiRestServiceTest {
 
     @Test
     fun `delete notificationApi`() {
-        restService.delete(NotificationsApiDataSet.Slack.SLACK_1.id)
-        verify(notificationApiFactory, Mockito.timeout(1)).delete(eq(NotificationsApiDataSet.Slack.SLACK_1.id))
+        val someId = UUID.randomUUID().toString()
+        restService.delete(someId)
+        verify(notificationApiFactory, Mockito.timeout(1)).delete(eq(someId))
     }
 
     @Test
