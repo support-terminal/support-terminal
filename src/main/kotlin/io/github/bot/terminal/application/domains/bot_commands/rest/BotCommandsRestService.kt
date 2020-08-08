@@ -1,46 +1,43 @@
 package io.github.bot.terminal.application.domains.bot_commands.rest
 
-import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails
-import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository
+import io.github.bot.terminal.application.domains.bot_commands.factory.BotCommandsFactory
 import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandDTO
 import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandTypeDTO
 import io.github.bot.terminal.application.domains.bot_commands.rest.requests.BotCommandRequest
 import io.github.bot.terminal.application.domains.common.action.values.ActionType
 import org.springframework.stereotype.Service
-import java.util.stream.Collectors
 
 @Service
 class BotCommandsRestService(
-        private val repository: BotCommandRepository,
+        private val factory: BotCommandsFactory,
         private val converter: BotCommandsRestConverter
 ) {
 
     fun add(request: BotCommandRequest): BotCommandDTO {
         val details = converter.mapToDetails(request)
-        repository.add(details)
-        return converter.mapToDto(details)
+        val botCommand = factory.createNew(details)
+        return converter.mapToDto(botCommand.details)
     }
 
     fun edit(id: String, request: BotCommandRequest): BotCommandDTO {
         val detailsUpdate = converter.mapToDetails(request)
-        val details = getById(id)
-        details.merge(detailsUpdate)
-        repository.update(details)
-        return converter.mapToDto(details)
+        val botCommand = factory.update(id, detailsUpdate)
+        return converter.mapToDto(botCommand.details)
     }
 
-    operator fun get(id: String): BotCommandDTO {
-        return converter.mapToDto(getById(id))
+    fun get(id: String): BotCommandDTO {
+        val botCommand = factory.byId(id)
+        return converter.mapToDto(botCommand.details)
     }
 
     fun list(): List<BotCommandDTO> {
-        return repository.findAll()
-                .stream().map { details: BotCommandDetails -> converter.mapToDto(details) }
-                .collect(Collectors.toList())
+        return factory.all()
+                .map { converter.mapToDto(it.details) }
+                .toList()
     }
 
     fun delete(id: String) {
-        repository.deleteById(id)
+        factory.delete(id)
     }
 
     fun types(): List<BotCommandTypeDTO> {
@@ -50,8 +47,4 @@ class BotCommandsRestService(
                 .toList()
     }
 
-    private fun getById(id: String): BotCommandDetails {
-        return repository.findById(id)
-                ?: throw IllegalArgumentException("Bot command not found: id=$id")
-    }
 }

@@ -1,39 +1,37 @@
-/*
 package io.github.bot.terminal.application.domains.bot_commands.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.github.bot.terminal.application.domains.bot_commands.BotCommandsTestHelper
-import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandDTO
-import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandTypeDTO
+import com.nhaarman.mockitokotlin2.*
+import io.github.bot.terminal.application.domains.bot_commands.BotCommandsDataSet
 import io.github.bot.terminal.application.domains.bot_commands.rest.requests.BotCommandRequest
-import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsTextActionRequest
-import io.github.bot.terminal.application.domains.common.action.values.ActionType
-import org.hamcrest.core.Is
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.*
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
+import org.mockito.InjectMocks
+import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import java.util.*
 
 @ExtendWith(MockitoExtension::class)
-internal class BotCommandsRestControllerTest : BotCommandsTestHelper() {
+class BotCommandsRestControllerTest {
+
     @Mock
-    private val service: BotCommandsRestService? = null
+    private lateinit var restService: BotCommandsRestService
 
     @InjectMocks
-    private val controller: BotCommandsRestController? = null
+    private lateinit var controller: BotCommandsRestController
 
     @Captor
-    var botCommandRequestCaptor: ArgumentCaptor<BotCommandRequest>? = null
+    private lateinit var requestArgumentCaptor: ArgumentCaptor<BotCommandRequest>
+
     private val mapper = ObjectMapper()
-    private var mockMvc: MockMvc? = null
+    private val API_PATH = "/api/bot-commands"
+    private lateinit var mockMvc: MockMvc
 
     @BeforeEach
     fun setUp() {
@@ -41,150 +39,94 @@ internal class BotCommandsRestControllerTest : BotCommandsTestHelper() {
     }
 
     @Test
-    @Throws(Exception::class)
-    fun addSqlSelectAsStringBotCommand() {
-        val dto = sqlAsSelectBotCommandDto1
-        Mockito.`when`(service!!.add(ArgumentMatchers.any())).thenReturn(dto)
-        val request = sqlAsSelectBotCommandRequest1
-        mockMvc!!.perform(MockMvcRequestBuilders.post("/api/bot-commands")
-                .content(mapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isCreated)
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.`is`(id)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.`is`(name)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.cmd", Is.`is`(cmd)))
-                .andExpect(jsonPath("$.state", `is`(state.name())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.botIds[0]", Is.`is`(botIds[0])))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.action.type", Is.`is`(type.name)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.action.dbConnectionId", Is.`is`(dbConnectionId)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.action.select", Is.`is`(select)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.action.resultTemplate", Is.`is`(resultTemplate)))
-        Mockito.verify(service, Mockito.times(1))
-                .add(botCommandRequestCaptor!!.capture())
-        val botReqPassed = botCommandRequestCaptor!!.value
-        Assertions.assertEquals(name, botReqPassed.name)
-        Assertions.assertEquals(cmd, botReqPassed.cmd)
-        assertEquals(state.name(), botReqPassed.getState())
-        Assertions.assertEquals(botIds[0], botReqPassed.botIds.stream().findFirst().get())
-        Assertions.assertEquals(name, botReqPassed.name)
-        val actionRequest = botReqPassed.action as SqlSelectAsTextActionRequest
-        Assertions.assertEquals(type.name, actionRequest.type)
-        Assertions.assertEquals(dbConnectionId, actionRequest.dbConnectionId)
-        Assertions.assertEquals(select, actionRequest.select)
-        Assertions.assertEquals(resultTemplate, actionRequest.resultTemplate)
+    fun `available bot command types`() {
+        whenever(restService.types()).thenReturn(BotCommandsDataSet.typeDtos)
+        mockMvc.get("${API_PATH}/types") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(mapper.writeValueAsString(BotCommandsDataSet.typeDtos)) }
+        }
     }
 
     @Test
-    @Throws(Exception::class)
-    fun editSqlSelectAsStringBotCommand() {
-        val dto = sqlAsSelectBotCommandDto1
-        Mockito.`when`(service!!.edit(ArgumentMatchers.eq(id), ArgumentMatchers.any())).thenReturn(dto)
-        val request = sqlAsSelectBotCommandRequest1
-        mockMvc!!.perform(MockMvcRequestBuilders.put("/api/bot-commands/$id")
-                .content(mapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk)
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.`is`(id)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.`is`(name)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.cmd", Is.`is`(cmd)))
-                .andExpect(jsonPath("$.state", `is`(state.name())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.botIds[0]", Is.`is`(botIds[0])))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.action.type", Is.`is`(type.name)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.action.dbConnectionId", Is.`is`(dbConnectionId)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.action.select", Is.`is`(select)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.action.resultTemplate", Is.`is`(resultTemplate)))
-        Mockito.verify(service, Mockito.times(1))
-                .edit(ArgumentMatchers.eq(id), botCommandRequestCaptor!!.capture())
-        val botReqPassed = botCommandRequestCaptor!!.value
-        Assertions.assertEquals(name, botReqPassed.name)
-        Assertions.assertEquals(cmd, botReqPassed.cmd)
-        assertEquals(state.name(), botReqPassed.getState())
-        Assertions.assertEquals(botIds[0], botReqPassed.botIds.stream().findFirst().get())
-        Assertions.assertEquals(name, botReqPassed.name)
-        val actionRequest = botReqPassed.action as SqlSelectAsTextActionRequest
-        Assertions.assertEquals(type.name, actionRequest.type)
-        Assertions.assertEquals(dbConnectionId, actionRequest.dbConnectionId)
-        Assertions.assertEquals(select, actionRequest.select)
-        Assertions.assertEquals(resultTemplate, actionRequest.resultTemplate)
+    fun `add bot command`() {
+        whenever(restService.add(any())).thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto())
+        mockMvc.post(API_PATH) {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = mapper.writeValueAsString(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.request())
+        }.andExpect {
+            status { isCreated }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(mapper.writeValueAsString(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto())) }
+        }
+        verify(restService, times(1)).add(capture(requestArgumentCaptor))
+        assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.request(), requestArgumentCaptor.value)
     }
-
-    @get:Throws(Exception::class)
-    @get:Test
-    val sqlSelectAsStringBotCommand: Unit
-        get() {
-            val dto = sqlAsSelectBotCommandDto1
-            Mockito.`when`(service!![ArgumentMatchers.eq(id)]).thenReturn(dto)
-            mockMvc!!.perform(MockMvcRequestBuilders.get("/api/bot-commands/$id")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(MockMvcResultMatchers.status().isOk)
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.`is`(id)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.`is`(name)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.cmd", Is.`is`(cmd)))
-                    .andExpect(jsonPath("$.state", `is`(state.name())))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.botIds[0]", Is.`is`(botIds[0])))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.action.type", Is.`is`(type.name)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.action.dbConnectionId", Is.`is`(dbConnectionId)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.action.select", Is.`is`(select)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.action.resultTemplate", Is.`is`(resultTemplate)))
-            Mockito.verify(service, Mockito.times(1))
-                    .get(ArgumentMatchers.eq(id))
-        }
-
-    @get:Throws(Exception::class)
-    @get:Test
-    val list: Unit
-        get() {
-            val dto1 = sqlAsSelectBotCommandDto1
-            val dto2 = sqlAsSelectBotCommandDto2
-            val c: MutableList<BotCommandDTO?> = ArrayList()
-            c.add(dto1)
-            c.add(dto2)
-            Mockito.`when`<List<BotCommandDTO?>>(service!!.list()).thenReturn(c)
-            mockMvc!!.perform(MockMvcRequestBuilders.get("/api/bot-commands")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(MockMvcResultMatchers.status().isOk)
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Is.`is`(id)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Is.`is`(name)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].cmd", Is.`is`(cmd)))
-                    .andExpect(jsonPath("$[0].state", `is`(state.name())))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].botIds[0]", Is.`is`(botIds[0])))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].action.type", Is.`is`(type.name)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].action.dbConnectionId", Is.`is`(dbConnectionId)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].action.select", Is.`is`(select)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].action.resultTemplate", Is.`is`(resultTemplate)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Is.`is`(id2)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Is.`is`(name2)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].cmd", Is.`is`(cmd2)))
-                    .andExpect(jsonPath("$[1].state", `is`(state2.name())))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].botIds[0]", Is.`is`(botIds2[0])))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].action.type", Is.`is`(type2.name)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].action.dbConnectionId", Is.`is`(dbConnectionId2)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].action.select", Is.`is`(select2)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[1].action.resultTemplate", Is.`is`(resultTemplate2)))
-        }
 
     @Test
-    @Throws(Exception::class)
-    fun deleteNotificationApi() {
-        mockMvc!!.perform(MockMvcRequestBuilders.delete("/api/bot-commands/$id")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isNoContent)
-        Mockito.verify(service, Mockito.times(1))
-                .delete(ArgumentMatchers.eq(id))
+    fun `edit bot command`() {
+        whenever(restService.edit(any(), any())).thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.dto())
+        mockMvc.put("${API_PATH}/${BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()}") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = mapper.writeValueAsString(BotCommandsDataSet.BotCommands.BOT_COMMAND_2.request())
+        }.andExpect {
+            status { isOk }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(mapper.writeValueAsString(BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.dto())) }
+        }
+        verify(restService, times(1)).edit(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()), capture(requestArgumentCaptor))
+        assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_2.request(), requestArgumentCaptor.value)
     }
 
-    @get:Throws(Exception::class)
-    @get:Test
-    val types: Unit
-        get() {
-            val dto = BotCommandTypeDTO()
-            dto.setType(ActionType.SQL_SELECT_AS_TEXT.name)
-            dto.setLabel(ActionType.SQL_SELECT_AS_TEXT.label)
-            Mockito.`when`(service!!.types()).thenReturn(listOf(dto))
-            mockMvc!!.perform(MockMvcRequestBuilders.get("/api/bot-commands/types")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(MockMvcResultMatchers.status().isOk)
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].type", Is.`is`(ActionType.SQL_SELECT_AS_TEXT.name)))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].label", Is.`is`(ActionType.SQL_SELECT_AS_TEXT.label)))
+    @Test
+    fun `get bot command`() {
+        whenever(restService.get(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id())))
+                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto())
+        mockMvc.get("${API_PATH}/${BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()}") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(mapper.writeValueAsString(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto())) }
         }
-}*/
+        verify(restService, times(1)).get(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()))
+    }
+
+    @Test
+    fun `get list notificationApis`() {
+        val listApis = listOf(
+                BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto(),
+                BotCommandsDataSet.BotCommands.BOT_COMMAND_2.dto()
+        )
+        whenever(restService.list()).thenReturn(listApis)
+
+        mockMvc.get("${API_PATH}") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(mapper.writeValueAsString(listApis)) }
+        }
+        verify(restService, times(1)).list()
+    }
+
+    @Test
+    fun `delete bot command`() {
+        mockMvc.delete("${API_PATH}/${BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id}") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isNoContent }
+        }
+        verify(restService, times(1))
+                .delete(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id))
+    }
+
+}

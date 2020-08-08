@@ -9,6 +9,6 @@ data class BotCommandRequest(
         val name: @NotBlank String,
         val cmd: @NotBlank String,
         val action: @NotNull ActionRequest,
-        val botIds: @NotEmpty MutableCollection<String> = ArrayList(),
+        val botIds: @NotEmpty Collection<String> = ArrayList(),
         val enabled: Boolean
 )

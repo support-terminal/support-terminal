@@ -41,7 +41,7 @@ class DbConnectionsRestController (
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     operator fun get(@PathVariable id: String): DbConnectionDTO {
-        return dbConnectionsApiService[id]
+        return dbConnectionsApiService.get(id)
     }
 
     @DeleteMapping("/{id}")

@@ -34,7 +34,7 @@ class BotCommandsRestController(
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     fun getById(@PathVariable id: String): BotCommandDTO {
-        return service[id]
+        return service.get(id)
     }
 
     @DeleteMapping("/{id}")

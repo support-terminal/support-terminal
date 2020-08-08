@@ -27,7 +27,7 @@ class NotificationApiRestService(
         return converter.mapToDto(notificationApi.details)
     }
 
-    operator fun get(id: String): NotificationApiDTO {
+    fun get(id: String): NotificationApiDTO {
         val notificationApi = factory.byId(id)
         return converter.mapToDto(notificationApi.details)
     }

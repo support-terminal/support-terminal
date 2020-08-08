@@ -13,11 +13,41 @@ class BotCommandsFactory(
         private val actionsFactory: ActionsFactory
 ) {
 
+    fun createNew(details: BotCommandDetails): BotCommand {
+        val botCommand = build(details)
+        repository.add(details)
+        return botCommand
+    }
+
+    fun update(id: String, detailsUpdate: BotCommandDetails): BotCommand {
+        val details = getById(id)
+        details.merge(detailsUpdate)
+        val botCommand = build(details)
+        repository.update(details)
+        return botCommand
+    }
+
+    fun getById(id: String): BotCommandDetails = repository.findById(id)
+            ?: throw IllegalArgumentException("BotCommand not found by id=${id}")
+
+    fun all(): List<BotCommand> = repository.findAll()
+            .map { details: BotCommandDetails -> build(details) }
+            .toList()
+
+    fun byId(id: String): BotCommand {
+        return build(getById(id))
+    }
+
+    fun delete(id: String) {
+        repository.findById(id)?.let {
+            repository.deleteById(id)
+        }
+    }
+
     fun build(details: BotCommandDetails): BotCommand {
         val action = actionsFactory.build(details.actionDetails)
         val cmd = Cmd(details.cmd)
-        val isEnabled = details.isEnabled
-        return BotCommand(action = action, cmd = cmd, isEnabled = isEnabled)
+        return BotCommand(details = details, action = action, cmd = cmd)
     }
 
     fun byNotificationApiId(notificationApi: String): List<BotCommand> {

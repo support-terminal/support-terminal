@@ -17,9 +17,9 @@ class DbConnectionsRestService (
     private val converter: DbConnectionsRestConverter
 ){
 
-    fun add(notificationApiRequest: DbConnectionRequest): DbConnectionDTO {
+    fun add(request: DbConnectionRequest): DbConnectionDTO {
         val dbConnection = factory.createNew(
-                converter.mapToDetails(notificationApiRequest)
+                converter.mapToDetails(request)
         )
         return converter.mapToDto(dbConnection.details)
     }
@@ -29,7 +29,7 @@ class DbConnectionsRestService (
         return converter.mapToDto(dbConnection.details)
     }
 
-    operator fun get(id: String): DbConnectionDTO {
+    fun get(id: String): DbConnectionDTO {
         val dbConnection = factory.byId(id)
         return converter.mapToDto(dbConnection.details)
     }

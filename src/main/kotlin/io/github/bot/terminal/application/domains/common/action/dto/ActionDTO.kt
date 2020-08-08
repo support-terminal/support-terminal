@@ -5,18 +5,18 @@ import javax.validation.constraints.NotBlank
 
 abstract class ActionDTO(val type: String)
 
-class SqlSelectAsExcelFileActionDTO(
+data class SqlSelectAsExcelFileActionDTO(
         val select: @NotBlank String,
         val dbConnectionId: @NotBlank String,
         val fileNameTemplate: @NotBlank String
 ) : ActionDTO(ActionType.Constants.SQL_SELECT_IN_EXCEL_FILE)
 
-class SqlSelectAsOneNumberValueActionDTO(
+data class SqlSelectAsOneNumberValueActionDTO(
         val select: @NotBlank String,
         val dbConnectionId: @NotBlank String
 ) : ActionDTO(ActionType.Constants.SQL_SELECT_AS_ONE_NUMBER)
 
-class SqlSelectAsTextActionDTO(
+data class SqlSelectAsTextActionDTO(
         val select: @NotBlank String,
         val dbConnectionId: @NotBlank String,
         val resultTemplate: @NotBlank String
