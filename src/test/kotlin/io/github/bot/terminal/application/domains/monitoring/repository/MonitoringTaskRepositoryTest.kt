@@ -1,44 +1,58 @@
-/*
 package io.github.bot.terminal.application.domains.monitoring.repository
 
-import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsOneNumberValueActionDetails
-import io.github.bot.terminal.application.domains.monitoring.MonitoringTasksRepositoryTestConfig
-import io.github.bot.terminal.application.domains.monitoring.MonitoringTasksTestHelper
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Import
-import org.springframework.test.context.junit.jupiter.SpringExtension
+/*
 
 @ExtendWith(SpringExtension::class)
-@Import(MonitoringTasksRepositoryTestConfig::class)
-internal class MonitoringTaskRepositoryTest : MonitoringTasksTestHelper() {
-    @Autowired
-    private val repository: MonitoringTaskRepository? = null
+@Import(BotCommandsRepositoryTestConfig::class)
+class NotificationApiRepositoryTest {
 
-    @AfterEach
-    fun clean() {
-        repository!!.findAll().stream().forEach { (id) -> repository.deleteById(id) }
+    @Autowired
+    private lateinit var repository: BotCommandRepository;
+
+    @BeforeEach
+    fun inti() {
+        repository.findAll().forEach { d -> repository.deleteById(d.id) }
     }
 
     @Test
-    fun addMonitoringTaskSqlSelectAsOneNumberValueDetails() {
-        val details = monitoringTaskSqlSelectAsOneNumberValueDetails1
-        repository!!.add(details!!)
-        val byId: MonitoringTaskDetails = repository.findById(details.id).get()
-        Assertions.assertEquals(details.id, byId.id)
-        Assertions.assertEquals(name1, byId.name)
-        assertEquals(state1, byId.getState())
-        Assertions.assertEquals(cron1.cron, byId.cron)
-        val actionDetails = byId.actionDetails as SqlSelectAsOneNumberValueActionDetails
-        Assertions.assertEquals(actionType1, actionDetails.type)
-        Assertions.assertEquals(select1, actionDetails.select)
-        Assertions.assertEquals(dbConnectionId1, actionDetails.dbConnectionId)
-        Assertions.assertEquals(conditionType1, byId.conditions[0].conditionType)
-        Assertions.assertEquals(expectedValue1, byId.conditions[0].expectedValue)
-        Assertions.assertEquals(notificationApiId1, byId.notifyList[0].notificationApiId)
-        Assertions.assertEquals(messageTemplate1, byId.notifyList[0].messageTemplate)
+    fun `add bot commands details`() {
+        repository.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
+        val byId = repository.findById(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id)
+        Assertions.assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details(), byId)
     }
-}*/
+
+    @Test
+    fun `edit bot commands details`() {
+        repository.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
+        val byId = repository.findById(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details().id)
+        byId!!.merge(BotCommandsDataSet.BotCommands.BOT_COMMAND_2.details())
+        repository.update(byId)
+        Assertions.assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.details(), byId)
+    }
+
+    @Test
+    fun `find all bot commands`() {
+        repository.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
+        repository.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_2.details())
+
+        val expectedResult = listOf(
+                BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details(),
+                BotCommandsDataSet.BotCommands.BOT_COMMAND_2.details()
+        )
+
+        Assertions.assertEquals(expectedResult, repository.findAll())
+    }
+
+    @Test
+    fun deleteById() {
+        repository.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
+        val byId = repository.findById(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id)
+        Assertions.assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details(), byId)
+        repository.deleteById(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id())
+        Assertions.assertNull(repository.findById(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()))
+    }
+
+}
+
+
+ */
