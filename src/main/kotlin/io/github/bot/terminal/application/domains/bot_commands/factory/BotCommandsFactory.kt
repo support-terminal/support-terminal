@@ -46,8 +46,7 @@ class BotCommandsFactory(
 
     fun build(details: BotCommandDetails): BotCommand {
         val action = actionsFactory.build(details.actionDetails)
-        val cmd = Cmd(details.cmd)
-        return BotCommand(details = details, action = action, cmd = cmd)
+        return BotCommand(details = details, action = action)
     }
 
     fun byNotificationApiId(notificationApi: String): List<BotCommand> {

@@ -11,9 +11,13 @@ import io.github.bot.terminal.application.domains.bot_commands.rest.requests.Bot
 import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsTextActionDTO
 import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextAction
 import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextActionDetails
+import io.github.bot.terminal.application.domains.common.action.factory.ActionsFactory
 import io.github.bot.terminal.application.domains.common.action.requests.ActionRequest
 import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsTextActionRequest
 import io.github.bot.terminal.application.domains.common.action.values.ActionType
+import io.github.bot.terminal.application.domains.common.services.ExcelManagerService
+import io.github.bot.terminal.application.domains.db_connection.entity.DbConnection
+import io.github.bot.terminal.application.domains.db_connection.factory.DbConnectionsFactory
 import io.github.bot.terminal.application.domains.notificarion_api.entity.*
 import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO
 import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest
@@ -28,8 +32,10 @@ interface BotCommandTestData {
 }
 
 object BotCommandsDataSet {
-
     val repository: BotCommandRepository = mock()
+    val actionsFactory: ActionsFactory = mock()
+
+    val dbConnectionMock: DbConnection<*> = mock()
 
     val typeDtos = listOf(
             BotCommandTypeDTO(ActionType.SQL_SELECT_AS_TEXT.label, ActionType.SQL_SELECT_AS_TEXT.name),
@@ -61,7 +67,7 @@ object BotCommandsDataSet {
         fun action() = SqlSelectAsTextAction(
                 select = select,
                 resultTemplate = resultTemplate,
-                dbConnection = mock()
+                dbConnection = dbConnectionMock
         )
 
         fun requestWrong() = ActionRequest(type = "wrong")
@@ -94,8 +100,7 @@ object BotCommandsDataSet {
 
         fun botCommand() = BotCommand(
                 details = details(),
-                action = action.action(),
-                cmd = mock()
+                action = action.action()
         )
 
         fun request() = BotCommandRequest(

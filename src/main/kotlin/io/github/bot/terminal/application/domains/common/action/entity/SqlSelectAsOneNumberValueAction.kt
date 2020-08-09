@@ -24,6 +24,23 @@ class SqlSelectAsOneNumberValueAction(private val select: String,
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as SqlSelectAsOneNumberValueAction
+
+        if (select != other.select) return false
+        if (dbConnection != other.dbConnection) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = select.hashCode()
+        result = 31 * result + dbConnection.hashCode()
+        return result
+    }
 }
 
 

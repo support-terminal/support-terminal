@@ -14,7 +14,23 @@ class Cmd(cmd: String) {
 
     fun isNotEmpty(): Boolean = cmd != EMPTY
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Cmd
+
+        if (cmd != other.cmd) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return cmd.hashCode()
+    }
+
     companion object {
         private var EMPTY = "_CMD_EMPTY_"
     }
+
 }

@@ -40,10 +40,35 @@ class SqlSelectInExcelFileAction(private val select: String,
         return sub.replace(fileNameTemplate)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as SqlSelectInExcelFileAction
+
+        if (select != other.select) return false
+        if (fileNameTemplate != other.fileNameTemplate) return false
+        if (dbConnection != other.dbConnection) return false
+        if (excelManagerService != other.excelManagerService) return false
+        if (df != other.df) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = select.hashCode()
+        result = 31 * result + fileNameTemplate.hashCode()
+        result = 31 * result + dbConnection.hashCode()
+        result = 31 * result + excelManagerService.hashCode()
+        result = 31 * result + df.hashCode()
+        return result
+    }
+
     inner class ActionResultImpl(override val result: DocumentFile) : ActionResult<DocumentFile> {
         override fun notify(notificationApi: NotificationApi) {
             notificationApi.sendDocument(result)
         }
     }
+
 
 }
