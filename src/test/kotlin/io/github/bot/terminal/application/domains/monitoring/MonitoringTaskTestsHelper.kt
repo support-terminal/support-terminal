@@ -32,11 +32,11 @@ import io.github.bot.terminal.application.domains.notificarion_api.Notifications
 
 
 object MonitoringTaskDataSet {
-    val repository: MonitoringTaskRepository = mock()
-    val actionsFactory: ActionsFactory = mock()
-    val notifyFactory: NotifyFactory = mock()
-    val dbConnectionMock: DbConnection<*> = mock()
-    val conditionsFactory: ConditionsFactory = spy(ConditionsFactory())
+    var repository: MonitoringTaskRepository = mock()
+    var actionsFactory: ActionsFactory = mock()
+    var notifyFactory: NotifyFactory = mock()
+    var dbConnectionMock: DbConnection<*> = mock()
+    var conditionsFactory: ConditionsFactory = spy(ConditionsFactory())
 
     val typeDtos = listOf(
             MonitoringTaskTypeDTO(ActionType.SQL_SELECT_AS_ONE_NUMBER.label, ActionType.SQL_SELECT_AS_ONE_NUMBER.name)
