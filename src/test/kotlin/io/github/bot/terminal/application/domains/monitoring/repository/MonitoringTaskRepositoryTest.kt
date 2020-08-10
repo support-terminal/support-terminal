@@ -1,13 +1,22 @@
 package io.github.bot.terminal.application.domains.monitoring.repository
 
-/*
+import io.github.bot.terminal.application.domains.monitoring.MonitoringTaskDataSet
+import io.github.bot.terminal.application.domains.monitoring.MonitoringTaskRepositoryTestConfig
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Import
+import org.springframework.test.context.junit.jupiter.SpringExtension
+
 
 @ExtendWith(SpringExtension::class)
-@Import(BotCommandsRepositoryTestConfig::class)
+@Import(MonitoringTaskRepositoryTestConfig::class)
 class NotificationApiRepositoryTest {
 
     @Autowired
-    private lateinit var repository: BotCommandRepository;
+    private lateinit var repository: MonitoringTaskRepository;
 
     @BeforeEach
     fun inti() {
@@ -15,29 +24,29 @@ class NotificationApiRepositoryTest {
     }
 
     @Test
-    fun `add bot commands details`() {
-        repository.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
-        val byId = repository.findById(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id)
-        Assertions.assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details(), byId)
+    fun `add monitoring task details`() {
+        repository.add(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details())
+        val byId = repository.findById(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id)
+        Assertions.assertEquals(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details(), byId)
     }
 
     @Test
-    fun `edit bot commands details`() {
-        repository.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
-        val byId = repository.findById(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details().id)
-        byId!!.merge(BotCommandsDataSet.BotCommands.BOT_COMMAND_2.details())
+    fun `edit monitoring task details`() {
+        repository.add(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details())
+        val byId = repository.findById(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details().id)
+        byId!!.merge(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.details())
         repository.update(byId)
-        Assertions.assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.details(), byId)
+        Assertions.assertEquals(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1_UPDATE.details(), byId)
     }
 
     @Test
-    fun `find all bot commands`() {
-        repository.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
-        repository.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_2.details())
+    fun `find all monitoring tasks`() {
+        repository.add(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details())
+        repository.add(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.details())
 
         val expectedResult = listOf(
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details(),
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_2.details()
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details(),
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.details()
         )
 
         Assertions.assertEquals(expectedResult, repository.findAll())
@@ -45,14 +54,11 @@ class NotificationApiRepositoryTest {
 
     @Test
     fun deleteById() {
-        repository.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
-        val byId = repository.findById(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id)
-        Assertions.assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details(), byId)
-        repository.deleteById(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id())
-        Assertions.assertNull(repository.findById(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()))
+        repository.add(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details())
+        val byId = repository.findById(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id)
+        Assertions.assertEquals(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details(), byId)
+        repository.deleteById(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id())
+        Assertions.assertNull(repository.findById(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id()))
     }
 
 }
-
-
- */

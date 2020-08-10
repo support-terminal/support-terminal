@@ -1,7 +1,6 @@
 package io.github.bot.terminal.application.domains.bot_commands.factory
 
 import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommand
-import io.github.bot.terminal.application.domains.bot_commands.entity.Cmd
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository
 import io.github.bot.terminal.application.domains.common.action.factory.ActionsFactory

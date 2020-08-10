@@ -19,6 +19,37 @@ class MonitoringTasksFactory(
         private val conditionsFactory: ConditionsFactory
 ) {
 
+    fun createNew(details: MonitoringTaskDetails): MonitoringTask {
+        val botCommand = build(details)
+        repository.add(details)
+        return botCommand
+    }
+
+    fun update(id: String, detailsUpdate: MonitoringTaskDetails): MonitoringTask {
+        val details = getById(id)
+        details.merge(detailsUpdate)
+        val task = build(details)
+        repository.update(details)
+        return task
+    }
+
+    fun getById(id: String): MonitoringTaskDetails = repository.findById(id)
+            ?: throw IllegalArgumentException("MonitoringTask not found by id=${id}")
+
+    fun all(): List<MonitoringTask> = repository.findAll()
+            .map { details: MonitoringTaskDetails -> build(details) }
+            .toList()
+
+    fun byId(id: String): MonitoringTask {
+        return build(getById(id))
+    }
+
+    fun delete(id: String) {
+        repository.findById(id)?.let {
+            repository.deleteById(id)
+        }
+    }
+
     fun build(details: MonitoringTaskDetails): MonitoringTask {
         val action = actionsFactory.build(details.actionDetails)
         val conditions = details.conditions.stream()
@@ -28,7 +59,6 @@ class MonitoringTasksFactory(
                 .map { n: NotifyDetails -> notifyFactory.build(n) }
                 .collect(Collectors.toList())
         return MonitoringTask(
-                isEnabled = details.isEnabled,
                 details = details,
                 action = action,
                 conditions = conditions,
@@ -36,9 +66,4 @@ class MonitoringTasksFactory(
         )
     }
 
-    val all: List<MonitoringTask>
-        get() = repository
-                .findAll()
-                .map { details: MonitoringTaskDetails -> build(details) }
-                .toList()
 }

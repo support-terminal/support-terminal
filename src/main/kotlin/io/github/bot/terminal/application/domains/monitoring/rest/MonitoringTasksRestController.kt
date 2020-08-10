@@ -29,7 +29,7 @@ class MonitoringTasksRestController(
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     operator fun get(@PathVariable id: String): MonitoringTaskDTO {
-        return monitoringTasksRestService[id]
+        return monitoringTasksRestService.get(id)
     }
 
     @DeleteMapping("/{id}")

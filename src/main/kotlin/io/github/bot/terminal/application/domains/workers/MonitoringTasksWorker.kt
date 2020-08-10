@@ -29,7 +29,7 @@ class MonitoringTasksWorker(
 
     private fun refresh() {
         cleanFutureList()
-        val monitoringTasks = monitoringTasksFactory.all
+        val monitoringTasks = monitoringTasksFactory.all()
         for (task in monitoringTasks) {
             val taskFuture = monitoringTasksScheduler.schedule(task, CronTrigger(task.details.cron))
             futureList.add(taskFuture)

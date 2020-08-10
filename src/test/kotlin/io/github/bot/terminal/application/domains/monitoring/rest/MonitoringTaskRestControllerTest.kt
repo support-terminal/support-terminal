@@ -2,8 +2,6 @@ package io.github.bot.terminal.application.domains.monitoring.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockitokotlin2.*
-import io.github.bot.terminal.application.domains.bot_commands.BotCommandsDataSet
-import io.github.bot.terminal.application.domains.bot_commands.rest.requests.BotCommandRequest
 import io.github.bot.terminal.application.domains.monitoring.MonitoringTaskDataSet
 import io.github.bot.terminal.application.domains.monitoring.rest.requests.MonitoringTaskRequest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -40,7 +38,6 @@ class MonitoringTaskRestControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
     }
 
-
     @Test
     fun `available monitoring tasks types`() {
         whenever(restService.types()).thenReturn(MonitoringTaskDataSet.typeDtos)
@@ -54,63 +51,59 @@ class MonitoringTaskRestControllerTest {
         }
     }
 
-
-}
-/*
-
-
     @Test
-    fun `add bot command`() {
-        whenever(restService.add(any())).thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto())
+    fun `add monitoring task`() {
+        whenever(restService.add(any())).thenReturn(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.dto())
         mockMvc.post(API_PATH) {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = mapper.writeValueAsString(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.request())
+            content = mapper.writeValueAsString(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.request())
         }.andExpect {
             status { isCreated }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(mapper.writeValueAsString(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto())) }
+            content { json(mapper.writeValueAsString(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.dto())) }
         }
         verify(restService, times(1)).add(capture(requestArgumentCaptor))
-        assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.request(), requestArgumentCaptor.value)
+        assertEquals(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.request(), requestArgumentCaptor.value)
     }
 
     @Test
-    fun `edit bot command`() {
-        whenever(restService.edit(any(), any())).thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.dto())
-        mockMvc.put("${API_PATH}/${BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()}") {
+    fun `edit monitoring task`() {
+        whenever(restService.edit(any(), any())).thenReturn(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1_UPDATE.dto())
+        mockMvc.put("${API_PATH}/${MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id()}") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = mapper.writeValueAsString(BotCommandsDataSet.BotCommands.BOT_COMMAND_2.request())
+            content = mapper.writeValueAsString(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.request())
         }.andExpect {
             status { isOk }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(mapper.writeValueAsString(BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.dto())) }
+            content { json(mapper.writeValueAsString(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1_UPDATE.dto())) }
         }
-        verify(restService, times(1)).edit(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()), capture(requestArgumentCaptor))
-        assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_2.request(), requestArgumentCaptor.value)
+        verify(restService, times(1))
+                .edit(eq(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id()), capture(requestArgumentCaptor))
+        assertEquals(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.request(), requestArgumentCaptor.value)
     }
 
     @Test
-    fun `get bot command`() {
-        whenever(restService.get(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id())))
-                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto())
-        mockMvc.get("${API_PATH}/${BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()}") {
+    fun `get monitoring task`() {
+        whenever(restService.get(eq(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id())))
+                .thenReturn(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.dto())
+        mockMvc.get("${API_PATH}/${MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id()}") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(mapper.writeValueAsString(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto())) }
+            content { json(mapper.writeValueAsString(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.dto())) }
         }
-        verify(restService, times(1)).get(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()))
+        verify(restService, times(1)).get(eq(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id()))
     }
 
     @Test
-    fun `get list notificationApis`() {
+    fun `get list monitoring tasks`() {
         val listApis = listOf(
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto(),
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_2.dto()
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.dto(),
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.dto()
         )
         whenever(restService.list()).thenReturn(listApis)
 
@@ -126,17 +119,15 @@ class MonitoringTaskRestControllerTest {
     }
 
     @Test
-    fun `delete bot command`() {
-        mockMvc.delete("${API_PATH}/${BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id}") {
+    fun `delete mobitoring task`() {
+        mockMvc.delete("${API_PATH}/${MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id}") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isNoContent }
         }
         verify(restService, times(1))
-                .delete(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id))
+                .delete(eq(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id))
     }
 
 }
-
- */

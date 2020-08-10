@@ -8,13 +8,12 @@ import io.github.bot.terminal.application.domains.monitoring.repository.Monitori
 class MonitoringTask(
         val details: MonitoringTaskDetails,
         val action: Action,
-        val isEnabled: Boolean,
         val conditions: List<Condition>,
-        private val notifyList: List<Notify>
+        val notifyList: List<Notify>
 ) : Runnable {
 
     override fun run() {
-        if (!isEnabled) {
+        if (!details.isEnabled) {
             return
         }
         val result = action.execute()
@@ -33,4 +32,28 @@ class MonitoringTask(
             notify.execute()
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as MonitoringTask
+
+        if (details != other.details) return false
+        if (action != other.action) return false
+        if (conditions != other.conditions) return false
+        if (notifyList != other.notifyList) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = details.hashCode()
+        result = 31 * result + action.hashCode()
+        result = 31 * result + conditions.hashCode()
+        result = 31 * result + notifyList.hashCode()
+        return result
+    }
+
+
 }

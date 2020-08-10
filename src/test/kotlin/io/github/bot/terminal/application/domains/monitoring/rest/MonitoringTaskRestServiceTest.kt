@@ -1,112 +1,127 @@
 package io.github.bot.terminal.application.domains.monitoring.rest
 
-/*
+import com.nhaarman.mockitokotlin2.*
+import io.github.bot.terminal.application.domains.common.action.ActionRestConverter
+import io.github.bot.terminal.application.domains.common.action.values.ActionType
+import io.github.bot.terminal.application.domains.common.conditions.ConditionRestConverter
+import io.github.bot.terminal.application.domains.common.notify.NotifyRestConverter
+import io.github.bot.terminal.application.domains.monitoring.MonitoringTaskDataSet
+import io.github.bot.terminal.application.domains.monitoring.factory.MonitoringTasksFactory
+import io.github.bot.terminal.application.domains.monitoring.repository.MonitoringTaskDetails
+import io.github.bot.terminal.application.domains.workers.MonitoringTasksWorker
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
+import org.mockito.Mockito
+import org.mockito.junit.jupiter.MockitoExtension
+import java.util.*
 
 
 @ExtendWith(MockitoExtension::class)
 internal class MonitoringTaskRestServiceTest {
 
-    private val factory: BotCommandsFactory = mock()
+    private val factory: MonitoringTasksFactory = mock()
 
     @Captor
-    private lateinit var detailsCaptor: ArgumentCaptor<BotCommandDetails>
+    private lateinit var detailsCaptor: ArgumentCaptor<MonitoringTaskDetails>
+    private val actionRestConverter: ActionRestConverter = Mockito.spy(ActionRestConverter())
+    private val conditionRestConverter: ConditionRestConverter = Mockito.spy(ConditionRestConverter())
+    private val notifyRestConverter: NotifyRestConverter = Mockito.spy(NotifyRestConverter())
 
-    private val actionConverter = Mockito.spy(ActionRestConverter())
-    private val converter = Mockito.spy(BotCommandsRestConverter(actionConverter))
+    private val converter = Mockito.spy(MonitoringTasksRestConverter(
+            actionRestConverter, conditionRestConverter, notifyRestConverter
+    ))
 
-    private lateinit var restService: BotCommandsRestService
+    private val worker: MonitoringTasksWorker = mock()
+
+    private lateinit var restService: MonitoringTasksRestService
 
     @BeforeEach
     fun inti() {
-        reset(factory)
-        restService = BotCommandsRestService(factory, converter)
+        restService = MonitoringTasksRestService(factory, converter, worker)
     }
 
     @Test
-    fun `add unknown`() {
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
-            restService.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.requestWrong())
-        }
-    }
-
-    @Test
-    fun `add db connection`() {
+    fun `add monitoring task`() {
         whenever(factory.createNew(any()))
-                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.botCommand())
-        val dto = restService.add(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.request())
-        Assertions.assertEquals(dto, BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto())
+                .thenReturn(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.task())
+        val dto = restService.add(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.request())
+        Assertions.assertEquals(dto, MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.dto())
 
         verify(factory, times(1)).createNew(capture(detailsCaptor))
-        val details = BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details()
+        val details = MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details()
+        Assertions.assertNotNull(detailsCaptor.value.id)
         Assertions.assertEquals(details.name, detailsCaptor.value.name)
-        Assertions.assertEquals(details.cmd, detailsCaptor.value.cmd)
-        Assertions.assertEquals(details.botIds, detailsCaptor.value.botIds)
-        Assertions.assertEquals(details.actionDetails, detailsCaptor.value.actionDetails)
         Assertions.assertEquals(details.isEnabled, detailsCaptor.value.isEnabled)
+        Assertions.assertEquals(details.actionDetails, detailsCaptor.value.actionDetails)
+        Assertions.assertEquals(details.cron, detailsCaptor.value.cron)
+        Assertions.assertEquals(details.conditions, detailsCaptor.value.conditions)
+        Assertions.assertEquals(details.notifyList, detailsCaptor.value.notifyList)
+
     }
 
     @Test
-    fun `edit db connection`() {
+    fun `edit monitoring task`() {
         whenever(factory.update(any(), any()))
-                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.botCommand())
-        val dto = restService.edit(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id(),
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_2.request())
-        Assertions.assertEquals(dto, BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.dto())
+                .thenReturn(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1_UPDATE.task())
+
+        val dto = restService.edit(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id(),
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.request())
+        Assertions.assertEquals(dto, MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1_UPDATE.dto())
 
 
-        verify(factory, times(1)).update(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()), capture(detailsCaptor))
-        val details = BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.details()
+        verify(factory, times(1)).update(eq(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id()),
+                capture(detailsCaptor))
+        val details = MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1_UPDATE.details()
+        Assertions.assertNotNull(detailsCaptor.value.id)
         Assertions.assertEquals(details.name, detailsCaptor.value.name)
-        Assertions.assertEquals(details.cmd, detailsCaptor.value.cmd)
-        Assertions.assertEquals(details.botIds, detailsCaptor.value.botIds)
-        Assertions.assertEquals(details.actionDetails, detailsCaptor.value.actionDetails)
         Assertions.assertEquals(details.isEnabled, detailsCaptor.value.isEnabled)
+        Assertions.assertEquals(details.actionDetails, detailsCaptor.value.actionDetails)
+        Assertions.assertEquals(details.cron, detailsCaptor.value.cron)
+        Assertions.assertEquals(details.conditions, detailsCaptor.value.conditions)
+        Assertions.assertEquals(details.notifyList, detailsCaptor.value.notifyList)
     }
 
     @Test
-    fun `delete db connection`() {
+    fun `delete monitoring task`() {
         val someId = UUID.randomUUID().toString()
         restService.delete(someId)
         verify(factory, Mockito.timeout(1)).delete(eq(someId))
     }
 
     @Test
-    fun `get db connection types`() {
+    fun `get task types`() {
         val types = restService.types()
-        Assertions.assertEquals(2, types.size)
-
-        Assertions.assertEquals(ActionType.SQL_SELECT_AS_TEXT.name, types[0].type)
-        Assertions.assertEquals(ActionType.SQL_SELECT_AS_TEXT.label, types[0].label)
-        Assertions.assertEquals(ActionType.SQL_SELECT_IN_EXCEL_FILE.name, types[1].type)
-        Assertions.assertEquals(ActionType.SQL_SELECT_IN_EXCEL_FILE.label, types[1].label)
+        Assertions.assertEquals(1, types.size)
+        Assertions.assertEquals(ActionType.SQL_SELECT_AS_ONE_NUMBER.name, types[0].type)
+        Assertions.assertEquals(ActionType.SQL_SELECT_AS_ONE_NUMBER.label, types[0].label)
     }
 
     @Test
-    fun `get db connection`() {
-        whenever(factory.byId(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id())))
-                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.botCommand())
-        val result = restService.get(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id())
-        Assertions.assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto(), result)
+    fun `get monitoring task`() {
+        whenever(factory.byId(eq(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id())))
+                .thenReturn(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.task())
+        val result = restService.get(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id())
+        Assertions.assertEquals(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.dto(), result)
     }
 
     @Test
-    fun `get all db connections`() {
+    fun `get all monitoring task`() {
         val list = listOf(
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_1.botCommand(),
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_2.botCommand()
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.task(),
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.task()
         )
         whenever(factory.all()).thenReturn(list)
 
         val dtoList = listOf(
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_1.dto(),
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_2.dto()
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.dto(),
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.dto()
         )
         val resultList = restService.list()
         Assertions.assertEquals(dtoList, resultList)
     }
 
 }
-
-
-
-*/

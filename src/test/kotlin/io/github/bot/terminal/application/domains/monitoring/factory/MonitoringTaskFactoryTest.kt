@@ -1,88 +1,129 @@
 package io.github.bot.terminal.application.domains.monitoring.factory
 
+import com.nhaarman.mockitokotlin2.*
+import io.github.bot.terminal.application.domains.monitoring.MonitoringTaskDataSet
+import io.github.bot.terminal.application.domains.monitoring.repository.MonitoringTaskDetails
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
+import org.mockito.junit.jupiter.MockitoExtension
 
-/*
+
 @ExtendWith(MockitoExtension::class)
 internal class MonitoringTaskFactoryTest {
 
-    private lateinit var factory: BotCommandsFactory
+    private lateinit var factory: MonitoringTasksFactory
 
     @Captor
-    private lateinit var detailsCaptor: ArgumentCaptor<BotCommandDetails>
+    private lateinit var detailsCaptor: ArgumentCaptor<MonitoringTaskDetails>
 
     @BeforeEach
     fun init() {
-        whenever(BotCommandsDataSet.actionsFactory.build(eq(BotCommandsDataSet.Action.ACTION_1.details())))
-                .thenReturn(BotCommandsDataSet.Action.ACTION_1.action())
-
-        whenever(BotCommandsDataSet.actionsFactory.build(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.action.details())))
-                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.action.action())
-
-        whenever(BotCommandsDataSet.repository.findById(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id)))
-                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
-
-        factory = BotCommandsFactory(BotCommandsDataSet.repository, BotCommandsDataSet.actionsFactory)
+        factory = MonitoringTasksFactory(
+                MonitoringTaskDataSet.repository,
+                MonitoringTaskDataSet.actionsFactory,
+                MonitoringTaskDataSet.notifyFactory,
+                MonitoringTaskDataSet.conditionsFactory
+        )
     }
 
     @Test
-    fun `create new bot command`() {
+    fun `create monitoring task`() {
+        whenever(MonitoringTaskDataSet.notifyFactory.build(eq(MonitoringTaskDataSet.Notifys.NOTIFY_1.details())))
+                .thenReturn(MonitoringTaskDataSet.Notifys.NOTIFY_1.notify())
 
-        val botCommand = factory.createNew(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
+        whenever(MonitoringTaskDataSet.actionsFactory.build(eq(MonitoringTaskDataSet.Actions.ACTION_1.details())))
+                .thenReturn(MonitoringTaskDataSet.Actions.ACTION_1.action())
 
-        Assertions.assertEquals(botCommand, BotCommandsDataSet.BotCommands.BOT_COMMAND_1.botCommand())
+        val task = factory.createNew(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details())
 
-        verify(BotCommandsDataSet.repository, times(1)).add(capture(detailsCaptor))
-        Assertions.assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details(), detailsCaptor.value)
+        Assertions.assertEquals(task, MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.task())
+
+        verify(MonitoringTaskDataSet.repository, times(1)).add(capture(detailsCaptor))
+        Assertions.assertEquals(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details(), detailsCaptor.value)
     }
 
-
     @Test
-    fun `update bot command`() {
-        val updated = factory.update(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id, BotCommandsDataSet.BotCommands.BOT_COMMAND_2.details())
+    fun `update monitoring task`() {
+        whenever(MonitoringTaskDataSet.notifyFactory.build(eq(MonitoringTaskDataSet.Notifys.NOTIFY_2.details())))
+                .thenReturn(MonitoringTaskDataSet.Notifys.NOTIFY_2.notify())
 
-        val ddd = BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.botCommand()
+        whenever(MonitoringTaskDataSet.actionsFactory.build(eq(MonitoringTaskDataSet.Actions.ACTION_2.details())))
+                .thenReturn(MonitoringTaskDataSet.Actions.ACTION_2.action())
+
+        whenever(MonitoringTaskDataSet.repository.findById(eq(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id())))
+                .thenReturn(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details())
+
+        val updated = factory.update(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id,
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.details())
+
+        val ddd = MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1_UPDATE.task()
         Assertions.assertEquals(ddd, updated)
 
-        verify(BotCommandsDataSet.repository, times(1))
+        verify(MonitoringTaskDataSet.repository, times(1))
                 .update(capture(detailsCaptor))
-        Assertions.assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1_UPDATED.details(), detailsCaptor.value)
+        Assertions.assertEquals(
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1_UPDATE.details(),
+                detailsCaptor.value
+        )
     }
 
     @Test
-    fun `get all bot commands`() {
-        whenever(BotCommandsDataSet.actionsFactory.build(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.action.details()))
-                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.action.action())
-        whenever(BotCommandsDataSet.actionsFactory.build(BotCommandsDataSet.BotCommands.BOT_COMMAND_2.action.details()))
-                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_2.action.action())
+    fun `get all monitoring tasks`() {
+
+        whenever(MonitoringTaskDataSet.notifyFactory.build(eq(MonitoringTaskDataSet.Notifys.NOTIFY_1.details())))
+                .thenReturn(MonitoringTaskDataSet.Notifys.NOTIFY_1.notify())
+
+        whenever(MonitoringTaskDataSet.notifyFactory.build(eq(MonitoringTaskDataSet.Notifys.NOTIFY_2.details())))
+                .thenReturn(MonitoringTaskDataSet.Notifys.NOTIFY_2.notify())
+
+        whenever(MonitoringTaskDataSet.actionsFactory.build(eq(MonitoringTaskDataSet.Actions.ACTION_1.details())))
+                .thenReturn(MonitoringTaskDataSet.Actions.ACTION_1.action())
+
+        whenever(MonitoringTaskDataSet.actionsFactory.build(eq(MonitoringTaskDataSet.Actions.ACTION_2.details())))
+                .thenReturn(MonitoringTaskDataSet.Actions.ACTION_2.action())
+
+        whenever(MonitoringTaskDataSet.repository.findById(eq(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id())))
+                .thenReturn(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details())
+
+        whenever(MonitoringTaskDataSet.repository.findById(eq(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.id())))
+                .thenReturn(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.details())
 
         val list = listOf(
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details(),
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_2.details()
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details(),
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.details()
         )
-        whenever(BotCommandsDataSet.repository.findAll()).thenReturn(list)
+        whenever(MonitoringTaskDataSet.repository.findAll()).thenReturn(list)
 
-        val expectedApisList = listOf(
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_1.botCommand(),
-                BotCommandsDataSet.BotCommands.BOT_COMMAND_2.botCommand()
+        val expectedList = listOf(
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.task(),
+                MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_2.task()
         )
-        Assertions.assertEquals(expectedApisList, factory.all())
+        Assertions.assertEquals(expectedList, factory.all())
     }
 
     @Test
     fun `get bot command by id`() {
-        whenever(BotCommandsDataSet.actionsFactory.build(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.action.details()))
-                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.action.action())
-        whenever(BotCommandsDataSet.repository.findById(eq(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id())))
-                .thenReturn(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.details())
-        Assertions.assertEquals(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.botCommand(),
-                factory.byId(BotCommandsDataSet.BotCommands.BOT_COMMAND_1.id()))
+        whenever(MonitoringTaskDataSet.notifyFactory.build(eq(MonitoringTaskDataSet.Notifys.NOTIFY_1.details())))
+                .thenReturn(MonitoringTaskDataSet.Notifys.NOTIFY_1.notify())
+
+        whenever(MonitoringTaskDataSet.actionsFactory.build(eq(MonitoringTaskDataSet.Actions.ACTION_1.details())))
+                .thenReturn(MonitoringTaskDataSet.Actions.ACTION_1.action())
+
+        whenever(MonitoringTaskDataSet.repository.findById(eq(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id())))
+                .thenReturn(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.details())
+
+        Assertions.assertEquals(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.task(),
+                factory.byId(MonitoringTaskDataSet.MonitoringTasks.MONITORING_TASK_1.id()))
     }
 
     @Test
     fun byIdNotFound() {
-        whenever(BotCommandsDataSet.repository.findById(any())).thenReturn(null)
+        whenever(MonitoringTaskDataSet.repository.findById(any())).thenReturn(null)
         Assertions.assertThrows(IllegalArgumentException::class.java) { factory.byId("some-id") }
     }
-}
 
- */
+}
