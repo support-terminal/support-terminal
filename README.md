@@ -1,8 +1,9 @@
 # Try demo
 http://ec2-13-53-137-136.eu-north-1.compute.amazonaws.com:9876/
 
-login: admin
-password: admin-secret
+login: ```admin```
+
+password: ```admin-secret```
 
 * Add DB connection
 * Add Telegram Bot
