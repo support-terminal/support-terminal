@@ -56,53 +56,53 @@ object PlatformApplication {
     private fun firstStartInit() {
         val textIO = TextIoFactory.getTextIO()
         val terminal = textIO.textTerminal
-        terminal.println("Первый запуск. Необходима предварительная настройка.")
+        terminal.println("First RUN. Required initial configuration:")
         val storagePath = getStoragePath(textIO, terminal)
         checkDataBasePath(storagePath)
-        terminal.println("Соединение установлено.")
+        terminal.println("Successful connection")
         val admin = getAdminUser(textIO, terminal)
         createConfigFile(terminal, storagePath, admin)
-        terminal.println("Настройка первого запуска завершена. Пожалуйста перезапустите приложение")
+        terminal.println("First RUN completed. You need to restart the app")
     }
 
     private fun getStoragePath(textIO: TextIO, terminal: TextTerminal<*>): String {
         var storagePath = textIO.newStringInputReader()
                 .withInputTrimming(true)
                 .withDefaultValue(DEFAULT_DATA_STORE)
-                .read("Укажите путь для хранения данных ($DEFAULT_DATA_STORE): ")
+                .read("Data store path ($DEFAULT_DATA_STORE): ")
         createPathWithParents(storagePath)
         storagePath = storagePath + DB_FILE
         try {
             checkDataBasePath(storagePath)
         } catch (t: Throwable) {
-            terminal.println("Не удалось создать базу данных!")
-            terminal.println("Проверьте путь для хранения данных, и попробуйте снова (возможно не хватает прав на использование директории)")
+            terminal.println("Problem to create data store")
+            terminal.println("Check the path and required permissions")
             return getStoragePath(textIO, terminal)
         }
         return storagePath
     }
 
     private fun getAdminUser(textIO: TextIO, terminal: TextTerminal<*>): AdminCredentials {
-        terminal.println("Необходимо настроить учетную запись для администратора.")
+        terminal.println("Administrator profile:")
         val username = textIO.newStringInputReader()
                 .withInputTrimming(true)
                 .withDefaultValue("admin")
-                .read("Придумайте и укажите логин (admin): ")
+                .read("Login ? (admin): ")
         val password = textIO.newStringInputReader()
                 .withInputTrimming(true)
                 .withInputMasking(true)
                 .withMinLength(6)
-                .read("Придумайте пароль (минимум 6 символов): ")
+                .read("Password (at least 6 characters): ")
         textIO.newStringInputReader()
                 .withInputTrimming(true)
                 .withInputMasking(true)
                 .withParseErrorMessagesProvider { pas2: String, item: String? ->
                     if (password != pas2) {
-                        return@withParseErrorMessagesProvider Arrays.asList("Пароли не совпадают")
+                        return@withParseErrorMessagesProvider Arrays.asList("Password has to be the same")
                     }
                     null
                 }
-                .read("Повторите пароль: ")
+                .read("Repeat the password: ")
         return AdminCredentials(username, password)
     }
 
@@ -146,13 +146,13 @@ object PlatformApplication {
             p.println("proxy_password=")
             p.flush()
         } catch (io: IOException) {
-            terminal?.println("Не смогли создать конфигурационный файл $DEFAULT_CONFIGURATION_FILE_PATH")
+            terminal?.println("Could not create configuration file $DEFAULT_CONFIGURATION_FILE_PATH")
         } finally {
             if (output != null) {
                 try {
                     output.close()
                 } catch (e: IOException) {
-                    terminal?.println("Ошибка сохранения конфигурационного файла $DEFAULT_CONFIGURATION_FILE_PATH")
+                    terminal?.println("Error during creating configuration file  $DEFAULT_CONFIGURATION_FILE_PATH")
                 }
             }
         }
