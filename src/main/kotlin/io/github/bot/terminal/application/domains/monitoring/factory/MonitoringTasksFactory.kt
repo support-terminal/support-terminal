@@ -38,7 +38,6 @@ class MonitoringTasksFactory(
 
     fun all(): List<MonitoringTask> = repository.findAll()
             .map { details: MonitoringTaskDetails -> build(details) }
-            .toList()
 
     fun byId(id: String): MonitoringTask {
         return build(getById(id))
@@ -52,12 +51,10 @@ class MonitoringTasksFactory(
 
     fun build(details: MonitoringTaskDetails): MonitoringTask {
         val action = actionsFactory.build(details.actionDetails)
-        val conditions = details.conditions.stream()
+        val conditions = details.conditions
                 .map { c: ConditionDetails -> conditionsFactory.build(c) }
-                .collect(Collectors.toList())
-        val notifies = details.notifyList.stream()
+        val notifies = details.notifyList
                 .map { n: NotifyDetails -> notifyFactory.build(n) }
-                .collect(Collectors.toList())
         return MonitoringTask(
                 details = details,
                 action = action,

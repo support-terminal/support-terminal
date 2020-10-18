@@ -23,10 +23,8 @@ class MonitoringTasksRestConverter(
     fun mapToDetails(request: MonitoringTaskRequest): MonitoringTaskDetails {
         val conditions = request.conditions
                 .map { c: ConditionRequest -> conditionRestConverter.mapToDetails(c) }
-                .toList()
         val notifyList = request.notifyList
                 .map { c: NotifyRequest -> notifyRestConverter.mapToDetails(c) }
-                .toList()
         return MonitoringTaskDetails(
                 name = request.name,
                 isEnabled = request.enabled,
@@ -40,10 +38,8 @@ class MonitoringTasksRestConverter(
     fun mapToDto(details: MonitoringTaskDetails): MonitoringTaskDTO {
         val conditions = details.conditions
                 .map { c: ConditionDetails -> conditionRestConverter.mapToDto(c) }
-                .toList()
         val notifyList = details.notifyList
                 .map { n: NotifyDetails -> notifyRestConverter.mapToDto(n) }
-                .toList()
         return MonitoringTaskDTO(
                 id = details.id,
                 name = details.name,

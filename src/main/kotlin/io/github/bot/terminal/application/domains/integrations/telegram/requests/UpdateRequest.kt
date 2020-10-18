@@ -2,13 +2,10 @@ package io.github.bot.terminal.application.domains.integrations.telegram.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class UpdateRequest {
-    @JsonProperty("offset")
-    private val offset: Int? = null
+private const val RESPONSE_MESSAGES_LIMIT = 100
 
-    @JsonProperty("limit")
-    private val limit: Int? = null
-
-    @JsonProperty("timeout")
-    private val timeout: Int? = null
-}
+data class UpdateRequest(
+        @JsonProperty("offset") val offset: Int,
+        @JsonProperty("limit") val limit: Int = RESPONSE_MESSAGES_LIMIT,
+        @JsonProperty("timeout") val timeout: Int? = null
+)

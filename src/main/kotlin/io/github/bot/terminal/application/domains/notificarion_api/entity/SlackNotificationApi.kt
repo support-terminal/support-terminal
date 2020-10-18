@@ -3,7 +3,7 @@ package io.github.bot.terminal.application.domains.notificarion_api.entity
 import io.github.bot.terminal.application.domains.integrations.DocumentFile
 import io.github.bot.terminal.application.domains.integrations.slack.SlackApiClient
 import io.github.bot.terminal.application.domains.integrations.slack.models.Channel
-import io.github.bot.terminal.application.domains.integrations.slack.requests.SendMessageRequest
+import io.github.bot.terminal.application.domains.integrations.slack.requests.SlackSendMessageRequest
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository
 import java.io.IOException
 
@@ -35,17 +35,13 @@ class SlackNotificationApi(override val details: SlackNotificationApiDetails,
                         }
                 repository.update(details)
 
-                return messages
-                        .map { Message(it.text) }
-                        .toList()
+                return messages.map { Message(it.text) }
             }?: return emptyList()
         }
 
     override fun sendMessage(message: Message) {
         chanel?.let { channel: Channel ->
-            val request = SendMessageRequest()
-            request.text = message.text
-            request.channel = channel.id
+            val request = SlackSendMessageRequest(channel.id, message.text)
             slackApiClient.sendMessage(details.token, request)
         }
     }

@@ -2,7 +2,6 @@ package io.github.bot.terminal.application.domains.bot_commands.repository
 
 import org.dizitart.no2.objects.ObjectRepository
 import org.dizitart.no2.objects.filters.ObjectFilters
-import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap

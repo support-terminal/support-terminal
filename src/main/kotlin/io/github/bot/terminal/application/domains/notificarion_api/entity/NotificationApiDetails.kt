@@ -40,6 +40,7 @@ data class SlackNotificationApiDetails(
             super.merge(detailsUpdate)
             token = detailsUpdate.token
             chanel = detailsUpdate.chanel
+            oldest = detailsUpdate.oldest
         }
     }
 }
@@ -49,13 +50,15 @@ data class TelegramNotificationApiDetails(
         override var label: String,
         override var enabled: Boolean,
         var botFatherName: String,
-        var token: String
+        var token: String,
+        var offset: Int = 0
 ) : NotificationApiDetails(id, label, enabled, NotificationApiType.TELEGRAM_BOT) {
     override fun merge(detailsUpdate: NotificationApiDetails) {
         if (detailsUpdate is TelegramNotificationApiDetails) {
             super.merge(detailsUpdate)
             token = detailsUpdate.token
             botFatherName = detailsUpdate.botFatherName
+            offset = detailsUpdate.offset
         }
     }
 }

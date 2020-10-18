@@ -31,7 +31,6 @@ class BotCommandsFactory(
 
     fun all(): List<BotCommand> = repository.findAll()
             .map { details: BotCommandDetails -> build(details) }
-            .toList()
 
     fun byId(id: String): BotCommand {
         return build(getById(id))
@@ -53,6 +52,5 @@ class BotCommandsFactory(
                 .findAll()
                 .filter { d: BotCommandDetails -> d.botIds.contains(notificationApi) }
                 .map { details: BotCommandDetails -> build(details) }
-                .toList()
     }
 }

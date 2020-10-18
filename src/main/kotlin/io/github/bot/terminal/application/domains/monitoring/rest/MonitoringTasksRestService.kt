@@ -45,7 +45,6 @@ class MonitoringTasksRestService(
     fun list(): List<MonitoringTaskDTO> {
         return factory.all()
                 .map { converter.mapToDto(it.details) }
-                .toList()
     }
 
     fun delete(id: String) {
@@ -53,20 +52,17 @@ class MonitoringTasksRestService(
     }
 
     fun cronFrequencies(): List<CronFrequencyDTO> {
-        return Arrays.stream(Cron.values())
+        return Cron.values()
                 .map { t: Cron -> CronFrequencyDTO(t.label, t.cron) }
-                .collect(Collectors.toList())
     }
 
     fun types(): List<MonitoringTaskTypeDTO> {
-        return Stream.of(ActionType.SQL_SELECT_AS_ONE_NUMBER)
+        return listOf(ActionType.SQL_SELECT_AS_ONE_NUMBER)
                 .map { MonitoringTaskTypeDTO(label = it.label, type = it.name) }
-                .collect(Collectors.toList())
     }
 
     fun conditionTypes(): List<ConditionTypeDTO> {
-        return Stream.of(*ConditionType.values())
+        return ConditionType.values()
                 .map { t: ConditionType -> ConditionTypeDTO(t.label, t.name) }
-                .collect(Collectors.toList())
     }
 }

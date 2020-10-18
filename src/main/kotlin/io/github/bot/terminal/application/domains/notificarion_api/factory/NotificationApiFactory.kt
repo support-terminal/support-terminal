@@ -38,8 +38,7 @@ class NotificationApiFactory(
 
     fun all(): List<NotificationApi> = repository.findAll()
             .map { details: NotificationApiDetails -> build(details) }
-            .toList()
-    
+
     fun byId(id: String): NotificationApi {
         return build(getById(id))
     }  

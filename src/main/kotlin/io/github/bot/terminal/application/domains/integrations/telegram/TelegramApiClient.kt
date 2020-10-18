@@ -1,7 +1,7 @@
 package io.github.bot.terminal.application.domains.integrations.telegram
 
 import io.github.bot.terminal.application.domains.integrations.DocumentFile
-import io.github.bot.terminal.application.domains.integrations.telegram.requests.SendMessageRequest
+import io.github.bot.terminal.application.domains.integrations.telegram.requests.TelegramSendMessageRequest
 import io.github.bot.terminal.application.domains.integrations.telegram.requests.UpdateRequest
 import io.github.bot.terminal.application.domains.integrations.telegram.responses.SendMessageResponse
 import io.github.bot.terminal.application.domains.integrations.telegram.responses.UpdateResponse
@@ -20,14 +20,12 @@ import org.springframework.web.client.RestTemplate
 import java.io.IOException
 
 @Service
-class TelegramApiClient(
-        private val restTemplate: RestTemplate
-) {
+class TelegramApiClient(private val restTemplate: RestTemplate) {
 
     fun getUpdates(token: String, updateRequest: UpdateRequest): UpdateResponse {
         val request = HttpEntity(updateRequest)
         return try {
-            val responseEntity = restTemplate!!.exchange("$TELEGRAM_URL/bot{token}/getUpdates", HttpMethod.POST, request, UpdateResponse::class.java, token)
+            val responseEntity = restTemplate.exchange("$TELEGRAM_URL/bot{token}/getUpdates", HttpMethod.POST, request, UpdateResponse::class.java, token)
             responseEntity.body
         } catch (ex: HttpStatusCodeException) {
             log.error("Error telegram getUpdates", ex)
@@ -35,10 +33,10 @@ class TelegramApiClient(
         }
     }
 
-    fun sendMessage(token: String, sendMessageRequest: SendMessageRequest): SendMessageResponse {
-        val request = HttpEntity(sendMessageRequest)
+    fun sendMessage(token: String, telegramSendMessageRequest: TelegramSendMessageRequest): SendMessageResponse {
+        val request = HttpEntity(telegramSendMessageRequest)
         return try {
-            val responseEntity = restTemplate!!.exchange("$TELEGRAM_URL/bot{token}/sendMessage", HttpMethod.POST, request, SendMessageResponse::class.java, token)
+            val responseEntity = restTemplate.exchange("$TELEGRAM_URL/bot{token}/sendMessage", HttpMethod.POST, request, SendMessageResponse::class.java, token)
             responseEntity.body
         } catch (ex: HttpStatusCodeException) {
             log.error("Error telegram sendMessage", ex)
@@ -47,7 +45,7 @@ class TelegramApiClient(
     }
 
     @Throws(IOException::class)
-    fun sendDocument(token: String, chatId: Int, document: DocumentFile): SendMessageResponse {
+    fun sendDocument(token: String, chatId: String, document: DocumentFile): SendMessageResponse {
         val parts: MultiValueMap<String, Any> = LinkedMultiValueMap<String, Any>()
         val fileAsResource: ByteArrayResource = object : ByteArrayResource(document.bytes) {
             override fun getFilename(): String {
@@ -60,7 +58,7 @@ class TelegramApiClient(
         httpHeaders.contentType = MediaType.MULTIPART_FORM_DATA
         val request: HttpEntity<*> = HttpEntity(parts, httpHeaders)
         return try {
-            val responseEntity = restTemplate!!.exchange("$TELEGRAM_URL/bot{token}/sendDocument", HttpMethod.POST, request, SendMessageResponse::class.java, token)
+            val responseEntity = restTemplate.exchange("$TELEGRAM_URL/bot{token}/sendDocument", HttpMethod.POST, request, SendMessageResponse::class.java, token)
             responseEntity.body
         } catch (ex: HttpStatusCodeException) {
             log.error("Error telegram sendDocument", ex)

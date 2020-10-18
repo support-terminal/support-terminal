@@ -36,9 +36,7 @@ class DbConnectionsRestService (
 
     fun list(): List<DbConnectionDTO> {
         return factory.all()
-                .stream()
                 .map { c: DbConnection<*> -> converter.mapToDto(c.details) }
-                .collect(Collectors.toList())
     }
 
     fun delete(id: String) {
@@ -46,9 +44,8 @@ class DbConnectionsRestService (
     }
 
     fun types(): List<DbConnectionTypeDTO> {
-        return Arrays.stream(DbConnectionType.values())
+        return  DbConnectionType.values()
                 .map { e: DbConnectionType -> DbConnectionTypeDTO(e.label, e.name) }
-                .collect(Collectors.toList())
     }
 
     fun check(request: DbConnectionRequest): CheckDbConnectionDTO {

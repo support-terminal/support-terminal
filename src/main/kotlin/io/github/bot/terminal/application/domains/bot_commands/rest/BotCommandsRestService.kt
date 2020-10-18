@@ -33,7 +33,6 @@ class BotCommandsRestService(
     fun list(): List<BotCommandDTO> {
         return factory.all()
                 .map { converter.mapToDto(it.details) }
-                .toList()
     }
 
     fun delete(id: String) {
@@ -44,7 +43,6 @@ class BotCommandsRestService(
         return listOf(ActionType.SQL_SELECT_AS_TEXT,
                 ActionType.SQL_SELECT_IN_EXCEL_FILE)
                 .map { BotCommandTypeDTO(label = it.label, type = it.name) }
-                .toList()
     }
 
 }

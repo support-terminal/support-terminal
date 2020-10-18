@@ -1,7 +1,7 @@
 package io.github.bot.terminal.application.domains.integrations.slack
 
 import io.github.bot.terminal.application.domains.integrations.DocumentFile
-import io.github.bot.terminal.application.domains.integrations.slack.requests.SendMessageRequest
+import io.github.bot.terminal.application.domains.integrations.slack.requests.SlackSendMessageRequest
 import io.github.bot.terminal.application.domains.integrations.slack.responses.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -54,7 +54,7 @@ class SlackApiClient (
         }
     }
 
-    fun sendMessage(token: String, sendMessageRequest: SendMessageRequest): SendMessageResponse {
+    fun sendMessage(token: String, sendMessageRequest: SlackSendMessageRequest): SendMessageResponse {
         val headers = HttpHeaders()
         headers["Authorization"] = "Bearer $token"
         val request = HttpEntity(sendMessageRequest, headers)

@@ -35,13 +35,11 @@ class NotificationApiRestService(
     fun list(): List<NotificationApiDTO> {
         return factory.all()
                 .map { converter.mapToDto(it.details) }
-                .toList()
     }
 
     fun types(): List<NotificationApiTypeDTO> {
-        return Arrays.stream(NotificationApiType.values())
+        return NotificationApiType.values()
                 .map { NotificationApiTypeDTO(it.label, it.name) }
-                .collect(Collectors.toList())
     }
 
     fun delete(id: String) {

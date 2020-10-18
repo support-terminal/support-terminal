@@ -35,7 +35,6 @@ class DbConnectionsFactory (
 
     fun all(): List<DbConnection<*>> = repository.findAll()
             .map { details: DbConnectionDetails -> build(details) }
-            .toList()
 
     fun byId(id: String): DbConnection<*> {
         return build(getById(id))
