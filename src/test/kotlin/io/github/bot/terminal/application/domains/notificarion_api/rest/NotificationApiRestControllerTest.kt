@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockitokotlin2.*
 import io.github.bot.terminal.application.domains.notificarion_api.NotificationApiTestData
 import io.github.bot.terminal.application.domains.notificarion_api.NotificationsApiDataSet
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest
 import io.github.bot.terminal.application.domains.notificarion_api.slackTypeDto
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach

@@ -1,8 +1,5 @@
 package io.github.bot.terminal.application.domains.notificarion_api.rest
 
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiTypeDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -13,7 +10,6 @@ import javax.validation.Valid
 class NotificationApiRestController(
         private val notificationApiRestService: NotificationApiRestService
 ) {
-
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     fun add(@RequestBody request: @Valid NotificationApiRequest): NotificationApiDTO {

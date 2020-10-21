@@ -14,7 +14,7 @@ class BotCommand(
         if (!details.isEnabled) {
             return
         }
-        action.execute()!!.notify(notificationApi!!)
+        action.execute().notify(notificationApi!!)
     }
 
     override fun equals(other: Any?): Boolean {

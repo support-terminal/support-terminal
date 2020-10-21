@@ -9,13 +9,19 @@
     <root level="INFO">
         <appender-ref ref="FILE"/>
     </root>
+
+    <logger name="io.github.bot.terminal" level="DEBUG">
+        <appender-ref ref="FILE"/>
+    </logger>
+
     <springProfile name="dev">
-        <root level="INFO">
+        <root level="DEBUG">
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
+
     <springProfile name="test">
-        <root level="INFO">
+        <root level="DEBUG">
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>

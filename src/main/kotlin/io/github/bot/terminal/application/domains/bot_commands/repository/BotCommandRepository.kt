@@ -49,6 +49,6 @@ class BotCommandRepository(
     }
 
     private fun getLock(id: String): Lock {
-        return locks.computeIfAbsent(id) { k: String -> ReentrantLock() }
+        return locks.computeIfAbsent(id) { ReentrantLock() }
     }
 }

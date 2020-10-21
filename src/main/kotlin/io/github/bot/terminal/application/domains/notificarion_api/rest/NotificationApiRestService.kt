@@ -1,13 +1,8 @@
 package io.github.bot.terminal.application.domains.notificarion_api.rest
 
 import io.github.bot.terminal.application.domains.notificarion_api.factory.NotificationApiFactory
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiTypeDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
 import org.springframework.stereotype.Service
-import java.util.*
-import java.util.stream.Collectors
 
 @Service
 class NotificationApiRestService(

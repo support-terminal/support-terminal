@@ -2,7 +2,6 @@ package io.github.bot.terminal.application.domains.bot_commands
 
 import com.nhaarman.mockitokotlin2.mock
 import io.github.bot.terminal.application.domains.bot_commands.entity.BotCommand
-import io.github.bot.terminal.application.domains.bot_commands.entity.Cmd
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandRepository
 import io.github.bot.terminal.application.domains.bot_commands.rest.dto.BotCommandDTO
@@ -15,12 +14,10 @@ import io.github.bot.terminal.application.domains.common.action.factory.ActionsF
 import io.github.bot.terminal.application.domains.common.action.requests.ActionRequest
 import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsTextActionRequest
 import io.github.bot.terminal.application.domains.common.action.values.ActionType
-import io.github.bot.terminal.application.domains.common.services.ExcelManagerService
 import io.github.bot.terminal.application.domains.db_connection.entity.DbConnection
-import io.github.bot.terminal.application.domains.db_connection.factory.DbConnectionsFactory
 import io.github.bot.terminal.application.domains.notificarion_api.entity.*
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest
+import io.github.bot.terminal.application.domains.notificarion_api.rest.NotificationApiDTO
+import io.github.bot.terminal.application.domains.notificarion_api.rest.NotificationApiRequest
 
 
 interface BotCommandTestData {

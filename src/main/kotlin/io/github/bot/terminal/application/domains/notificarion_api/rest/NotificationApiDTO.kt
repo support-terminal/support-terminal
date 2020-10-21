@@ -1,4 +1,4 @@
-package io.github.bot.terminal.application.domains.notificarion_api.rest.dto
+package io.github.bot.terminal.application.domains.notificarion_api.rest
 
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
 

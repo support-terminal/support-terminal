@@ -5,13 +5,13 @@ import io.github.bot.terminal.application.domains.integrations.slack.SlackApiCli
 import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient
 import io.github.bot.terminal.application.domains.notificarion_api.entity.*
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiTypeDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.TelegramNotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.SlackNotificationApiRequest
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.TelegramNotificationApiRequest
+import io.github.bot.terminal.application.domains.notificarion_api.rest.NotificationApiDTO
+import io.github.bot.terminal.application.domains.notificarion_api.rest.NotificationApiTypeDTO
+import io.github.bot.terminal.application.domains.notificarion_api.rest.SlackNotificationApiDTO
+import io.github.bot.terminal.application.domains.notificarion_api.rest.TelegramNotificationApiDTO
+import io.github.bot.terminal.application.domains.notificarion_api.rest.NotificationApiRequest
+import io.github.bot.terminal.application.domains.notificarion_api.rest.SlackNotificationApiRequest
+import io.github.bot.terminal.application.domains.notificarion_api.rest.TelegramNotificationApiRequest
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
 import java.util.*
 
@@ -39,7 +39,6 @@ object NotificationsApiDataSet {
         val request = SlackNotificationApiRequest(
                 label = label,
                 enabled = enabled,
-                type = "SomeType",
                 token = token,
                 chanel = chanel
         )

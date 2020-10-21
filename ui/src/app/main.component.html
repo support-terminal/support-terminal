@@ -56,12 +56,11 @@
       <mat-sidenav-content>
         <as-split direction='vertical'>
           <as-split-area size='90'>
-
             <router-outlet></router-outlet>
-
           </as-split-area>
-          <as-split-area size='10' #autoScrollMe style='background-color: #eeeeee;'>
-           <app-events-console></app-events-console>
+          <div style='background-color: #e3e3e3; padding: 2px 10px;'>Notificatios:</div>
+          <as-split-area size='10' #autoScrollMe style='padding: 5px 10px; background-color: #eeeeee;'>
+            <app-events-console></app-events-console>
           </as-split-area>
         </as-split>
       </mat-sidenav-content>

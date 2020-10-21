@@ -1,5 +1,4 @@
 import {Component, OnDestroy} from '@angular/core';
-import ApplicationEvent from './models/ApplicationEvent';
 import {EventsService} from './services/events.service';
 import {Subscription} from 'rxjs';
 
@@ -12,11 +11,12 @@ import {Subscription} from 'rxjs';
 export class EventsConsoleComponent implements OnDestroy {
 
   private subscription: Subscription;
-  private applicationEvents: ApplicationEvent[];
+  private applicationEvents: string[];
 
-  constructor(private eventsService: EventsService){
-    this.subscription = this.eventsService.applicationEventsSubject.subscribe((arr)=>{
-     this.applicationEvents = arr;
+  constructor(private eventsService: EventsService) {
+    this.subscription = this.eventsService.applicationEventsSubject.subscribe((arr) => {
+      console.log(arr);
+      this.applicationEvents = arr;
    });
   }
 

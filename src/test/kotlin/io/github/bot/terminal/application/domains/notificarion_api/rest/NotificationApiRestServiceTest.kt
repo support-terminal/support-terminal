@@ -7,9 +7,6 @@ import io.github.bot.terminal.application.domains.notificarion_api.entity.Notifi
 import io.github.bot.terminal.application.domains.notificarion_api.entity.SlackNotificationApiDetails
 import io.github.bot.terminal.application.domains.notificarion_api.entity.TelegramNotificationApiDetails
 import io.github.bot.terminal.application.domains.notificarion_api.factory.NotificationApiFactory
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.TelegramNotificationApiDTO
 import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -17,7 +14,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
 import org.mockito.Captor
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import java.util.*
@@ -38,13 +34,6 @@ internal class NotificationApiRestServiceTest {
     fun inti() {
         reset(notificationApiFactory)
         restService = NotificationApiRestService(notificationApiFactory, converter)
-    }
-
-    @Test
-    fun addUnknownNotificationApi() {
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
-            restService.add(NotificationsApiDataSet.Wrong.WRONG_1.request)
-        }
     }
 
     @Test

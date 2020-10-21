@@ -4,7 +4,9 @@ import io.github.bot.terminal.application.domains.integrations.slack.SlackApiCli
 import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient
 import io.github.bot.terminal.application.domains.notificarion_api.entity.*
 import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.lang.invoke.MethodHandles
 
 @Service
 class NotificationApiFactory(
@@ -16,6 +18,7 @@ class NotificationApiFactory(
     fun createNew(details: NotificationApiDetails): NotificationApi {
         val notificationApi = build(details)
         repository.add(details)
+        log.debug("Created $details")
         return notificationApi
     }
     
@@ -24,6 +27,7 @@ class NotificationApiFactory(
         details.merge(detailsUpdate)
         val notificationApi = build(details)
         repository.update(details)
+        log.debug("Updated $details")
         return notificationApi
     }
 
@@ -52,4 +56,7 @@ class NotificationApiFactory(
         }
     }
 
+    companion object {
+        private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
+    }
 }

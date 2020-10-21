@@ -1,6 +1,5 @@
 package io.github.bot.terminal.application.domains.updater.services
 
-import io.github.bot.terminal.application.domains.events.services.ApplicationEventsService
 import io.github.bot.terminal.application.domains.updater.models.ReleaseInfo
 import org.apache.tomcat.util.http.fileupload.FileUtils
 import org.slf4j.LoggerFactory
@@ -24,20 +23,19 @@ import java.util.*
 @ManagedResource
 class UpdaterService(
         private val restTemplate: RestTemplate,
-        private val restTemplateForFiles: RestTemplate,
-        private val eventsService: ApplicationEventsService
+        private val restTemplateForFiles: RestTemplate
 ) {
 
 
     @ManagedOperation
     fun runAutoUpdate() {
         log.info("Started application auto-update")
-        eventsService.notifyInfo("Started application auto-update")
+       // eventsService.notifyInfo("Started application auto-update")
         createPathWithParentsOrClear(UPDATE_FILE_PATH)
         val actualAppVersionInfo = restTemplate.exchange(ACTUAL_APP_VERSION_URL, HttpMethod.GET, HttpEntity.EMPTY, ReleaseInfo::class.java).body
         val actualUpdaterAppVersionInfo = restTemplate.exchange(ACTUAL_UPDATER_VERSION_URL, HttpMethod.GET, HttpEntity.EMPTY, ReleaseInfo::class.java).body
         log.info("Start download update files")
-        eventsService.notifyInfo("Start download update files")
+        //eventsService.notifyInfo("Start download update files")
 
         //Скачиваем файлы в папку обнолений
         val appFilePath = fetchFile(actualAppVersionInfo.assets[0].browserDownloadUrl,
@@ -46,7 +44,7 @@ class UpdaterService(
         val updateFilePath = fetchFile(actualUpdaterAppVersionInfo.assets[0].browserDownloadUrl,
                 UPDATE_FILE_PATH + actualUpdaterAppVersionInfo.assets[0].name)
                 .toAbsolutePath().toString()
-        eventsService.notifyInfo("Download update files completed")
+       // eventsService.notifyInfo("Download update files completed")
         val home = ApplicationHome()
         val currentApplicationPath = home.dir.toPath().toAbsolutePath().toString()
         val currentJarPath = Optional.ofNullable(home.source).map { s: File -> s.toPath().toAbsolutePath().toString() }.orElse("Не найден JAR")
@@ -57,7 +55,7 @@ class UpdaterService(
                 .append(currentApplicationPath).append(" ") //передаем текущий jar
                 .append(currentJarPath)
         log.info("Start updater $commanBuilder")
-        eventsService.notifyInfo("The application is going to shutdown. Refresh browser page after 5 minutes")
+        //eventsService.notifyInfo("The application is going to shutdown. Refresh browser page after 5 minutes")
         val proc = Runtime.getRuntime().exec(commanBuilder.toString())
         if (proc.isAlive) {
             System.exit(0)

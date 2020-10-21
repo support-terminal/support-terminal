@@ -9,18 +9,6 @@ import io.github.bot.terminal.application.domains.db_connection.rest.requests.My
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.OracleDbConnectionRequest
 import io.github.bot.terminal.application.domains.db_connection.rest.requests.PostgresDbConnectionRequest
 import io.github.bot.terminal.application.domains.db_connection.values.DbConnectionType
-import io.github.bot.terminal.application.domains.integrations.slack.SlackApiClient
-import io.github.bot.terminal.application.domains.integrations.telegram.TelegramApiClient
-import io.github.bot.terminal.application.domains.notificarion_api.entity.*
-import io.github.bot.terminal.application.domains.notificarion_api.repository.NotificationApiRepository
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.NotificationApiTypeDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.SlackNotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.dto.TelegramNotificationApiDTO
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.NotificationApiRequest
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.SlackNotificationApiRequest
-import io.github.bot.terminal.application.domains.notificarion_api.rest.requests.TelegramNotificationApiRequest
-import io.github.bot.terminal.application.domains.notificarion_api.values.NotificationApiType
 import java.util.*
 
 
