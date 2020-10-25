@@ -11,7 +11,7 @@ class DbConnectionsFactory (
     fun createNew(details: DbConnectionDetails): DbConnection<*> {
         val dbConnection = build(details)
         repository.add(details)
-        return dbConnection;
+        return dbConnection
     }
 
     fun update(id: String, detailsUpdate: DbConnectionDetails): DbConnection<*> {

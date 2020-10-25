@@ -1,7 +1,6 @@
 package io.github.bot.terminal.application.domains.common.action.entity
 
 import io.github.bot.terminal.application.domains.db_connection.entity.DbConnection
-import io.github.bot.terminal.application.domains.notificarion_api.entity.Message
 import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi
 
 class SqlSelectAsOneNumberValueAction(private val select: String,
@@ -17,9 +16,9 @@ class SqlSelectAsOneNumberValueAction(private val select: String,
     }
 
     inner class ActionResultImpl(override val result: Double?) : ActionResult<Double?> {
-        override fun notify(notificationApi: NotificationApi) {
-            if (result != null) {
-                notificationApi.sendMessage(Message(result.toString()))
+        override fun notifyAboutResult(notificationApi: NotificationApi) {
+            result?.let {
+                notificationApi.sendText(result.toString())
             }
         }
     }

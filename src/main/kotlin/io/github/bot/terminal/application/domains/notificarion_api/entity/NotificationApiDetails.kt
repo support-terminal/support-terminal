@@ -47,6 +47,7 @@ data class TelegramNotificationApiDetails(
         override var enabled: Boolean,
         var botFatherName: String,
         var token: String,
+        var chatId: String,
         var offset: Int = 0
 ) : NotificationApiDetails(id) {
     override var type: NotificationApiType = NotificationApiType.TELEGRAM_BOT
@@ -55,6 +56,7 @@ data class TelegramNotificationApiDetails(
         if (detailsUpdate is TelegramNotificationApiDetails) {
             super.merge(detailsUpdate)
             token = detailsUpdate.token
+            chatId = detailsUpdate.chatId
             botFatherName = detailsUpdate.botFatherName
             offset = detailsUpdate.offset
         }

@@ -91,7 +91,7 @@ class SlackApiClient (
     }
 
     companion object {
-        val log: Logger = LoggerFactory.getLogger(javaClass);
+        val log: Logger = LoggerFactory.getLogger(javaClass)
         private const val SLACK_API_URL = "https://slack.com/api"
     }
 }

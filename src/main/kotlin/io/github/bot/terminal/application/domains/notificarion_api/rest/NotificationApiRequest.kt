@@ -28,6 +28,7 @@ data class TelegramNotificationApiRequest(
         val label: @NotBlank String,
         val botFatherName: @NotBlank String,
         val token: @NotBlank String,
+        val chatId: @NotBlank String,
         override val type: @NotBlank String = TELEGRAM_BOT,
         override val enabled: Boolean = true
 ) : NotificationApiRequest()

@@ -11,5 +11,5 @@ data class Message(
         @JsonProperty("from") val from: User? = null,
         @JsonProperty("chat") val chat: Chat? = null,
         @JsonProperty("date") val date: Date? = null,
-        @JsonProperty("text") val text: String
+        @JsonProperty("text") val text: String = ""
 )

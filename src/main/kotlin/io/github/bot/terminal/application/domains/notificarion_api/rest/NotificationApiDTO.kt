@@ -17,5 +17,6 @@ data class TelegramNotificationApiDTO(
         val label: String,
         val enabled: Boolean,
         val token: String,
+        val chatId: String,
         val botFatherName: String
 ) : NotificationApiDTO(NotificationApiType.Constants.TELEGRAM_BOT)

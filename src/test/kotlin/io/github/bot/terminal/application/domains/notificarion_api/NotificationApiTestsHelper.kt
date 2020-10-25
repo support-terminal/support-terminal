@@ -79,10 +79,10 @@ object NotificationsApiDataSet {
 
     }
 
-    enum class Telegram(val id: String, val label: String, val token: String, val botFatherName: String, var enabled: Boolean = true) : NotificationApiTestData {
-        TELEGRAM_1("T0001", "T_label1", "token1", "botFatherName1"),
-        TELEGRAM_2("T0002", "T_label2", "token2", "botFatherName2"),
-        TELEGRAM_1_UPDATE("T0001", "T_label2", "token2", "botFatherName2");
+    enum class Telegram(val id: String, val label: String, val token: String, val botFatherName: String, val chatId: String, var enabled: Boolean = true) : NotificationApiTestData {
+        TELEGRAM_1("T0001", "T_label1", "token1", "botFatherName1", "-483901969"),
+        TELEGRAM_2("T0002", "T_label2", "token2", "botFatherName2", "48390196"),
+        TELEGRAM_1_UPDATE("T0001", "T_label2", "token2", "botFatherName2", "48390196");
 
         override fun id() = id
 
@@ -91,7 +91,8 @@ object NotificationsApiDataSet {
                 label = label,
                 enabled = enabled,
                 token = token,
-                botFatherName = botFatherName
+                botFatherName = botFatherName,
+                chatId = chatId
         )
 
         override fun details() = TelegramNotificationApiDetails(
@@ -99,7 +100,8 @@ object NotificationsApiDataSet {
                 label = label,
                 enabled = enabled,
                 token = token,
-                botFatherName = botFatherName
+                botFatherName = botFatherName,
+                chatId = chatId
         )
 
         override fun api() = TelegramNotificationApi(details(), repository, telegramApiClient)
@@ -108,7 +110,8 @@ object NotificationsApiDataSet {
                 label = label,
                 enabled = enabled,
                 token = token,
-                botFatherName = botFatherName
+                botFatherName = botFatherName,
+                chatId = chatId
         )
 
     }

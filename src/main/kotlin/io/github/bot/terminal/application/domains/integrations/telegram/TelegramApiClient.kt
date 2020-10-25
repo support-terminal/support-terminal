@@ -67,7 +67,7 @@ class TelegramApiClient(private val restTemplate: RestTemplate) {
     }
 
     companion object {
-        val log: Logger = LoggerFactory.getLogger(javaClass);
+        val log: Logger = LoggerFactory.getLogger(javaClass)
         private const val TELEGRAM_URL = "https://api.telegram.org"
     }
 }

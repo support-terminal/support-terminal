@@ -16,21 +16,20 @@ class TelegramNotificationApi(override val details: TelegramNotificationApiDetai
         get() {
             val updateResponse = telegramApiClient.getUpdates(details.token, UpdateRequest(details.offset))
             if (!updateResponse.ok) {
-                return listOf();
+                return listOf()
             }
             details.offset = (updateResponse.result.map { it.updateId }.max() ?: 0) + 1
             repository.update(details)
             return updateResponse.result.map { Message(it.message.text) }
         }
 
-    override fun sendMessage(message: Message) {
-        telegramApiClient.sendMessage(details.token, TelegramSendMessageRequest("228636557", message.text))
+    override fun sendText(text: String) {
+        telegramApiClient.sendMessage(details.token, TelegramSendMessageRequest(details.chatId, text))
     }
 
     override fun sendDocument(file: DocumentFile) {
-        telegramApiClient.sendDocument(details.token, "228636557", file)
+        telegramApiClient.sendDocument(details.token, details.chatId, file)
     }
-
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

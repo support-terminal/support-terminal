@@ -1,10 +1,8 @@
 package io.github.bot.terminal.application.domains.common.action.entity
 
 import io.github.bot.terminal.application.domains.db_connection.entity.DbConnection
-import io.github.bot.terminal.application.domains.notificarion_api.entity.Message
 import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi
 import org.apache.commons.text.StringSubstitutor
-import java.util.*
 import java.util.function.Consumer
 import kotlin.collections.HashMap
 
@@ -59,9 +57,9 @@ class SqlSelectAsTextAction(private val select: String,
     }
 
     inner class ActionResultImpl(override val result: String?) : ActionResult<String?> {
-        override fun notify(notificationApi: NotificationApi) {
-            if(result != null){
-                notificationApi.sendMessage(Message(result))
+        override fun notifyAboutResult(notificationApi: NotificationApi) {
+            result?.let {
+                notificationApi.sendText(result)
             }
         }
     }

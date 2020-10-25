@@ -2,7 +2,10 @@ package io.github.bot.terminal.application.domains.bot_commands.entity
 
 import io.github.bot.terminal.application.domains.bot_commands.repository.BotCommandDetails
 import io.github.bot.terminal.application.domains.common.action.entity.Action
-import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi
+import io.github.bot.terminal.application.domains.common.action.entity.ActionResult
+import io.github.bot.terminal.application.domains.common.action.entity.EmptyResult
+import org.slf4j.LoggerFactory
+import java.lang.invoke.MethodHandles
 
 class BotCommand(
         val details: BotCommandDetails,
@@ -10,11 +13,12 @@ class BotCommand(
         val cmd: Cmd = Cmd(details.cmd)
 ) {
 
-    fun process(notificationApi: NotificationApi?) {
+    fun performAction() : ActionResult<*> {
         if (!details.isEnabled) {
-            return
+            log.info("Can not perform bot command `${details.name}`. It's disabled")
+            return EmptyResult()
         }
-        action.execute().notify(notificationApi!!)
+        return action.execute()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -35,6 +39,10 @@ class BotCommand(
         result = 31 * result + action.hashCode()
         result = 31 * result + cmd.hashCode()
         return result
+    }
+
+    companion object {
+        private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
     }
 
 }

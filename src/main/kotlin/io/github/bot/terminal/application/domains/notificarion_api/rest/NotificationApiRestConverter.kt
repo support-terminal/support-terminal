@@ -28,6 +28,7 @@ class NotificationApiRestConverter {
                     label = request.label,
                     enabled = request.enabled,
                     token = request.token,
+                    chatId = request.chatId,
                     botFatherName = request.botFatherName
             )
 
@@ -53,7 +54,8 @@ class NotificationApiRestConverter {
             label = details.label,
             enabled = details.enabled,
             token = details.token,
-            botFatherName = details.botFatherName
+            botFatherName = details.botFatherName,
+            chatId = details.chatId
     )
 
 }

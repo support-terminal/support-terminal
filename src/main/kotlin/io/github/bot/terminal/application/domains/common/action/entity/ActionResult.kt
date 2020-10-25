@@ -3,6 +3,11 @@ package io.github.bot.terminal.application.domains.common.action.entity
 import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi
 
 interface ActionResult<T> {
-    fun notify(api: NotificationApi)
+    fun notifyAboutResult(notificationApi: NotificationApi)
     val result: T
+}
+
+class EmptyResult : ActionResult<Any?> {
+    override fun notifyAboutResult(notificationApi: NotificationApi) {}
+    override val result: Any? = null
 }

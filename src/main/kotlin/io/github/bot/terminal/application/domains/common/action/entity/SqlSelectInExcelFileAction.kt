@@ -65,8 +65,10 @@ class SqlSelectInExcelFileAction(private val select: String,
     }
 
     inner class ActionResultImpl(override val result: DocumentFile) : ActionResult<DocumentFile> {
-        override fun notify(notificationApi: NotificationApi) {
-            notificationApi.sendDocument(result)
+        override fun notifyAboutResult(notificationApi: NotificationApi) {
+            result?.let {
+                notificationApi.sendDocument(result)
+            }
         }
     }
 

@@ -21,4 +21,15 @@
       Required value
     </mat-error>
   </mat-form-field>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Chat Id'
+           id='chatId' name='chatId'
+           [(ngModel)]='bot.chatId'
+           required
+           #chatId='ngModel'/>
+    <mat-error *ngIf='chatId.errors && (chatId.dirty || chatId.touched) && chatId.errors.required'>
+      Required value
+    </mat-error>
+  </mat-form-field>
 </div>

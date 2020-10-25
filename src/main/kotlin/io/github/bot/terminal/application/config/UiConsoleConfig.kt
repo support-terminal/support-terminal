@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.SimpMessagingTemplate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 private const val UI_NOTIFICATIONS_TOPIC = "/topic/ui/events"
 
@@ -28,6 +30,7 @@ open class UiConsoleConfig {
 
 class UiConsoleLogsAppender(private val template: SimpMessagingTemplate) : AppenderBase<ILoggingEvent>() {
     override fun append(event: ILoggingEvent) {
-        template.convertAndSend(UI_NOTIFICATIONS_TOPIC, event.formattedMessage)
+        template.convertAndSend(UI_NOTIFICATIONS_TOPIC,
+                " ${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))} - ${event.formattedMessage}")
     }
 }
