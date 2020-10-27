@@ -2,10 +2,10 @@ package io.github.bot.terminal.application.domains.bot_commands.entity
 
 import org.apache.commons.lang3.StringUtils
 
-class Cmd(_cmd: String) {
+class Cmd(_message: String) {
     val cmd: String
     init {
-        cmd = StringUtils.defaultString(_cmd, EMPTY).trim { it <= ' ' }.toLowerCase()
+        cmd = StringUtils.defaultString(_message.trim(), EMPTY).trim { it <= ' ' }.toLowerCase()
     }
 
     override fun toString(): String {

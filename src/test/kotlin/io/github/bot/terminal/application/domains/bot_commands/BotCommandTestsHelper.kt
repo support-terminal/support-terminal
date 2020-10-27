@@ -80,7 +80,7 @@ object BotCommandsDataSet {
         fun dto() = BotCommandDTO(
                 id = id,
                 name = label,
-                cmd = cmd,
+                cmdTemplate = cmd,
                 botIds = botIds,
                 action = action.dto(),
                 enabled = enabled
@@ -89,7 +89,7 @@ object BotCommandsDataSet {
         fun details() = BotCommandDetails(
                 id = id,
                 name = label,
-                cmd = cmd,
+                cmdTemplate = cmd,
                 botIds = botIds,
                 actionDetails = action.details(),
                 isEnabled = enabled
@@ -102,7 +102,7 @@ object BotCommandsDataSet {
 
         fun request() = BotCommandRequest(
                 name = label,
-                cmd = cmd,
+                cmdTemplate = cmd,
                 botIds = botIds,
                 action = action.request(),
                 enabled = enabled
@@ -110,7 +110,7 @@ object BotCommandsDataSet {
 
         fun requestWrong() = BotCommandRequest(
                 name = label,
-                cmd = cmd,
+                cmdTemplate = cmd,
                 botIds = botIds,
                 action = action.requestWrong(),
                 enabled = enabled

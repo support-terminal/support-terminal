@@ -3,7 +3,7 @@ import Action from './Action';
 export default class BotCommand {
     id: string;
     name: string;
-    cmd: string;
+    cmdTemplate: string;
     botIds: string;
     enabled: boolean;
     action: Action;

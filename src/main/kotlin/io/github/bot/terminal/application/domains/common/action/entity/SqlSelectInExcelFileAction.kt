@@ -17,20 +17,16 @@ class SqlSelectInExcelFileAction(private val select: String,
 
     private val df: DateFormat = StdDateFormat()
 
-    override fun execute(): ActionResult<*> {
-        return try {
+    override fun execute(params: Map<String, String>): ActionResult<*> {
             val template = dbConnection.createJdbcTemplate()
             val rows = template.queryForList(select)
             try {
                 val file = excelManagerService.createExcelDocumentFile(
                         getExcelFileName(fileNameTemplate) + ".xls", rows)
-                ActionResultImpl(file)
+                return ActionResultImpl(file)
             } catch (e: IOException) {
                 throw e
             }
-        } catch (e: Exception) {
-            throw e
-        }
     }
 
     private fun getExcelFileName(fileNameTemplate: String): String {

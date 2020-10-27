@@ -13,7 +13,7 @@ class BotCommandsRestConverter(
     fun mapToDetails(request: BotCommandRequest): BotCommandDetails =
             BotCommandDetails(
                     name = request.name,
-                    cmd = request.cmd,
+                    cmdTemplate = request.cmdTemplate,
                     isEnabled = request.enabled,
                     botIds = request.botIds,
                     actionDetails = actionRestConverter.mapToDetails(request.action)
@@ -23,7 +23,7 @@ class BotCommandsRestConverter(
             BotCommandDTO(
                     id = details.id,
                     name = details.name,
-                    cmd = details.cmd,
+                    cmdTemplate = details.cmdTemplate,
                     enabled = details.isEnabled,
                     botIds = details.botIds,
                     action = actionRestConverter.mapToDto(details.actionDetails)

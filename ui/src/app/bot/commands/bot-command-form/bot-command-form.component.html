@@ -17,10 +17,10 @@
 
   <mat-form-field fxFlex>
     <input matInput placeholder='Command'
-           id='cmd' name='cmd'
-           formControlName='cmd'/>
-    <mat-error *ngIf=" (botCommandForm.controls['cmd'].dirty || botCommandForm.controls['cmd'].touched)
-                       && botCommandForm.controls['cmd'].errors && botCommandForm.controls['cmd'].errors.required">
+           id='cmdTemplate' name='cmdTemplate'
+           formControlName='cmdTemplate'/>
+    <mat-error *ngIf=" (botCommandForm.controls['cmdTemplate'].dirty || botCommandForm.controls['cmdTemplate'].touched)
+                       && botCommandForm.controls['cmdTemplate'].errors && botCommandForm.controls['cmdTemplate'].errors.required">
       Required value
     </mat-error>
   </mat-form-field>

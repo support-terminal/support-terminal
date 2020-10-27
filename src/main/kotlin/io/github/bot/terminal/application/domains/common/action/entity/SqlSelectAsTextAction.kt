@@ -4,26 +4,21 @@ import io.github.bot.terminal.application.domains.db_connection.entity.DbConnect
 import io.github.bot.terminal.application.domains.notificarion_api.entity.NotificationApi
 import org.apache.commons.text.StringSubstitutor
 import java.util.function.Consumer
-import kotlin.collections.HashMap
 
 class SqlSelectAsTextAction(private val select: String,
                             private val resultTemplate: String,
                             private val dbConnection: DbConnection<*>) : Action {
 
-    override fun execute(): ActionResult<*> {
-        return try {
-            val template = dbConnection.createJdbcTemplate()
-            val rows = template.queryForList(select)
-            val responseBuilder = StringBuilder()
-            for (row in rows) {
-                responseBuilder.append(renderRow(row))
-                responseBuilder.append(System.lineSeparator())
-            }
-            val responseMessage = responseBuilder.toString()
-            ActionResultImpl(responseMessage)
-        } catch (ex: Exception) {
-            throw ex
+    override fun execute(params: Map<String, String>): ActionResult<*> {
+        val template = dbConnection.createJdbcTemplate()
+        val rows = template.queryForList(StringSubstitutor(params).replace(select))
+        val responseBuilder = StringBuilder()
+        for (row in rows) {
+            responseBuilder.append(renderRow(row))
+            responseBuilder.append(System.lineSeparator())
         }
+        val responseMessage = responseBuilder.toString()
+        return ActionResultImpl(responseMessage)
     }
 
     private fun renderRow(row: Map<String, Any>): String {

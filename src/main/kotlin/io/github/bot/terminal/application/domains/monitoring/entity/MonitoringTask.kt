@@ -16,7 +16,7 @@ class MonitoringTask(
         if (!details.isEnabled) {
             return
         }
-        val result = action.execute()
+        val result = action.execute(emptyMap())
         for (c in conditions) {
             //todo проверки сами реализуют логику примениму они к такому типу данных или нет
             //если не применимы то скипают - но нужна хотя бы одна проверка не на число - типа статус HTTP запроса

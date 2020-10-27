@@ -8,14 +8,14 @@ data class BotCommandDetails(
         @Id
         val id: String = UUID.randomUUID().toString(),
         var name: String,
-        var cmd: String,
+        var cmdTemplate: String,
         var isEnabled: Boolean,
         var actionDetails: ActionDetails,
         var botIds: Collection<String>
 ) {
     fun merge(update: BotCommandDetails) {
         name = update.name
-        cmd = update.cmd
+        cmdTemplate = update.cmdTemplate
         isEnabled = update.isEnabled
         actionDetails = update.actionDetails
         botIds = update.botIds

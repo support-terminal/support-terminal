@@ -9,16 +9,30 @@ import java.lang.invoke.MethodHandles
 
 class BotCommand(
         val details: BotCommandDetails,
-        private val action: Action,
-        val cmd: Cmd = Cmd(details.cmd)
+        private val action: Action
 ) {
 
-    fun performAction() : ActionResult<*> {
+    fun cmd(): String = details.cmdTemplate.split(" ")[0].trim()
+
+    fun performAction(cmd: String): ActionResult<*> {
         if (!details.isEnabled) {
             log.info("Can not perform bot command `${details.name}`. It's disabled")
             return EmptyResult()
         }
-        return action.execute()
+        val params = getParams(cmd);
+        return action.execute(params)
+    }
+
+    private fun getParams(cmd: String): Map<String, String> {
+        val parameterMap: MutableMap<String, String> = mutableMapOf();
+        val names = details.cmdTemplate.trim().split(" ")
+        val maxIndexOfParams = names.size - 1
+        val params = cmd.trim().split(" ")
+        for (i in 1..maxIndexOfParams) {
+            val paramName =  names[i].trim().replace(Regex("[\${}]"), "")
+            parameterMap[paramName] = params[i].trim()
+        }
+        return parameterMap;
     }
 
     override fun equals(other: Any?): Boolean {
@@ -29,15 +43,12 @@ class BotCommand(
 
         if (details != other.details) return false
         if (action != other.action) return false
-        if (cmd != other.cmd) return false
-
         return true
     }
 
     override fun hashCode(): Int {
         var result = details.hashCode()
         result = 31 * result + action.hashCode()
-        result = 31 * result + cmd.hashCode()
         return result
     }
 

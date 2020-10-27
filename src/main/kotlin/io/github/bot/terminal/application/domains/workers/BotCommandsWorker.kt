@@ -34,18 +34,18 @@ class BotCommandsWorker(
 
     private fun handle(notificationApi: NotificationApi) {
 
-        val cmdMap: Map<Cmd, List<BotCommand>> = botCommandsFactory.byNotificationApiId(notificationApi.id)
-                .groupBy { it.cmd }
+        val cmdMap: Map<String, List<BotCommand>> = botCommandsFactory.byNotificationApiId(notificationApi.id)
+                .groupBy { it.cmd() }
 
         for (message in notificationApi.lastMessages) {
-            val cmd = Cmd(message.text)
+            val cmd = message.text.split(" ")[0].trim()
             if(cmd.isEmpty()) {
                 continue
             }
             cmdMap[cmd]?.let {
                 it.forEach { botCommand: BotCommand ->
-                    log.info("Start execution of command `${cmd.cmd}`")
-                    botCommand.performAction().notifyAboutResult(notificationApi)
+                    log.info("Start execution of command: `${cmd}` (${message.text})")
+                    botCommand.performAction(message.text).notifyAboutResult(notificationApi)
                 }
             }
         }

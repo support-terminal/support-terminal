@@ -5,14 +5,10 @@ import io.github.bot.terminal.application.domains.notificarion_api.entity.Notifi
 
 class SqlSelectAsOneNumberValueAction(private val select: String,
                                       private val dbConnection: DbConnection<*>) : Action {
-    override fun execute(): ActionResult<*> {
-        return try {
-            val template = dbConnection.createJdbcTemplate()
-            val value = template.queryForObject(select, Double::class.java)
-            ActionResultImpl(value)
-        } catch (ex: Exception) {
-            throw ex
-        }
+    override fun execute(params: Map<String, String>): ActionResult<*> {
+        val template = dbConnection.createJdbcTemplate()
+        val value = template.queryForObject(select, Double::class.java)
+        return ActionResultImpl(value)
     }
 
     inner class ActionResultImpl(override val result: Double?) : ActionResult<Double?> {
