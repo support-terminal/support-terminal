@@ -8,6 +8,8 @@ import io.github.bot.terminal.application.domains.common.action.values.ActionTyp
 @JsonSubTypes(
         JsonSubTypes.Type(value = SqlSelectAsTextActionDetails::class,
                 name = ActionType.Constants.SQL_SELECT_AS_TEXT),
+        JsonSubTypes.Type(value = JoinSqlSelectAsTextActionDetails::class,
+                name = ActionType.Constants.JOIN_SQL_SELECTS_AS_TEXT),
         JsonSubTypes.Type(value = SqlSelectAsOneNumberValueActionDetails::class,
                 name = ActionType.Constants.SQL_SELECT_AS_ONE_NUMBER),
         JsonSubTypes.Type(value = SqlSelectInExcelFileActionDetails::class,
@@ -18,6 +20,12 @@ data class SqlSelectAsOneNumberValueActionDetails(
         var select: String,
         var dbConnectionId: String
 ) : ActionDetails(ActionType.SQL_SELECT_AS_ONE_NUMBER)
+
+data class JoinSqlSelectAsTextActionDetails(
+        var queries: List<SqlSelectDetails>,
+        var select: String,
+        var resultTemplate: String
+) : ActionDetails(ActionType.JOIN_SQL_SELECTS_AS_TEXT)
 
 data class SqlSelectAsTextActionDetails(
         var select: String,
@@ -30,3 +38,9 @@ data class SqlSelectInExcelFileActionDetails(
         var dbConnectionId: String,
         var fileNameTemplate: String
 ) : ActionDetails(ActionType.SQL_SELECT_IN_EXCEL_FILE)
+
+data class SqlSelectDetails(
+        var name: String,
+        var select: String,
+        var dbConnectionId: String
+)

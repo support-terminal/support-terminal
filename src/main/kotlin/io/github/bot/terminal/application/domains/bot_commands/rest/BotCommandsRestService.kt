@@ -41,6 +41,7 @@ class BotCommandsRestService(
 
     fun types(): List<BotCommandTypeDTO> {
         return listOf(ActionType.SQL_SELECT_AS_TEXT,
+                ActionType.JOIN_SQL_SELECTS_AS_TEXT,
                 ActionType.SQL_SELECT_IN_EXCEL_FILE)
                 .map { BotCommandTypeDTO(label = it.label, type = it.name) }
     }

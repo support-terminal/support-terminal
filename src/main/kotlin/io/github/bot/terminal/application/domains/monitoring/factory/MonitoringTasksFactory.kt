@@ -20,9 +20,9 @@ class MonitoringTasksFactory(
 ) {
 
     fun createNew(details: MonitoringTaskDetails): MonitoringTask {
-        val botCommand = build(details)
+        val task = build(details)
         repository.add(details)
-        return botCommand
+        return task
     }
 
     fun update(id: String, detailsUpdate: MonitoringTaskDetails): MonitoringTask {

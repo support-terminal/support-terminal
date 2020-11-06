@@ -1,17 +1,8 @@
 package io.github.bot.terminal.application.domains.common.action
 
-import io.github.bot.terminal.application.domains.common.action.dto.ActionDTO
-import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsExcelFileActionDTO
-import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsOneNumberValueActionDTO
-import io.github.bot.terminal.application.domains.common.action.dto.SqlSelectAsTextActionDTO
-import io.github.bot.terminal.application.domains.common.action.entity.ActionDetails
-import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsOneNumberValueActionDetails
-import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectAsTextActionDetails
-import io.github.bot.terminal.application.domains.common.action.entity.SqlSelectInExcelFileActionDetails
-import io.github.bot.terminal.application.domains.common.action.requests.ActionRequest
-import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsExcelFileActionRequest
-import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsOneNumberValueActionRequest
-import io.github.bot.terminal.application.domains.common.action.requests.SqlSelectAsTextActionRequest
+import io.github.bot.terminal.application.domains.common.action.dto.*
+import io.github.bot.terminal.application.domains.common.action.entity.*
+import io.github.bot.terminal.application.domains.common.action.requests.*
 import io.github.bot.terminal.application.domains.common.action.values.ActionType
 import org.springframework.stereotype.Service
 
@@ -27,6 +18,9 @@ class ActionRestConverter {
 
                 ActionType.SQL_SELECT_AS_ONE_NUMBER.name ->
                     mapToDetails(request as SqlSelectAsOneNumberValueActionRequest)
+
+                ActionType.JOIN_SQL_SELECTS_AS_TEXT.name ->
+                    mapToDetails(request as JoinSqlSelectAsTextActionRequest)
 
                 else -> throw IllegalArgumentException("Unknown type: " + request.type)
             }
@@ -51,6 +45,15 @@ class ActionRestConverter {
                     select = request.select
             )
 
+    fun mapToDetails(request: JoinSqlSelectAsTextActionRequest) =
+            JoinSqlSelectAsTextActionDetails(
+                    queries = request.queries.map{
+                        SqlSelectDetails(it.name, it.select, it.dbConnectionId)
+                    },
+                    select = request.select,
+                    resultTemplate = request.resultTemplate
+            )
+
     fun mapToDto(details: ActionDetails): ActionDTO =
             when (details.type) {
                 ActionType.SQL_SELECT_AS_TEXT ->
@@ -59,6 +62,8 @@ class ActionRestConverter {
                     mapToDto(details as SqlSelectInExcelFileActionDetails)
                 ActionType.SQL_SELECT_AS_ONE_NUMBER ->
                     mapToDto(details as SqlSelectAsOneNumberValueActionDetails)
+                ActionType.JOIN_SQL_SELECTS_AS_TEXT ->
+                    mapToDto(details as JoinSqlSelectAsTextActionDetails)
             }
 
     fun mapToDto(details: SqlSelectAsTextActionDetails) =
@@ -79,6 +84,15 @@ class ActionRestConverter {
             SqlSelectAsOneNumberValueActionDTO(
                     dbConnectionId = details.dbConnectionId,
                     select = details.select
+            )
+
+    fun mapToDto(details: JoinSqlSelectAsTextActionDetails) =
+            JoinSqlSelectAsTextActionDTO(
+                    queries = details.queries.map{
+                        SqlSelectDTO(it.name, it.select, it.dbConnectionId)
+                    },
+                    select = details.select,
+                    resultTemplate = details.resultTemplate
             )
 
 }

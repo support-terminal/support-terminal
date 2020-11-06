@@ -11,6 +11,12 @@ data class SqlSelectAsExcelFileActionDTO(
         val fileNameTemplate: @NotBlank String
 ) : ActionDTO(ActionType.Constants.SQL_SELECT_IN_EXCEL_FILE)
 
+data class JoinSqlSelectAsTextActionDTO(
+        val queries: List<SqlSelectDTO>,
+        val select: @NotBlank String,
+        val resultTemplate: @NotBlank String
+) : ActionDTO(ActionType.Constants.JOIN_SQL_SELECTS_AS_TEXT)
+
 data class SqlSelectAsOneNumberValueActionDTO(
         val select: @NotBlank String,
         val dbConnectionId: @NotBlank String
@@ -22,3 +28,8 @@ data class SqlSelectAsTextActionDTO(
         val resultTemplate: @NotBlank String
 ) : ActionDTO(ActionType.Constants.SQL_SELECT_AS_TEXT)
 
+data class SqlSelectDTO(
+        val name: @NotBlank String,
+        val select: @NotBlank String,
+        val dbConnectionId: @NotBlank String
+)

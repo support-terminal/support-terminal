@@ -59,7 +59,7 @@ export class BotCommandFormComponent implements OnDestroy, OnChanges {
       cmdTemplate: ['', Validators.required],
       botIds: [null, Validators.compose([Validators.minLength(1), Validators.required])],
       action: this.fb.group({
-        type: [''],
+        type: ['']
       })
     });
   }

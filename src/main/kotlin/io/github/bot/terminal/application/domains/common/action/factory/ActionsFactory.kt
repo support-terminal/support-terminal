@@ -4,12 +4,14 @@ import io.github.bot.terminal.application.domains.common.action.entity.*
 import io.github.bot.terminal.application.domains.common.action.values.ActionType
 import io.github.bot.terminal.application.domains.common.services.ExcelManagerService
 import io.github.bot.terminal.application.domains.db_connection.factory.DbConnectionsFactory
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 
 @Service
 class ActionsFactory(
         private val dbConnectionsFactory: DbConnectionsFactory,
-        private val excelManagerService: ExcelManagerService
+        private val excelManagerService: ExcelManagerService,
+        private val h2JdbcTemplate: JdbcTemplate
 ) {
 
     fun build(actionDetails: ActionDetails): Action =
@@ -38,6 +40,21 @@ class ActionsFactory(
                     SqlSelectAsOneNumberValueAction(
                             select = details.select,
                             dbConnection = dbConnection
+                    )
+                }
+                ActionType.JOIN_SQL_SELECTS_AS_TEXT -> {
+                    val details = actionDetails as JoinSqlSelectAsTextActionDetails
+                    JoinSqlSelectAsTextAction(
+                            queries = details.queries.map {
+                                SqlSelect(
+                                      name = it.name,
+                                      select = it.select,
+                                      dbConnection = dbConnectionsFactory.byId(it.dbConnectionId)
+                                )
+                            },
+                            select = details.select,
+                            resultTemplate = details.resultTemplate,
+                            h2InMemory = H2InMemory(h2JdbcTemplate)
                     )
                 }
             }

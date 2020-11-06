@@ -1,0 +1,47 @@
+<div id='sqlSelectFormDiv' fxLayout='column' *ngIf='sqlSelectForm' [formGroup]='sqlSelectForm'>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Name'
+           id='name' name='name'
+           formControlName='name'/>
+    <mat-error *ngIf=" (sqlSelectForm.controls['name'].dirty || sqlSelectForm.controls['name'].touched)
+                       && sqlSelectForm.controls['name'].errors && sqlSelectForm.controls['name'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder='Data base connection'
+                id='dbConnectionId' name='dbConnectionId'
+                formControlName='dbConnectionId'>
+      <mat-option *ngFor='let bd of dataBases' [value]='bd.id'>
+        {{ bd.name }}
+      </mat-option>
+    </mat-select>
+
+    <mat-error *ngIf="(sqlSelectForm.controls['dbConnectionId'].dirty || sqlSelectForm.controls['dbConnectionId'].touched)
+                       && sqlSelectForm.controls['dbConnectionId'].errors && sqlSelectForm.controls['dbConnectionId'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-codemirror formControlName='select'
+                    id='select' name='select'
+                    required
+                    [options]="{
+          theme: 'idea',
+          mode: 'text/x-sql'
+        }" placeholder='Sql select'></mat-codemirror>
+    <mat-error *ngIf="(sqlSelectForm.controls['select'].dirty || sqlSelectForm.controls['select'].touched)
+                     && sqlSelectForm.controls['select'].errors && sqlSelectForm.controls['select'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-card-actions fxLayoutAlign='end'>
+    <button type='submit' mat-button color='warn' (click)='submitRemoveMe()'>
+      Remove condition
+    </button>
+  </mat-card-actions>
+</div>

@@ -40,7 +40,7 @@ class DbConnectionsFactory (
         return build(getById(id))
     }
 
-    fun getById(id: String): DbConnectionDetails
+    private fun getById(id: String): DbConnectionDetails
             = repository.findById(id) ?: throw IllegalArgumentException("DbConnection not found by id=${id}")
 
     fun delete(id: String) {

@@ -66,6 +66,8 @@ dependencies {
 	compile("org.springframework.security:spring-security-jwt:${springSecurityJwtVersion}")
 	compile("io.jsonwebtoken:jjwt:${jjwtJwtVersion}")
 
+	compile group: 'com.h2database', name: 'h2', version: '1.4.200'
+
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-security')
 

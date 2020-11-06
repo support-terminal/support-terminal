@@ -12,22 +12,26 @@ import {SqlSelectAsTextBotCommandFormComponent} from './bot-command-form/sql-sel
 import {EditBotCommandComponent} from './edit-bot-command/edit-bot-command.component';
 import {BotCommandsListComponent} from './bot-commands-list/bot-commands-list.component';
 import {BotCommandItemComponent} from './bot-commands-list/bot-command-item/bot-command-item.component';
+import {JoinSqlSelectAsTextBotCommandFormComponent} from './bot-command-form/join-sql-select-as-text-bot-command/join-sql-select-as-text-bot-command-form.component';
+import {SqlSelectFormComponent} from './bot-command-form/sql-select-form/sql-select-form.component';
 
 
 @NgModule({
-    imports: [
-        AngularMaterialModule,
-        CodemirrorModule,
-        CommonModule,
-        BotCommandsRoutingModule
-    ],
-    providers: [ BotCommandsResolver, BotCommandsService],
-    declarations: [
-       AddBotCommandComponent, BotCommandFormComponent,
-       SqlInExcelFileCommandComponent, SqlSelectAsTextBotCommandFormComponent, EditBotCommandComponent,
-        BotCommandsListComponent,
-        BotCommandItemComponent,
-    ]
+  imports: [
+    AngularMaterialModule,
+    CodemirrorModule,
+    CommonModule,
+    BotCommandsRoutingModule
+  ],
+  providers: [BotCommandsResolver, BotCommandsService],
+  declarations: [
+    AddBotCommandComponent, BotCommandFormComponent,
+    SqlInExcelFileCommandComponent, SqlSelectAsTextBotCommandFormComponent,
+    JoinSqlSelectAsTextBotCommandFormComponent, EditBotCommandComponent,
+    SqlSelectFormComponent,
+    BotCommandsListComponent,
+    BotCommandItemComponent,
+  ]
 })
 export class BotCommandsModule {
 }

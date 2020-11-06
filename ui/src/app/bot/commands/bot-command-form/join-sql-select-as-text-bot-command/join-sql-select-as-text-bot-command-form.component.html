@@ -1,0 +1,48 @@
+<div id='actionFormDiv' fxLayout='column' *ngIf='actionForm' [formGroup]='actionForm'>
+
+
+  <fieldset>
+    <legend>Queries</legend>
+    <div>
+      <button  color='primary'
+              (click)='addQuery()'
+              type='button'>
+        Add data query
+      </button>
+    </div>
+    <br/>
+    <app-sql-select-form
+      *ngFor="let sqlSelectForm of this.actionForm.controls.queries.controls; let i = index"
+      (removeMeEvent)='dropQuery(i)'
+      [sqlSelectForm]='sqlSelectForm'
+      [sqlSelectModel]='sqlSelectForm.value'
+    >
+    </app-sql-select-form>
+  </fieldset>
+
+
+  <mat-form-field>
+    <mat-codemirror formControlName='select'
+                    id='select' name='select'
+                    required
+                    [options]="{
+          theme: 'idea',
+          mode: 'text/x-sql'
+        }" placeholder='Sql select'></mat-codemirror>
+    <mat-error *ngIf="(actionForm.controls['select'].dirty || actionForm.controls['select'].touched)
+                     && actionForm.controls['select'].errors && actionForm.controls['select'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field fxFlex>
+    <input matInput placeholder='Result template'
+           id='resultTemplate' name='resultTemplate'
+           formControlName='resultTemplate'/>
+    <mat-error *ngIf="(actionForm.controls['resultTemplate'].dirty || actionForm.controls['resultTemplate'].touched)
+                       && actionForm.controls['resultTemplate'].errors && actionForm.controls['resultTemplate'].errors.required">
+      Required value
+    </mat-error>
+  </mat-form-field>
+
+</div>
