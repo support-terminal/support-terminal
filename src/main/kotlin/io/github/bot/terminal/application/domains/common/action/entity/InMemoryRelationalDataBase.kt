@@ -3,7 +3,7 @@ package io.github.bot.terminal.application.domains.common.action.entity
 import org.apache.commons.text.StringSubstitutor
 import org.springframework.jdbc.core.JdbcTemplate
 
-class H2InMemory(private val h2JdbcTemplate: JdbcTemplate) {
+class InMemoryRelationalDataBase(private val h2JdbcTemplate: JdbcTemplate) {
 
 
     fun addTable(tableName: String, resultSet: MutableList<MutableMap<String, Any>>) {

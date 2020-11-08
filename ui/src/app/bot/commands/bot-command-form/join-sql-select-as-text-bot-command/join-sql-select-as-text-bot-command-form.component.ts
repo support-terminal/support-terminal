@@ -36,6 +36,7 @@ export class JoinSqlSelectAsTextBotCommandFormComponent implements OnDestroy, On
     }
     if (changes.actionModel) {
       if (this.actionModel != null) {
+        this.actionForm.setControl('queries', this.fb.array([]));
         if (Array.isArray(this.actionModel.queries) && this.actionModel.queries.length > 0) {
           this.actionModel.queries.forEach((s) => {
             ( this.actionForm.controls.queries as FormArray).push(

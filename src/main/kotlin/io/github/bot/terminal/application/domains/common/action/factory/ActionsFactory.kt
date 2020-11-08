@@ -54,7 +54,7 @@ class ActionsFactory(
                             },
                             select = details.select,
                             resultTemplate = details.resultTemplate,
-                            h2InMemory = H2InMemory(h2JdbcTemplate)
+                            inMemoryDataBase = InMemoryRelationalDataBase(h2JdbcTemplate)
                     )
                 }
             }
