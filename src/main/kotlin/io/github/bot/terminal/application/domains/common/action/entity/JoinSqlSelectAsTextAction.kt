@@ -14,7 +14,11 @@ class JoinSqlSelectAsTextAction(private val queries: List<SqlSelect>,
             responseBuilder.append(renderRow(row))
             responseBuilder.append(System.lineSeparator())
         }
-        val responseMessage = responseBuilder.toString()
+        val responseMessage = if (responseBuilder.isNotEmpty()) {
+            responseBuilder.toString()
+        } else {
+            "Could not perform command. Empty result"
+        }
         return ActionResultImpl(responseMessage)
     }
 
