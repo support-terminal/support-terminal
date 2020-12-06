@@ -10,7 +10,7 @@
         <appender-ref ref="FILE"/>
     </root>
 
-    <logger name="io.github.bot.terminal" level="DEBUG">
+    <logger name="io.github.support.terminal" level="DEBUG">
         <appender-ref ref="FILE"/>
     </logger>
 
