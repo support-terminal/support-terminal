@@ -39,7 +39,7 @@ export class EditNotificationApiComponent {
 
   delete() {
     this.notificationApiService.delete(this.bot.id)
-      .subscribe(n => {
+      .subscribe(success => {
         this.snackBar.open('Deleted', '', {
           duration: 4000,
           panelClass: 'colorGreen',
@@ -47,6 +47,12 @@ export class EditNotificationApiComponent {
         });
         this.messagingBusService.sendMessage({channel: Channel.NOTIFICATIONS_API_WERE_UPDATED});
         this.router.navigateByUrl('/notifications-api');
+      }, error => {
+        this.snackBar.open(error.error.message, '', {
+          duration: 6000,
+          panelClass: 'colorRed',
+          horizontalPosition: 'right'
+        });
       });
   }
 

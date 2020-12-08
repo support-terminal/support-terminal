@@ -240,7 +240,7 @@ class DbConnectionsRestServiceTest {
     fun `delete notificationApi`() {
         val someId = UUID.randomUUID().toString()
         restService.delete(someId)
-        verify(factory, Mockito.timeout(1)).delete(eq(someId))
+        verify(factory, Mockito.times(1)).delete(eq(someId))
     }
 
     @Test

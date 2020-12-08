@@ -1,6 +1,8 @@
 package io.github.support.terminal.application.domains.notificarion_api.rest
 
 import com.nhaarman.mockitokotlin2.*
+import io.github.support.terminal.application.domains.RestApiError
+import io.github.support.terminal.application.domains.bot_commands.entity.BotCommandsFactory
 import io.github.support.terminal.application.domains.notificarion_api.NotificationApiTestData
 import io.github.support.terminal.application.domains.notificarion_api.NotificationsApiDataSet
 import io.github.support.terminal.application.domains.notificarion_api.repository.NotificationApiDetails
@@ -11,6 +13,7 @@ import io.github.support.terminal.application.domains.notificarion_api.entity.No
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
 import org.mockito.Captor
@@ -27,13 +30,15 @@ internal class NotificationApiRestServiceTest {
     private lateinit var detailsCaptor: ArgumentCaptor<NotificationApiDetails>
 
     private val converter = Mockito.spy(NotificationApiRestConverter())
+    private val botFactory = Mockito.spy(BotCommandsFactory( mock(), mock()))
 
     private lateinit var restService: NotificationApiRestService
 
     @BeforeEach
     fun inti() {
         reset(notificationApiFactory)
-        restService = NotificationApiRestService(notificationApiFactory, converter)
+        reset(botFactory)
+        restService = NotificationApiRestService(notificationApiFactory, converter, botFactory)
     }
 
     @Test
@@ -165,8 +170,23 @@ internal class NotificationApiRestServiceTest {
     @Test
     fun `delete notificationApi`() {
         val someId = UUID.randomUUID().toString()
+        whenever(botFactory.byNotificationApiId(eq(someId))).thenReturn(listOf())
+        whenever(notificationApiFactory.findById(eq(someId))).thenReturn(mock())
         restService.delete(someId)
-        verify(notificationApiFactory, Mockito.timeout(1)).delete(eq(someId))
+        verify(notificationApiFactory, Mockito.times(1)).findById(eq(someId))
+        verify(notificationApiFactory, Mockito.times(1)).delete(eq(someId))
+    }
+
+    @Test
+    fun `could not delete notificationApi with dependent bot command`() {
+        val someId = UUID.randomUUID().toString()
+        whenever(notificationApiFactory.findById(eq(someId))).thenReturn(mock())
+        whenever(botFactory.byNotificationApiId(eq(someId))).thenReturn(listOf(mock()))
+        val exception: Exception = assertThrows(RestApiError::javaClass.name) {
+            restService.delete(someId)
+        }
+        verify(notificationApiFactory, times(1)).findById(eq(someId))
+        verify(notificationApiFactory, times(0)).delete(eq(someId))
     }
 
     @Test
@@ -195,7 +215,7 @@ internal class NotificationApiRestServiceTest {
         getNotificationApi(NotificationsApiDataSet.Telegram.TELEGRAM_1)
     }
 
-    fun getNotificationApi(data: NotificationApiTestData) {
+    private fun getNotificationApi(data: NotificationApiTestData) {
         whenever(notificationApiFactory.byId(eq(data.id()))).thenReturn(data.api())
         val result = restService.get(data.id())
         Assertions.assertEquals(data.dto(), result)

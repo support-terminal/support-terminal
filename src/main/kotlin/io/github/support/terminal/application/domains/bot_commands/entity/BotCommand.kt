@@ -13,6 +13,7 @@ class BotCommand(
 ) {
 
     fun cmd(): String = details.cmdTemplate.split(" ")[0].trim()
+    val name: String = details.name
 
     fun performAction(cmd: String): ActionResult<*> {
         if (!details.isEnabled) {

@@ -1,13 +1,18 @@
 package io.github.support.terminal.application.domains.notificarion_api.rest
 
+import io.github.support.terminal.application.domains.RestException
+import io.github.support.terminal.application.domains.bot_commands.entity.BotCommandsFactory
 import io.github.support.terminal.application.domains.notificarion_api.entity.NotificationApiFactory
 import io.github.support.terminal.application.domains.notificarion_api.entity.NotificationApiType
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.lang.invoke.MethodHandles
 
 @Service
 class NotificationApiRestService(
         private val factory: NotificationApiFactory,
-        private val converter: NotificationApiRestConverter
+        private val converter: NotificationApiRestConverter,
+        private val botCommandsFactory: BotCommandsFactory
 ) {
 
     fun add(request: NotificationApiRequest): NotificationApiDTO {
@@ -35,6 +40,19 @@ class NotificationApiRestService(
     }
 
     fun delete(id: String) {
-        factory.delete(id)
+        factory.findById(id)?.let {
+            val dependentCommands = botCommandsFactory.byNotificationApiId(id)
+            if (dependentCommands.isNullOrEmpty()) {
+                factory.delete(id)
+            } else {
+                val mes = "Could not delete notification api $id found dependent bot commands: ${dependentCommands.joinToString { it.name }}"
+                log.warn(mes)
+                throw RestException(mes)
+            }
+        }
+    }
+
+    companion object {
+        private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
     }
 }

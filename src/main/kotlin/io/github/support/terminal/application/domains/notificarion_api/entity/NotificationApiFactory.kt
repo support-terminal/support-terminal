@@ -46,6 +46,11 @@ class NotificationApiFactory(
         return build(getById(id))
     }
 
+    fun findById(id: String): NotificationApi? =
+            repository.findById(id)?.let {
+                build(it)
+            } ?: null
+
     private fun getById(id: String): NotificationApiDetails = repository.findById(id)
             ?: throw IllegalArgumentException("${NotificationApi::javaClass.name} not found by id=${id}")
 
