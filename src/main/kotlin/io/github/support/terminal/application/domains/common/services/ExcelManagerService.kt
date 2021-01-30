@@ -41,14 +41,15 @@ class ExcelManagerService {
                 val j = intArrayOf(0)
                 rowResult.forEach { (column: String, value: Any) ->
                     val rowCell = row.createCell(j[0])
-                    when(value){
+                    rowCell.setCellValue(value.toString())
+   /*                 when(value){
                         is Timestamp -> rowCell.setCellValue(value.toString())
                         is UUID -> rowCell.setCellValue(value.toString())
-                        is Int -> rowCell.setCellValue(value as Double)
-                        is Double -> rowCell.setCellValue(value)
-                        is Long ->  rowCell.setCellValue(value as Double)
+                        is Int -> rowCell.setCellValue(value.toString())
+                        is Double -> rowCell.setCellValue(value.toString())
+                        is Long ->  rowCell.setCellValue(value.toString())
                         else -> rowCell.setCellValue(value.toString())
-                    }
+                    }*/
                     rowCell.setCellStyle(centerStyle)
                     j[0]++
                 }

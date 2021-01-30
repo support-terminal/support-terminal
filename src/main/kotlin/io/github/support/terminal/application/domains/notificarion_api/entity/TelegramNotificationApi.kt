@@ -19,8 +19,7 @@ class TelegramNotificationApi(override val details: TelegramNotificationApiDetai
             if (!updateResponse.ok) {
                 return listOf()
             }
-            details.incrementOffset((updateResponse.result.map { it.updateId }.max() ?: 0) + 1)
-            repository.update(details)
+            repository.update(details.incrementOffset((updateResponse.result.map { it.updateId }.max() ?: 0) + 1))
             return updateResponse.result.map { Message(it.message.text) }
         }
 

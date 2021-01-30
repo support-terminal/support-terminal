@@ -31,13 +31,12 @@ class SlackNotificationApi(override val details: SlackNotificationApiDetails,
                 return emptyList()
             }
 
-            messages.sortedBy { it.ts }.reversed()
+             messages.sortedBy { it.ts }.reversed()
                     .map { it.ts }
                     .firstOrNull()
                     ?.let {
-                        details.incrementOldest((it + 1).toLong())
+                        repository.update(details.incrementOldest((it + 1).toLong()))
                     }
-            repository.update(details)
 
             return messages.map { Message(it.text) }
         }
