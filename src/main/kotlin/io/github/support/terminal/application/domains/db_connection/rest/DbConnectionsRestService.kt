@@ -3,12 +3,14 @@ package io.github.support.terminal.application.domains.db_connection.rest
 import io.github.support.terminal.application.domains.db_connection.entity.DbConnection
 import io.github.support.terminal.application.domains.db_connection.entity.DbConnectionsFactory
 import io.github.support.terminal.application.domains.db_connection.entity.DbConnectionType
+import io.github.support.terminal.application.domains.workers.MonitoringTasksWorker
 import org.springframework.stereotype.Service
 
 @Service
 class DbConnectionsRestService(
         private val factory: DbConnectionsFactory,
-        private val converter: DbConnectionsRestConverter
+        private val converter: DbConnectionsRestConverter,
+        private val worker: MonitoringTasksWorker
 ) {
 
     fun add(request: DbConnectionRequest): DbConnectionDTO {
@@ -18,6 +20,7 @@ class DbConnectionsRestService(
 
     fun edit(id: String, request: DbConnectionRequest): DbConnectionDTO {
         val dbConnection = factory.update(id, converter.mapToDetails(request))
+        worker.runRefreshSchedulers()
         return converter.mapToDto(dbConnection.details)
     }
 
@@ -33,6 +36,7 @@ class DbConnectionsRestService(
 
     fun delete(id: String) {
         factory.delete(id)
+        worker.runRefreshSchedulers()
     }
 
     fun types(): List<DbConnectionTypeDTO> {
