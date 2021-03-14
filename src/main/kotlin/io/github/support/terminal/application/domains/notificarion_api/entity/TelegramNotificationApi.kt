@@ -13,15 +13,21 @@ class TelegramNotificationApi(override val details: TelegramNotificationApiDetai
 
     override val id: String = details.id
 
-    override val lastMessages: List<Message>
-        get() {
-            val updateResponse = telegramApiClient.getUpdates(details.token, UpdateRequest(details.offset))
-            if (!updateResponse.ok) {
-                return listOf()
-            }
-            repository.update(details.incrementOffset((updateResponse.result.map { it.updateId }.max() ?: 0) + 1))
-            return updateResponse.result.map { Message(it.message.text) }
+    override fun lastMessages(): List<Message> {
+        val updateResponse = telegramApiClient.getUpdates(details.token, UpdateRequest(details.offset))
+        if (!updateResponse.ok) {
+            return listOf()
         }
+        repository.update(details.incrementOffset((updateResponse.result.map { it.updateId }.max() ?: 0) + 1))
+        return updateResponse.result
+                .mapNotNull {
+                    if(it.message?.text != null){
+                        Message(it.message.text)
+                    }else{
+                        null
+                    }
+                }
+    }
 
     override fun sendText(text: String) {
         telegramApiClient.sendMessage(details.token, TelegramSendMessageRequest(details.chatId, text))

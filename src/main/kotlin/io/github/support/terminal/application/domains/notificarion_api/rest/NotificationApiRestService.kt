@@ -4,6 +4,7 @@ import io.github.support.terminal.application.domains.RestException
 import io.github.support.terminal.application.domains.bot_commands.entity.BotCommandsFactory
 import io.github.support.terminal.application.domains.notificarion_api.entity.NotificationApiFactory
 import io.github.support.terminal.application.domains.notificarion_api.entity.NotificationApiType
+import io.github.support.terminal.application.domains.workers.MonitoringTasksWorker
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.lang.invoke.MethodHandles
@@ -12,16 +13,19 @@ import java.lang.invoke.MethodHandles
 class NotificationApiRestService(
         private val factory: NotificationApiFactory,
         private val converter: NotificationApiRestConverter,
-        private val botCommandsFactory: BotCommandsFactory
+        private val botCommandsFactory: BotCommandsFactory,
+        private val monitoringTasksWorker: MonitoringTasksWorker
 ) {
 
     fun add(request: NotificationApiRequest): NotificationApiDTO {
         val notificationApi = factory.createNew(details = converter.mapToDetails(request))
+        monitoringTasksWorker.runRefreshSchedulers()
         return converter.mapToDto(notificationApi.details)
     }
 
     fun edit(id: String, request: NotificationApiRequest): NotificationApiDTO {
         val notificationApi = factory.update(id, detailsUpdate = converter.mapToDetails(request))
+        monitoringTasksWorker.runRefreshSchedulers()
         return converter.mapToDto(notificationApi.details)
     }
 
@@ -36,6 +40,7 @@ class NotificationApiRestService(
 
     fun types(): List<NotificationApiTypeDTO> {
         return NotificationApiType.values()
+                .filter { t -> t != NotificationApiType.SLACK_BOT }
                 .map { NotificationApiTypeDTO(it.label, it.name) }
     }
 
@@ -49,6 +54,7 @@ class NotificationApiRestService(
                 log.warn(mes)
                 throw RestException(mes)
             }
+            monitoringTasksWorker.runRefreshSchedulers()
         }
     }
 

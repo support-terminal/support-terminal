@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse
  * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
  * found.
  */
-class JWTFilter(private val tokenProvider: TokenProvider?) : GenericFilterBean() {
+class JWTFilter(private val tokenProvider: TokenProvider) : GenericFilterBean() {
     private val log = LoggerFactory.getLogger(JWTFilter::class.java)
 
     @Throws(IOException::class, ServletException::class)
@@ -26,7 +26,7 @@ class JWTFilter(private val tokenProvider: TokenProvider?) : GenericFilterBean()
             val httpServletRequest = servletRequest as HttpServletRequest
             val jwt = resolveToken(httpServletRequest)
             if (StringUtils.hasText(jwt)) {
-                if (tokenProvider!!.validateToken(jwt)) {
+                if (tokenProvider.validateToken(jwt)) {
                     val authentication = tokenProvider.getAuthentication(jwt)
                     SecurityContextHolder.getContext().authentication = authentication
                 }
@@ -39,7 +39,7 @@ class JWTFilter(private val tokenProvider: TokenProvider?) : GenericFilterBean()
     }
 
     private fun resolveToken(request: HttpServletRequest): String? {
-        val bearerToken = request.getHeader(JWTConfigurer.Companion.AUTHORIZATION_HEADER)
+        val bearerToken = request.getHeader(JWTConfigurer.AUTHORIZATION_HEADER)
         return if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             bearerToken.substring(7, bearerToken.length)
         } else null

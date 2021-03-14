@@ -1,6 +1,5 @@
 package io.github.support.terminal.application.config.security.jwt
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
@@ -16,21 +15,19 @@ import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @RestController
-class UserJWTController {
-    @Autowired
-    private val tokenProvider: TokenProvider? = null
-
-    @Autowired
-    private val authenticationManager: AuthenticationManager? = null
+class UserJWTController(
+        private val tokenProvider: TokenProvider,
+        private val authenticationManager: AuthenticationManager
+) {
 
     @RequestMapping(value = ["/api/authenticate"], method = [RequestMethod.POST])
     fun authorize(@RequestBody loginVM: @Valid LoginVM, response: HttpServletResponse): ResponseEntity<*> {
         val authenticationToken = UsernamePasswordAuthenticationToken(loginVM.username, loginVM.password)
         return try {
-            val authentication = authenticationManager!!.authenticate(authenticationToken)
+            val authentication = authenticationManager.authenticate(authenticationToken)
             SecurityContextHolder.getContext().authentication = authentication
             val rememberMe = loginVM.rememberMe ?: false
-            val jwt = tokenProvider!!.createToken(authentication, rememberMe)
+            val jwt = tokenProvider.createToken(authentication, rememberMe)
             response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer $jwt")
             ResponseEntity.ok(JWTToken(jwt))
         } catch (exception: AuthenticationException) {

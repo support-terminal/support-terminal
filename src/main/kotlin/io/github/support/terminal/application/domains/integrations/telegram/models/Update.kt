@@ -6,5 +6,5 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Update(
         @JsonProperty("update_id") val updateId: Int,
-        @JsonProperty("message") val message: Message
+        @JsonProperty("message") val message: Message?
 )

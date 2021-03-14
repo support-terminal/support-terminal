@@ -36,7 +36,7 @@ class BotCommandsWorker(
         val cmdMap: Map<String, List<BotCommand>> = botCommandsFactory.byNotificationApiId(notificationApi.id)
                 .groupBy { it.cmd() }
 
-        for (message in notificationApi.lastMessages) {
+        for (message in notificationApi.lastMessages()) {
             val cmd = message.text.split(" ")[0].trim()
             if(cmd.isEmpty()) {
                 continue

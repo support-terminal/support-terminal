@@ -1,5 +1,8 @@
 package io.github.support.terminal.application
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.apache.commons.lang3.StringUtils
 import org.apache.http.HttpHost
 import org.apache.http.auth.AuthScope
@@ -57,6 +60,14 @@ open class ApplicationContextConfiguration {
     @Bean(name = ["threadPoolTaskExecutor"])
     open fun threadPoolTaskExecutor(): Executor {
         return ThreadPoolTaskExecutor()
+    }
+
+    @Bean
+    open fun objectMapper(): ObjectMapper {
+        val mapper =  ObjectMapper()
+        mapper.registerModule(KotlinModule())
+        mapper.registerModule(JavaTimeModule())
+        return mapper;
     }
 
     @Bean

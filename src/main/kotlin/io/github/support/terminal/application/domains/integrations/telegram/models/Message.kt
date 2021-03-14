@@ -7,9 +7,9 @@ import java.util.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Message(
-        @JsonProperty("message_id") val messageId: String? = null,
-        @JsonProperty("from") val from: User? = null,
-        @JsonProperty("chat") val chat: Chat? = null,
-        @JsonProperty("date") val date: Date? = null,
-        @JsonProperty("text") val text: String = ""
+        @JsonProperty("message_id") val messageId: String?,
+        @JsonProperty("from") val from: User,
+        @JsonProperty("chat") val chat: Chat,
+        @JsonProperty("date") val date: Date,
+        @JsonProperty("text") val text: String?
 )

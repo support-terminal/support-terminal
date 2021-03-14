@@ -1,5 +1,6 @@
 package io.github.support.terminal.application.domains.common.action
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import io.github.support.terminal.application.domains.common.action.entity.ActionType

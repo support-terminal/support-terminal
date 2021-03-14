@@ -19,27 +19,26 @@ class SlackNotificationApi(override val details: SlackNotificationApiDetails,
         } ?: throw IllegalStateException("Could not get connection to slack chanell ${details.chanel}")
     }
 
-    override val lastMessages: List<Message>
-        get() {
-            val channelHistory = slackApiClient.getChannelHistory(details.token,
-                    chanel.id, String.format("%.0f", details.oldest))
-            if (true != channelHistory.ok) {
-                return emptyList()
-            }
-            val messages = channelHistory.messages
-            if (messages.isNullOrEmpty()) {
-                return emptyList()
-            }
-
-             messages.sortedBy { it.ts }.reversed()
-                    .map { it.ts }
-                    .firstOrNull()
-                    ?.let {
-                        repository.update(details.incrementOldest((it + 1).toLong()))
-                    }
-
-            return messages.map { Message(it.text) }
+    override fun lastMessages(): List<Message> {
+        val channelHistory = slackApiClient.getChannelHistory(details.token,
+                chanel.id, String.format("%.0f", details.oldest))
+        if (true != channelHistory.ok) {
+            return emptyList()
         }
+        val messages = channelHistory.messages
+        if (messages.isNullOrEmpty()) {
+            return emptyList()
+        }
+
+        messages.sortedBy { it.ts }.reversed()
+                .map { it.ts }
+                .firstOrNull()
+                ?.let {
+                    repository.update(details.incrementOldest((it + 1).toLong()))
+                }
+
+        return messages.map { Message(it.text) }
+    }
 
     override fun sendText(text: String) {
         val request = SlackSendMessageRequest(chanel.id, text)

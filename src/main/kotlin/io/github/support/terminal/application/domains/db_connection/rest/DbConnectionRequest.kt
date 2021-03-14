@@ -1,9 +1,11 @@
 package io.github.support.terminal.application.domains.db_connection.rest
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import io.github.support.terminal.application.domains.db_connection.entity.DbConnectionType
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
 @JsonSubTypes(
         JsonSubTypes.Type(value = PostgresDbConnectionRequest::class, name = DbConnectionType.Constants.POSTGRES),

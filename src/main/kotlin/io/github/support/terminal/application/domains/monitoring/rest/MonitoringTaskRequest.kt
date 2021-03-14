@@ -1,5 +1,6 @@
 package io.github.support.terminal.application.domains.monitoring.rest
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.github.support.terminal.application.domains.common.action.ActionRequest
 import io.github.support.terminal.application.domains.common.conditions.ConditionRequest
 import io.github.support.terminal.application.domains.common.notify.NotifyRequest
@@ -8,6 +9,7 @@ import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class MonitoringTaskRequest(
         val name: @NotBlank String,
         val enabled: Boolean,

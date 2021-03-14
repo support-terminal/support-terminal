@@ -5,7 +5,7 @@ import io.github.support.terminal.application.domains.notificarion_api.repositor
 
 interface NotificationApi {
     val id: String
-    val lastMessages: List<Message>
+    fun lastMessages(): List<Message>
     fun sendText(text: String)
     fun sendDocument( file: DocumentFile)
     val details: NotificationApiDetails
