@@ -34,7 +34,7 @@ class BotCommandsWorker(
     private fun handle(notificationApi: NotificationApi) {
 
         val cmdMap: Map<String, List<BotCommand>> = botCommandsFactory.byNotificationApiId(notificationApi.id)
-                .groupBy { it.cmd() }
+                .groupBy { it.cmd }
 
         for (message in notificationApi.lastMessages()) {
             val cmd = message.text.split(" ")[0].trim()
@@ -46,6 +46,8 @@ class BotCommandsWorker(
                     log.info("Start execution of command: `${cmd}` (${message.text})")
                     botCommand.performAction(message.text).notifyAboutResult(notificationApi)
                 }
+            } ?: run {
+                log.info("Received unknown command: `${cmd}` (${message.text})")
             }
         }
     }

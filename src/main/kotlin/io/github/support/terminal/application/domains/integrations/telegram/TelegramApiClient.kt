@@ -27,7 +27,7 @@ class TelegramApiClient(private val restTemplate: RestTemplate) {
         return try {
             val responseEntity = restTemplate.exchange("$TELEGRAM_URL/bot{token}/getUpdates", HttpMethod.POST, request, UpdateResponse::class.java, token)
             responseEntity.body
-        } catch (ex: HttpStatusCodeException) {
+        } catch (ex: Exception) {
             log.error("Error telegram getUpdates", ex)
             throw RuntimeException(ex)
         }
@@ -38,7 +38,7 @@ class TelegramApiClient(private val restTemplate: RestTemplate) {
         return try {
             val responseEntity = restTemplate.exchange("$TELEGRAM_URL/bot{token}/sendMessage", HttpMethod.POST, request, SendMessageResponse::class.java, token)
             responseEntity.body
-        } catch (ex: HttpStatusCodeException) {
+        } catch (ex: Exception) {
             log.error("Error telegram sendMessage", ex)
             throw RuntimeException(ex)
         }

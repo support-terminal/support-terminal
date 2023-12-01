@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Chat (
-    @JsonProperty("id") val id: Int,
+    @JsonProperty("id") val id: String,
     @JsonProperty("type") val type: String? = null,
     @JsonProperty("title") val title: String? = null,
     @JsonProperty("first_name") val firstName: String? = null,

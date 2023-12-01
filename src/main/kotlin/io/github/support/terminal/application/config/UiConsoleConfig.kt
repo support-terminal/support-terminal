@@ -15,10 +15,11 @@ private const val UI_NOTIFICATIONS_TOPIC = "/topic/ui/events"
 
 @Configuration
 open class UiConsoleConfig {
+
     @Bean
     open fun logger(template: SimpMessagingTemplate): Logger {
         val lc = LoggerFactory.getILoggerFactory() as LoggerContext
-        val uiConsoleLogger = LoggerFactory.getLogger("io.github.bot.terminal") as Logger
+        val uiConsoleLogger = LoggerFactory.getLogger("io.github.support.terminal") as Logger
 
         val uiAppender = UiConsoleLogsAppender(template)
         uiAppender.context = lc

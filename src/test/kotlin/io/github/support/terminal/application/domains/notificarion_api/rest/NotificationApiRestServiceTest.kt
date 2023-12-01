@@ -10,6 +10,7 @@ import io.github.support.terminal.application.domains.notificarion_api.repositor
 import io.github.support.terminal.application.domains.notificarion_api.repository.TelegramNotificationApiDetails
 import io.github.support.terminal.application.domains.notificarion_api.entity.NotificationApiFactory
 import io.github.support.terminal.application.domains.notificarion_api.entity.NotificationApiType
+import io.github.support.terminal.application.domains.workers.MonitoringTasksWorker
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,6 +26,7 @@ import java.util.*
 internal class NotificationApiRestServiceTest {
 
     private val notificationApiFactory: NotificationApiFactory = mock()
+    private val worker: MonitoringTasksWorker = mock()
 
     @Captor
     private lateinit var detailsCaptor: ArgumentCaptor<NotificationApiDetails>
@@ -38,7 +40,7 @@ internal class NotificationApiRestServiceTest {
     fun inti() {
         reset(notificationApiFactory)
         reset(botFactory)
-        restService = NotificationApiRestService(notificationApiFactory, converter, botFactory)
+        restService = NotificationApiRestService(notificationApiFactory, converter, botFactory, worker)
     }
 
     @Test
@@ -160,11 +162,9 @@ internal class NotificationApiRestServiceTest {
     @Test
     fun `get notificationApi types`() {
         val types = restService.types()
-        Assertions.assertEquals(2, types.size)
+        Assertions.assertEquals(1, types.size)
         Assertions.assertEquals(NotificationApiType.TELEGRAM_BOT.name, types[0].type)
         Assertions.assertEquals(NotificationApiType.TELEGRAM_BOT.label, types[0].label)
-        Assertions.assertEquals(NotificationApiType.SLACK_BOT.name, types[1].type)
-        Assertions.assertEquals(NotificationApiType.SLACK_BOT.label, types[1].label)
     }
 
     @Test

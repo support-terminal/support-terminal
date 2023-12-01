@@ -10,6 +10,7 @@ import io.github.support.terminal.application.domains.db_connection.repository.O
 import io.github.support.terminal.application.domains.db_connection.repository.PostgresDbConnectionDetails
 import io.github.support.terminal.application.domains.db_connection.entity.DbConnectionsFactory
 import io.github.support.terminal.application.domains.db_connection.entity.DbConnectionType
+import io.github.support.terminal.application.domains.workers.MonitoringTasksWorker
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -23,9 +24,10 @@ class DbConnectionsRestServiceTest {
 
     private val factory: DbConnectionsFactory = mock()
 
+    private val worker: MonitoringTasksWorker = mock()
+
     @Captor
     private lateinit var detailsCaptor: ArgumentCaptor<DbConnectionDetails>
-
     private val converter = Mockito.spy(DbConnectionsRestConverter())
 
     private lateinit var restService: DbConnectionsRestService
@@ -33,7 +35,7 @@ class DbConnectionsRestServiceTest {
     @BeforeEach
     fun inti() {
         reset(factory)
-        restService = DbConnectionsRestService(factory, converter)
+        restService = DbConnectionsRestService(factory, converter, worker)
     }
 
     @Test
