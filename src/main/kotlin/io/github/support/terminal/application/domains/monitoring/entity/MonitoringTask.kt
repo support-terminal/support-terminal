@@ -5,7 +5,7 @@ import io.github.support.terminal.application.domains.common.conditions.entity.C
 import io.github.support.terminal.application.domains.common.notify.entity.Notify
 import io.github.support.terminal.application.domains.monitoring.repository.MonitoringTaskDetails
 
-class MonitoringTask(
+data class MonitoringTask(
         val details: MonitoringTaskDetails,
         val action: Action,
         val conditions: List<Condition>,
@@ -32,28 +32,4 @@ class MonitoringTask(
             notify.execute()
         }
     }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as MonitoringTask
-
-        if (details != other.details) return false
-        if (action != other.action) return false
-        if (conditions != other.conditions) return false
-        if (notifyList != other.notifyList) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = details.hashCode()
-        result = 31 * result + action.hashCode()
-        result = 31 * result + conditions.hashCode()
-        result = 31 * result + notifyList.hashCode()
-        return result
-    }
-
-
 }
